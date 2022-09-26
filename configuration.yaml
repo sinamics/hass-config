@@ -1,0 +1,135 @@
+homeassistant:
+  # external_url: "https://homeassistant.lan.eigeland.net"
+  # internal_url: "https://homeassistant.lan.eigeland.net"
+  allowlist_external_dirs:
+    - /config
+  customize: !include customize.yaml
+  # Packages
+  packages: !include_dir_named packages
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+nordpool:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+switch: !include switch.yaml
+sensor: !include sensor.yaml
+
+template: !include template.yaml
+utility_meter: !include utility_meter.yaml
+input_number: !include input_number.yaml
+input_boolean: !include input_boolean.yaml
+input_text: !include input_text.yaml
+recorder: !include recorder.yaml
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.7
+    - 10.0.0.0/24
+    - 192.168.0.0/24
+
+# Grafana config
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: homeassistant
+  username: !secret influxdb_username
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+  include:
+    entity_globs:
+      - binary_sensor.*_db
+      - sensor.*_db
+  component_config_glob:
+    sensor.*humidity*:
+      override_measurement: humidity
+    sensor.*temperature*:
+      override_measurement: temperature
+    sensor.*valve*:
+      override_measurement: valve
+    sensor.*battery*:
+      override_measurement: battery
+    sensor.*light*:
+      override_measurement: light
+    sensor.*voltage*:
+      override_measurement: voltage
+    sensor.*amps*:
+      override_measurement: power
+    sensor.*kwh*:
+      override_measurement: power
+    sensor.*percent*:
+      override_measurement: percent
+# Run scripts
+shell_command:
+  do_ddns_updater: "/config/scripts/digitalocean.sh"
+
+frontend:
+  themes: !include_dir_merge_named themes
+# tellduslive:
+#   host: 10.0.0.148
+#   scan_interval: 30
+lovelace_gen:
+lovelace: 
+  mode: yaml
+  resources:
+    - url: /browser_mod.js
+      type: module
+    - url: /hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152201
+      type: module
+    - url: /hacsfiles/button-card/button-card.js?hacstag=146194325342
+      type: module
+    - url: /hacsfiles/config-template-card/config-template-card.js?hacstag=172177543136
+      type: module
+    - url: /hacsfiles/floor3d-card/floor3d-card.js?hacstag=361776538150
+      type: module
+    - url: /hacsfiles/frigate-hass-card/frigate-hass-card.js?hacstag=394082552400
+      type: module
+    - url: /hacsfiles/hass-swipe-navigation/swipe-navigation.js?hacstag=501725479161
+      type: module
+    - url: /hacsfiles/light-entity-card/light-entity-card.js?hacstag=168744428500
+      type: module
+    - url: /hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524315
+      type: module
+    - url: /hacsfiles/lovelace-layout-card/layout-card.js?hacstag=156434866242
+      type: module
+    - url: /hacsfiles/lovelace-swipe-navigation/swipe-navigation.js?hacstag=183995552136
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620110
+      type: module
+    - url: /hacsfiles/person-entity-card/person-entity-card-bundle.js?hacstag=413430860080
+      type: module
+    - url: /hacsfiles/room-card/room-card.js?hacstag=454440949151
+      type: module
+    - url: /local/js/color-lite-card.js
+      type: module
+    - url: /hacsfiles/atomic-calendar-revive/atomic-calendar-revive.js
+      type: module
+    - url: /hacsfiles/weather-card/weather-card.js
+      type: module
+  dashboards:
+    lovelace-dashboard:
+      mode: yaml
+      title: Overview
+      icon: mdi:home
+      show_in_sidebar: false
+      filename: ui-lovelace.yaml
+group:
+  updates:
+    name: "Updates"
+    entities:
+      - update.home_assistant_core_update
+      - update.home_assistant_operating_system_update
+      - update.home_assistant_supervisor_update
+      - update.esphome_update
+      - update.check_home_assistant_configuration_update
+      - update.samba_backup_update
+      - update.samba_share_update
+      - update.studio_code_server_update
