@@ -1,1 +1,1 @@
-# This HA config is heavily inspired by theone11 - [View repo](https://github.com/theone11/HomeAssistantConfig)
+### This HA config is heavily inspired by theone11 - [View repo](https://github.com/theone11/HomeAssistantConfig)
