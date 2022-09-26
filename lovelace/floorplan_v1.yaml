@@ -111,7 +111,7 @@ cards:
       # - type: horizontal-stack
       #   cards:
       #     - type: picture-elements
-      #       image: local/images/3dfloorplan_v1/people/bernt_home.png
+      #       image: local/images/floorplan_v1/people/bernt_home.png
       #       # style: |
       #       #   ha-card {
       #       #     border-style: none;
@@ -128,8 +128,8 @@ cards:
       #             action: none
       #           entity: person.home
       #           state_image:
-      #             "home": local/images/3dfloorplan_v1/people/bernt_home.png
-      #             "away": local/images/3dfloorplan_v1/people/bernt_away.png
+      #             "home": local/images/floorplan_v1/people/bernt_home.png
+      #             "away": local/images/floorplan_v1/people/bernt_away.png
       #           style:
       #             top: 50%
       #             left: 50%
@@ -149,7 +149,7 @@ cards:
           - light.in_wall_dimmer_module
         card:
           type: picture-elements
-          image: local/images/3dfloorplan_v1/base_evening.png
+          image: local/images/floorplan_v1/base_evening.png
           style: |
             ha-card {
               border-style: none;
@@ -219,8 +219,8 @@ cards:
               hold_action:
                 action: none
               state_image:
-                above_horizon: /local/images/3dfloorplan_v1/base_day.png
-                below_horizon: /local/images/3dfloorplan_v1/transparent.png
+                above_horizon: /local/images/floorplan_v1/base_day.png
+                below_horizon: /local/images/floorplan_v1/transparent.png
               style:
                 height: 100%
                 left: 50%
@@ -239,8 +239,8 @@ cards:
                 action: none
               entity: switch.node_6
               state_image:
-                "on": local/images/3dfloorplan_v1/garage.png
-                "off": /local/images/3dfloorplan_v1/transparent.png
+                "on": local/images/floorplan_v1/garage.png
+                "off": /local/images/floorplan_v1/transparent.png
               style:
                 top: 50%
                 left: 50%
@@ -255,8 +255,8 @@ cards:
                 action: none
               entity: light.in_wall_dimmer_module
               state_image:
-                "on": local/images/3dfloorplan_v1/garage_floodlight.png
-                "off": /local/images/3dfloorplan_v1/transparent.png
+                "on": local/images/floorplan_v1/garage_floodlight.png
+                "off": /local/images/floorplan_v1/transparent.png
               style:
                 top: 50%
                 left: 50%
@@ -271,8 +271,8 @@ cards:
                 action: none
               entity: light.1f_house_outside_entrance_light
               state_image:
-                "on": local/images/3dfloorplan_v1/outside_entrance.png
-                "off": /local/images/3dfloorplan_v1/transparent.png
+                "on": local/images/floorplan_v1/outside_entrance.png
+                "off": /local/images/floorplan_v1/transparent.png
               style:
                 top: 50%
                 left: 50%
@@ -281,8 +281,8 @@ cards:
                 z-index: 9
             - type: custom:color-lite-card
               entity: light.2f_house_inside_ceiling_sturla_light
-              image: /local/images/3dfloorplan_v1/sturla_room.png
-              color_image: /local/images/3dfloorplan_v1/sturla_room_red.png
+              image: /local/images/floorplan_v1/sturla_room.png
+              color_image: /local/images/floorplan_v1/sturla_room_red.png
               style:
                 top: 50%
                 left: 50%
@@ -291,7 +291,7 @@ cards:
             #   entity: light.2f_house_inside_ceiling_sturla_light
             #   hold_action:
             #     action: none
-            #   image: local/images/3dfloorplan_v1/sturla_room.png
+            #   image: local/images/floorplan_v1/sturla_room.png
             #   style:
             #     filter: >-
             #       ${ "hue-rotate(" + (states['light.2f_house_inside_ceiling_sturla_light'].attributes.hs_color
@@ -312,8 +312,8 @@ cards:
             #     action: none
             #   entity: light.2f_house_inside_ceiling_sturla_light
             #   state_image:
-            #     "on": local/images/3dfloorplan_v1/sturla_room.png
-            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #     "on": local/images/floorplan_v1/sturla_room.png
+            #     "off": /local/images/floorplan_v1/transparent.png
             #   style:
             #     top: 50%
             #     left: 50%
@@ -322,8 +322,8 @@ cards:
             #     z-index: 10
             - type: custom:color-lite-card
               entity: light.2f_house_inside_ceiling_adrian_light
-              image: /local/images/3dfloorplan_v1/adrian_room.png
-              color_image: /local/images/3dfloorplan_v1/adrian_room_red.png
+              image: /local/images/floorplan_v1/adrian_room.png
+              color_image: /local/images/floorplan_v1/adrian_room_red.png
               style:
                 top: 50%
                 left: 50%
@@ -332,7 +332,7 @@ cards:
               # entity: light.2f_house_inside_ceiling_adrian_light
               # hold_action:
               #   action: none
-              # image: local/images/3dfloorplan_v1/adrian_room.png
+              # image: local/images/floorplan_v1/adrian_room.png
               # style:
               #   filter: '${ "hue-rotate(" + (states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color ? states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color[0] : 0) + "deg) saturate(" + (states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color ? states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color[1] : 100)+ "%)"}'
               #   # filter: >-
@@ -354,8 +354,8 @@ cards:
             #     action: none
             #   entity: light.2f_house_inside_ceiling_adrian_light
             #   state_image:
-            #     "on": local/images/3dfloorplan_v1/adrian_room.png
-            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #     "on": local/images/floorplan_v1/adrian_room.png
+            #     "off": /local/images/floorplan_v1/transparent.png
             #   style:
             #     top: 50%
             #     left: 50%
@@ -370,8 +370,8 @@ cards:
                 action: none
               entity: light.1f_house_inside_entrance_light
               state_image:
-                "on": local/images/3dfloorplan_v1/hallway.png
-                "off": /local/images/3dfloorplan_v1/transparent.png
+                "on": local/images/floorplan_v1/hallway.png
+                "off": /local/images/floorplan_v1/transparent.png
               style:
                 top: 50%
                 left: 50%
@@ -383,7 +383,7 @@ cards:
             #   entity: light.smart_led_strip
             #   hold_action:
             #     action: none
-            #   image: local/images/3dfloorplan_v1/kitchen_led.png
+            #   image: local/images/floorplan_v1/kitchen_led.png
             #   style:
             #     filter: >-
             #       ${ "hue-rotate(" + (states['light.smart_led_strip'].attributes.hs_color
@@ -398,8 +398,8 @@ cards:
             #   type: image
             - type: custom:color-lite-card
               entity: light.smart_led_strip
-              image: /local/images/3dfloorplan_v1/kitchen_led.png
-              color_image: /local/images/3dfloorplan_v1/kitchen_led_red.png
+              image: /local/images/floorplan_v1/kitchen_led.png
+              color_image: /local/images/floorplan_v1/kitchen_led_red.png
               style:
                 top: 50%
                 left: 50%
@@ -412,8 +412,8 @@ cards:
             #     action: none
             #   entity: light.smart_led_strip
             #   state_image:
-            #     "on": local/images/3dfloorplan_v1/kitchen_led.png
-            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #     "on": local/images/floorplan_v1/kitchen_led.png
+            #     "off": /local/images/floorplan_v1/transparent.png
             #   style:
             #     filter: >-
             #       ${ "hue-rotate(" + (states['light.smart_led_strip'].attributes.hs_color
@@ -425,8 +425,8 @@ cards:
             #     z-index: 10
             - type: custom:color-lite-card
               entity: light.2f_house_inside_ceiling_vilde_light
-              image: /local/images/3dfloorplan_v1/vilde_room.png
-              color_image: /local/images/3dfloorplan_v1/vilde_room_red.png
+              image: /local/images/floorplan_v1/vilde_room.png
+              color_image: /local/images/floorplan_v1/vilde_room_red.png
               style:
                 top: 50%
                 left: 50%
@@ -435,7 +435,7 @@ cards:
               entity: light.2f_house_inside_ceiling_vilde_light
               hold_action:
                 action: none
-              image: local/images/3dfloorplan_v1/vilde_room.png
+              image: local/images/floorplan_v1/vilde_room.png
               style:
                 filter: >-
                   ${ "hue-rotate(" + (states['light.2f_house_inside_ceiling_vilde_light'].attributes.hs_color
@@ -456,8 +456,8 @@ cards:
             #     action: none
             #   entity: light.2f_house_inside_ceiling_vilde_light
             #   state_image:
-            #     "on": local/images/3dfloorplan_v1/vilde_room.png
-            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #     "on": local/images/floorplan_v1/vilde_room.png
+            #     "off": /local/images/floorplan_v1/transparent.png
             #   style:
             #     top: 50%
             #     left: 50%
@@ -490,7 +490,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
                   title: Stairs Lights
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -525,7 +525,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
                   title: Stairs Lights
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -560,7 +560,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
                   title: Stairs Lights
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -624,7 +624,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
                   title: Stairs Lights
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -688,7 +688,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
                   title: Stairs Lights
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -725,7 +725,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
 
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -761,7 +761,7 @@ cards:
                     border-radius: 0.8vw
                     opacity: 0.9
 
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -797,7 +797,7 @@ cards:
                       # opacity: "0.1"
                       # background-color: red
                     title: Climate
-              image: /local/images/3dfloorplan_v1/transparent.png
+              image: /local/images/floorplan_v1/transparent.png
               style:
                 # border: 5px solid red
                 opacity: 0
@@ -899,7 +899,7 @@ cards:
               entity: weather.home
               hold_action:
                 action: none
-              image: /local/images/3dfloorplan_v1/weather/rainstorm.gif
+              image: /local/images/floorplan_v1/weather/rainstorm.gif
               state_filter:
                 "pouring": opacity(100%)
               style:
@@ -928,8 +928,8 @@ cards:
             - action: none
               entity: person.home
               state_image:
-                home: local/images/3dfloorplan_v1/people/bernt_home.png
-                not_home: local/images/3dfloorplan_v1/people/bernt_away.png
+                home: local/images/floorplan_v1/people/bernt_home.png
+                not_home: local/images/floorplan_v1/people/bernt_away.png
               style:
                 background-color: "rgba(255, 255, 255, 0.0)"
                 border-radius: 10vw
@@ -943,8 +943,8 @@ cards:
             - action: none
               entity: person.adrian
               state_image:
-                home: local/images/3dfloorplan_v1/people/adrian_home.png
-                not_home: local/images/3dfloorplan_v1/people/adrian_away.png
+                home: local/images/floorplan_v1/people/adrian_home.png
+                not_home: local/images/floorplan_v1/people/adrian_away.png
               style:
                 background-color: "rgba(255, 255, 255, 0.0)"
                 border-radius: 10vw
