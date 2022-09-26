@@ -1,0 +1,39 @@
+#####################################
+########## E N T I T I E S ##########
+#####################################
+
+sensor:
+  - platform: template
+    sensors:
+        hvac_upstairs_problem:
+            icon_template: mdi:air-conditioner
+            value_template: >
+                {% if (states('sensor.2f_house_inside_hall_termometer_temperature') == 'unknown') or (states('sensor.2f_house_inside_hall_termometer_temperature') == 'unavailable') %}
+                {{ 1 }}
+                {% else %}
+                {{ 0 }}
+                {% endif %}
+        hvac_livingroom_problem:
+            icon_template: mdi:air-conditioner
+            value_template: >
+                {% if (states('sensor.1f_house_inside_livingroom_termometer_temperature') == 'unknown') or (states('sensor.1f_house_inside_livingroom_termometer_temperature') == 'unavailable') %}
+                {{ 1 }}
+                {% else %}
+                {{ 0 }}
+                {% endif %}
+        hvac_hallway_problem:
+            icon_template: mdi:air-conditioner
+            value_template: >
+                {% if (states('sensor.1f_house_inside_entrance_termometer_temperature') == 'unknown') or (states('sensor.1f_house_inside_entrance_termometer_temperature') == 'unavailable') %}
+                {{ 1 }}
+                {% else %}
+                {{ 0 }}
+                {% endif %}
+        hvac_outside_problem:
+            icon_template: mdi:air-conditioner
+            value_template: >
+                {% if (states('sensor.1f_house_outside_laundryroom_termometer_temperature') == 'unknown') or (states('sensor.1f_house_outside_laundryroom_termometer_temperature') == 'unavailable') %}
+                {{ 1 }}
+                {% else %}
+                {{ 0 }}
+                {% endif %}

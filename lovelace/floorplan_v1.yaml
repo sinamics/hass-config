@@ -1,0 +1,987 @@
+#############################################################################################################################################
+#                                                                                                                                           #
+#                                                              Floorplan View                                                               #
+#                                                                                                                                           #
+#############################################################################################################################################
+
+title: Floorplan Eigeland
+icon: "mdi:rotate-3d-variant"
+panel: true
+badges: []
+cards:
+  ###################   config-template-card    #####################
+  #########################   IMPORTANT!    #########################
+
+  # To use the styling templates for individual lights, I have used
+  # Config Template Card. Config template card passes the entities it
+  # uses into the card. Make sure you change these entities below to
+  # your own and include any light entities you use above.
+
+  # To understand why, check: https://github.com/iantrich/config-template-card
+
+  #############################################################################################################################################
+  #                                                                                                                                           #
+  #                                                              Floorplan View                                                               #
+  #                                                                                                                                           #
+  #############################################################################################################################################
+
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: grid
+            square: false
+            columns: 6
+            # title: Camera Entrance
+            cards:
+              - type: weather-forecast
+                entity: weather.home
+                show_forecast: true
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Strømpris neste 48 timer
+                  show_states: true
+                graph_span: 2d
+                now:
+                  show: true
+                  color: "#ff0000"
+                  label: Now
+                span:
+                  start: day
+                series:
+                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                    name: Today
+                    unit: Kr
+                    color: yellow
+                    data_generator: >
+                      let thisdate = new Date(); thisdate.setHours(24,0,0,0);
+
+                      const today = [...entity.attributes.raw_today,
+                      {start:thisdate.toISOString()}]; return today.map((entry,idx) => {
+                        if(idx > 23) return [new Date(entry.start), null];
+                        return [new Date(entry.start), entry.value];
+                      });
+                    type: column
+                    group_by:
+                      func: max
+                      duration: 60min
+                    show:
+                      legend_value: false
+                      in_header: false
+                      extremas: true
+                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                    name: Tomorrow
+                    unit: Kr
+                    data_generator: |
+                      return entity.attributes.raw_tomorrow.map((entry) => {
+                        return [new Date(entry.start), entry.value * 1.25];
+                      });
+                    type: column
+                    group_by:
+                      func: max
+                      duration: 60min
+                    show:
+                      legend_value: false
+                      in_header: false
+                      extremas: true
+              # - type: custom:frigate-card
+              #   cameras:
+              #     - camera_entity: camera.eigeland
+              #   view:
+              #     default: clips
+              #     camera_select: clips
+              #     timeout_seconds: 30
+              #     update_seconds: 120
+              #     update_force: true
+              #     dark_mode: "on"
+              #   dimensions:
+              #     aspect_ratio: 1024:600
+              #     aspect_ratio_mode: static
+
+              #   event_gallery:
+              #     controls:
+              #       thumbnails:
+              #         size: 75
+              #   live:
+              #     controls:
+              #       thumbnails:
+              #         mode: none
+      #   square: true
+      # - type: horizontal-stack
+      #   cards:
+      #     - type: picture-elements
+      #       image: local/images/3dfloorplan_v1/people/bernt_home.png
+      #       # style: |
+      #       #   ha-card {
+      #       #     border-style: none;
+      #       #     box-shadow: none;
+      #       #     border: 0px;
+      #       #     background: transparent;
+      #       #   }
+      #       elements:
+      #         - type: image
+      #           action: none
+      #           tap_action:
+      #             action: none
+      #           hold_action:
+      #             action: none
+      #           entity: person.home
+      #           state_image:
+      #             "home": local/images/3dfloorplan_v1/people/bernt_home.png
+      #             "away": local/images/3dfloorplan_v1/people/bernt_away.png
+      #           style:
+      #             top: 50%
+      #             left: 50%
+      #             # width: 10%
+      #             # mix-blend-mode: lighten
+      #             z-index: 10
+
+      - type: custom:config-template-card
+        entities:
+          - light.smart_led_strip
+          - light.2f_house_inside_ceiling_adrian_light
+          - light.2f_house_inside_ceiling_vilde_light
+          - light.2f_house_inside_ceiling_sturla_light
+          - switch.node_6
+          - light.1f_house_inside_entrance_light
+          - light.1f_house_outside_entrance_light
+          - light.in_wall_dimmer_module
+        card:
+          type: picture-elements
+          image: local/images/3dfloorplan_v1/base_evening.png
+          style: |
+            ha-card {
+              border-style: none;
+              box-shadow: none;
+              border: 0px;
+              background: transparent;
+            }
+
+          elements:
+            #### TEMPERATURES ####
+            - type: state-label
+              style:
+                font-family: Quicksand
+                top: 84%
+                left: 50%
+                box-shadow: none
+                background-color: transparent
+              entity: sensor.1f_house_inside_livingroom_termometer_temperature
+              prefix: ""
+              attribute: ""
+              title: null
+            - type: state-label
+              style:
+                font-family: Quicksand
+                top: 62%
+                left: 55%
+                box-shadow: none
+                background-color: transparent
+              entity: sensor.1f_house_inside_entrance_termometer_temperature
+              prefix: ""
+              attribute: ""
+              title: null
+
+              # 2.etg
+            - type: state-label
+              style:
+                font-family: Quicksand
+                top: 62%
+                left: 83%
+                box-shadow: none
+                background-color: transparent
+              entity: sensor.2f_house_inside_hall_termometer_temperature
+              prefix: ""
+              attribute: ""
+              title: null
+
+              # OUTSIDE
+            - type: state-label
+              style:
+                font-family: Quicksand
+                font-size: 200%
+                font-weight: bold
+                border-radius: 50%
+                top: 14%
+                left: 40%
+                box-shadow: none
+                background-color: transparent
+              entity: sensor.1f_house_outside_laundryroom_termometer_temperature
+              prefix: ""
+              attribute: ""
+              title: null
+
+            ###### CHANGE BACKGROUND BASED ON TIME OF DAY #######
+            - type: image
+              action: none
+              entity: sun.sun
+              hold_action:
+                action: none
+              state_image:
+                above_horizon: /local/images/3dfloorplan_v1/base_day.png
+                below_horizon: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                height: 100%
+                left: 50%
+                mix-blend-mode: lighten
+                # opacity: "${ states['sensor.sunlight_opacity'].state }"
+                top: 50%
+                width: 100%
+              tap_action:
+                action: none
+
+            - type: image
+              action: none
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              entity: switch.node_6
+              state_image:
+                "on": local/images/3dfloorplan_v1/garage.png
+                "off": /local/images/3dfloorplan_v1/transparent.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+                mix-blend-mode: lighten
+                z-index: 10
+            - type: image
+              action: none
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              entity: light.in_wall_dimmer_module
+              state_image:
+                "on": local/images/3dfloorplan_v1/garage_floodlight.png
+                "off": /local/images/3dfloorplan_v1/transparent.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+                mix-blend-mode: lighten
+                z-index: 10
+            - type: image
+              action: none
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              entity: light.1f_house_outside_entrance_light
+              state_image:
+                "on": local/images/3dfloorplan_v1/outside_entrance.png
+                "off": /local/images/3dfloorplan_v1/transparent.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+                mix-blend-mode: lighten
+                z-index: 9
+            - type: custom:color-lite-card
+              entity: light.2f_house_inside_ceiling_sturla_light
+              image: /local/images/3dfloorplan_v1/sturla_room.png
+              color_image: /local/images/3dfloorplan_v1/sturla_room_red.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+            # - action: none
+            #   entity: light.2f_house_inside_ceiling_sturla_light
+            #   hold_action:
+            #     action: none
+            #   image: local/images/3dfloorplan_v1/sturla_room.png
+            #   style:
+            #     filter: >-
+            #       ${ "hue-rotate(" + (states['light.2f_house_inside_ceiling_sturla_light'].attributes.hs_color
+            #       ? states['light.2f_house_inside_ceiling_sturla_light'].attributes.hs_color[0] : 0) + "deg)"}
+            #     left: 50%
+            #     mix-blend-mode: lighten
+            #     opacity: "${states['light.2f_house_inside_ceiling_sturla_light'].state === 'on' ? (states['light.2f_house_inside_ceiling_sturla_light'].attributes.brightness / 255) : '0'}"
+            #     top: 50%
+            #     width: 100%
+            #   tap_action:
+            #     action: none
+            #   type: image
+            # - type: image
+            #   action: none
+            #   tap_action:
+            #     action: none
+            #   hold_action:
+            #     action: none
+            #   entity: light.2f_house_inside_ceiling_sturla_light
+            #   state_image:
+            #     "on": local/images/3dfloorplan_v1/sturla_room.png
+            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #   style:
+            #     top: 50%
+            #     left: 50%
+            #     width: 100%
+            #     mix-blend-mode: lighten
+            #     z-index: 10
+            - type: custom:color-lite-card
+              entity: light.2f_house_inside_ceiling_adrian_light
+              image: /local/images/3dfloorplan_v1/adrian_room.png
+              color_image: /local/images/3dfloorplan_v1/adrian_room_red.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+
+              # entity: light.2f_house_inside_ceiling_adrian_light
+              # hold_action:
+              #   action: none
+              # image: local/images/3dfloorplan_v1/adrian_room.png
+              # style:
+              #   filter: '${ "hue-rotate(" + (states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color ? states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color[0] : 0) + "deg) saturate(" + (states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color ? states[''light.2f_house_inside_ceiling_adrian_light''].attributes.hs_color[1] : 100)+ "%)"}'
+              #   # filter: >-
+              #   #   ${ "hue-rotate(" + (states['light.2f_house_inside_ceiling_adrian_light'].attributes.hs_color
+              #   #   ? states['light.2f_house_inside_ceiling_adrian_light'].attributes.hs_color[0] : 0) + "deg)"}
+              #   left: 50%
+              #   mix-blend-mode: lighten
+              #   opacity: "${states['light.2f_house_inside_ceiling_adrian_light'].state === 'on' ? (states['light.2f_house_inside_ceiling_adrian_light'].attributes.brightness / 255) : '0'}"
+              #   top: 50%
+              #   width: 100%
+              # tap_action:
+              #   action: none
+              # type: image
+            # - type: image
+            #   action: none
+            #   tap_action:
+            #     action: none
+            #   hold_action:
+            #     action: none
+            #   entity: light.2f_house_inside_ceiling_adrian_light
+            #   state_image:
+            #     "on": local/images/3dfloorplan_v1/adrian_room.png
+            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #   style:
+            #     top: 50%
+            #     left: 50%
+            #     width: 100%
+            #     mix-blend-mode: lighten
+            #     z-index: 10
+            - type: image
+              action: none
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              entity: light.1f_house_inside_entrance_light
+              state_image:
+                "on": local/images/3dfloorplan_v1/hallway.png
+                "off": /local/images/3dfloorplan_v1/transparent.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+                mix-blend-mode: lighten
+                z-index: 10
+
+            # - action: none
+            #   entity: light.smart_led_strip
+            #   hold_action:
+            #     action: none
+            #   image: local/images/3dfloorplan_v1/kitchen_led.png
+            #   style:
+            #     filter: >-
+            #       ${ "hue-rotate(" + (states['light.smart_led_strip'].attributes.hs_color
+            #       ? states['light.smart_led_strip'].attributes.hs_color[0] : 0) + "deg)"}
+            #     left: 50%
+            #     mix-blend-mode: lighten
+            #     opacity: "${states['light.smart_led_strip'].state === 'on' ? (states['light.smart_led_strip'].attributes.brightness / 255) : '0'}"
+            #     top: 50%
+            #     width: 100%
+            #   tap_action:
+            #     action: none
+            #   type: image
+            - type: custom:color-lite-card
+              entity: light.smart_led_strip
+              image: /local/images/3dfloorplan_v1/kitchen_led.png
+              color_image: /local/images/3dfloorplan_v1/kitchen_led_red.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+            # - type: image
+            #   action: none
+            #   tap_action:
+            #     action: none
+            #   hold_action:
+            #     action: none
+            #   entity: light.smart_led_strip
+            #   state_image:
+            #     "on": local/images/3dfloorplan_v1/kitchen_led.png
+            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #   style:
+            #     filter: >-
+            #       ${ "hue-rotate(" + (states['light.smart_led_strip'].attributes.hs_color
+            #       ? states['light.smart_led_strip'].attributes.hs_color[0] : 0) + "deg)"}
+            #     top: 50%
+            #     left: 50%
+            #     width: 100%
+            #     mix-blend-mode: lighten
+            #     z-index: 10
+            - type: custom:color-lite-card
+              entity: light.2f_house_inside_ceiling_vilde_light
+              image: /local/images/3dfloorplan_v1/vilde_room.png
+              color_image: /local/images/3dfloorplan_v1/vilde_room_red.png
+              style:
+                top: 50%
+                left: 50%
+                width: 100%
+            - action: none
+              entity: light.2f_house_inside_ceiling_vilde_light
+              hold_action:
+                action: none
+              image: local/images/3dfloorplan_v1/vilde_room.png
+              style:
+                filter: >-
+                  ${ "hue-rotate(" + (states['light.2f_house_inside_ceiling_vilde_light'].attributes.hs_color
+                  ? states['light.2f_house_inside_ceiling_vilde_light'].attributes.hs_color[0] : 0) + "deg)"}
+                left: 50%
+                mix-blend-mode: lighten
+                opacity: "${states['light.2f_house_inside_ceiling_vilde_light'].state === 'on' ? (states['light.2f_house_inside_ceiling_vilde_light'].attributes.brightness / 255) : '0'}"
+                top: 50%
+                width: 100%
+              tap_action:
+                action: none
+              type: image
+            # - type: image
+            #   action: none
+            #   tap_action:
+            #     action: none
+            #   hold_action:
+            #     action: none
+            #   entity: light.2f_house_inside_ceiling_vilde_light
+            #   state_image:
+            #     "on": local/images/3dfloorplan_v1/vilde_room.png
+            #     "off": /local/images/3dfloorplan_v1/transparent.png
+            #   style:
+            #     top: 50%
+            #     left: 50%
+            #     width: 100%
+            #     z-index: 10
+            #     mix-blend-mode: lighten
+            #########################    ROOM/GROUP CONTROL TRANSPARENT IMAGES    #########################
+
+            #  Used to create tap areas and popups for each room, referring to light groups.
+            #  Because the above images overlap each other, I used seperate transparent images
+            #. to handle the control of the room, so you always tap the right room.
+            #
+            #  browser_mod.popup is used for a tap and hold for a custom popup card
+
+            ### KJØKKEN ###
+            - entity: light.smart_led_strip
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    content:
+                      type: custom:light-entity-card
+                      entity: light.smart_led_strip
+                    type: "custom:vertical-stack-in-card"
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                  title: Stairs Lights
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 18%
+                left: 45.0%
+                top: 55.5%
+                width: 7%
+                z-index: 10
+              # tap_action:
+              #   action: call-service
+              #   service: homeassistant.toggle
+              #   service_data:
+              #     entity_id: light.smart_led_strip
+              type: image
+
+            ### Sturla Soverom ###
+            - entity: light.2f_house_inside_ceiling_sturla_light
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    content:
+                      type: custom:light-entity-card
+                      entity: light.2f_house_inside_ceiling_sturla_light
+                      name: Adrian Soverom
+                    type: "custom:vertical-stack-in-card"
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                  title: Stairs Lights
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 24%
+                left: 83.0%
+                top: 33.5%
+                width: 10%
+                z-index: 10
+              # tap_action:
+              #   action: call-service
+              #   service: homeassistant.toggle
+              #   service_data:
+              #     entity_id: light.smart_led_strip
+              type: image
+
+            ### Adrian Soverom ###
+            - entity: light.2f_house_inside_ceiling_adrian_light
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    content:
+                      type: custom:light-entity-card
+                      entity: light.2f_house_inside_ceiling_adrian_light
+                      name: Adrian Soverom
+                    type: "custom:vertical-stack-in-card"
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                  title: Stairs Lights
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 28%
+                left: 93.0%
+                top: 77.5%
+                width: 10%
+                z-index: 10
+              # tap_action:
+              #   action: call-service
+              #   service: homeassistant.toggle
+              #   service_data:
+              #     entity_id: light.smart_led_strip
+              type: image
+
+            ### TUNA FLOMLYS ###
+            - entity: light.in_wall_dimmer_module
+              double_tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  command: more_info
+                  card:
+                    cards:
+                      - entities:
+                          - entity: light.in_wall_dimmer_module
+                            secondary_info: last-changed
+                        style:
+                          z-index: 5
+                        type: entities
+                      - cards:
+                          - cards: null
+                            column_height: 1
+                            layout: vertical
+                            type: "custom:layout-card"
+                          - entities:
+                              - color_temp: true
+                                entity: light.in_wall_dimmer_module
+                                hide_header: true
+                                persist_features: true
+                                type: "custom:light-slider-card"
+                            show_header_toggle: false
+                            style: |
+                              :host{
+                                height: 100%;
+                                z-index: 0;
+                              }
+                              ha-card {
+                                box-shadow: none !important;
+                              }
+                            type: entities
+                        column_num: 1
+                        layout: horizontal
+                        max_width:
+                          - 100%
+                        type: "custom:layout-card"
+                    type: "custom:vertical-stack-in-card"
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                  title: Stairs Lights
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 43%
+                left: 33.5%
+                top: 44.5%
+                width: 13%
+                z-index: 10
+              tap_action:
+                action: call-service
+                service: homeassistant.toggle
+                service_data:
+                  entity_id: light.in_wall_dimmer_module
+              type: image
+
+            ### GARASJE INNE ###
+            - entity: switch.node_6
+              double_tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  command: more_info
+                  card:
+                    cards:
+                      - entities:
+                          - entity: switch.node_6
+                            secondary_info: last-changed
+                        style:
+                          z-index: 5
+                        type: entities
+                      - cards:
+                          - cards: null
+                            column_height: 1
+                            layout: vertical
+                            type: "custom:layout-card"
+                          - entities:
+                              - color_temp: true
+                                entity: switch.node_6
+                                hide_header: true
+                                persist_features: true
+                                type: "custom:light-slider-card"
+                            show_header_toggle: false
+                            style: |
+                              :host{
+                                height: 100%;
+                                z-index: 0;
+                              }
+                              ha-card {
+                                box-shadow: none !important;
+                              }
+                            type: entities
+                        column_num: 1
+                        layout: horizontal
+                        max_width:
+                          - 100%
+                        type: "custom:layout-card"
+                    type: "custom:vertical-stack-in-card"
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+                  title: Stairs Lights
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 43%
+                left: 15.0%
+                top: 34.5%
+                width: 20%
+                z-index: 10
+              tap_action:
+                action: call-service
+                service: homeassistant.toggle
+                service_data:
+                  entity_id: switch.node_6
+              type: image
+
+              ### OUTSIDE ENTRANCE ###
+            - entity: light.1f_house_outside_entrance_light
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Lys Inngangsdør
+                    content:
+                      type: "entities"
+                      entities:
+                        - entity: light.1f_house_outside_entrance_light
+                          name: Entrance Outside
+
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 13%
+                left: 49.0%
+                top: 22%
+                width: 6%
+                z-index: 10
+              # tap_action:
+              #   action: call-service
+              #   service: homeassistant.toggle
+              #   service_data:
+              #     entity_id: light.1f_house_outside_entrance_light
+              type: image
+              ### HALL WAY ###
+            - entity: light.1f_house_inside_entrance_light
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Lys Gang
+                    content:
+                      type: "entities"
+                      entities:
+                        - entity: light.1f_house_inside_entrance_light
+                          name: Hallway
+
+                  deviceID:
+                    - this
+                  style:
+                    "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                    border-radius: 0.8vw
+                    opacity: 0.9
+
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 13.5%
+                left: 53.5%
+                top: 38%
+                width: 8%
+                z-index: 10
+              # tap_action:
+              #   action: call-service
+              #   service: homeassistant.toggle
+              #   service_data:
+              #     entity_id: light.1f_house_inside_entrance_light
+              type: image
+
+              ### Ventilation ###
+            - entity: climate.hvac_eigeland
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    content:
+                      type: thermostat
+                      entity: climate.hvac_eigeland
+
+                    deviceID:
+                      - this
+                    style:
+                      "opacity: 1"
+                      # "--ha-card-border-radius": 0vw 0vw 0.8vw 0.8vw
+                      # border-radius: 0.8vw
+                      # opacity: "0.1"
+                      # background-color: red
+                    title: Climate
+              image: /local/images/3dfloorplan_v1/transparent.png
+              style:
+                # border: 5px solid red
+                opacity: 0
+                height: 13.5%
+                left: 64.5%
+                top: 58%
+                width: 3%
+                z-index: 10
+              # tap_action:
+              #   action: call-service
+              #   service: homeassistant.toggle
+              #   service_data:
+              #     entity_id: climate.hvac_eigeland
+              type: image
+              #########################    INDIVIDUAL LIGHT ICONS    #########################
+
+              #  These are the white state icons that appear over the floorplan.
+              #  They are the same as above, but instead of "areas" to control a group, they only
+              #. control individual lights
+              #
+              #  browser_mod.popup is used for a tap and hold for a custom popup card, custom styling
+              #  of the icon to make it appear white, etc.
+
+            - entity: light.smart_led_strip
+              type: custom:button-card
+              style:
+                left: 46.5%
+                top: 59.5%
+                z-index: 10
+              template:
+                - light
+            - entity: switch.node_6
+              type: custom:button-card
+              style:
+                left: 9.5%
+                top: 35.5%
+                z-index: 10
+              template:
+                - light
+            - entity: light.in_wall_dimmer_module
+              type: custom:button-card
+              style:
+                left: 32.5%
+                top: 35.5%
+                z-index: 10
+              template:
+                - light
+            - entity: light.1f_house_outside_entrance_light
+              type: custom:button-card
+              style:
+                left: 50.5%
+                top: 24.5%
+                z-index: 10
+              template:
+                - light
+            - entity: light.2f_house_inside_ceiling_adrian_light
+              type: custom:button-card
+              style:
+                left: 91.5%
+                top: 80.5%
+                z-index: 10
+              template:
+                - light
+            - entity: light.2f_house_inside_ceiling_sturla_light
+              type: custom:button-card
+              style:
+                left: 81.5%
+                top: 38.5%
+                z-index: 10
+              template:
+                - light
+            - entity: light.2f_house_inside_ceiling_vilde_light
+              type: custom:button-card
+              style:
+                left: 75.5%
+                top: 85.5%
+                z-index: 10
+              template:
+                - light
+            - entity: light.1f_house_inside_entrance_light
+              type: custom:button-card
+              style:
+                left: 52.5%
+                top: 40.5%
+                z-index: 10
+              template:
+                - light
+            - entity: climate.hvac_eigeland
+              type: custom:button-card
+              style:
+                left: 64.5%
+                top: 60.5%
+                z-index: 10
+              template:
+                - light
+
+            #########################    WEATHER ANIMATIONS    #########################
+            - action: none
+              entity: weather.home
+              hold_action:
+                action: none
+              image: /local/images/3dfloorplan_v1/weather/rainstorm.gif
+              state_filter:
+                "pouring": opacity(100%)
+              style:
+                left: 60%
+                mix-blend-mode: color-dodge
+                top: 50%
+                width: 110%
+                opacity: 0
+              tap_action:
+                action: none
+              type: image
+
+            #########################    People at home    #########################
+            #Optional label for people at Home (currently hidden with opacity: 0)
+
+            # - type: "custom:text-element"
+            #   style:
+            #     color: white
+            #     font-size: 1vw
+            #     font-weight: 300
+            #     left: 70.8%
+            #     opacity: 0
+            #     top: 66%
+            #     width: 10%
+            #   text: "People at home:"
+            - action: none
+              entity: person.home
+              state_image:
+                home: local/images/3dfloorplan_v1/people/bernt_home.png
+                not_home: local/images/3dfloorplan_v1/people/bernt_away.png
+              style:
+                background-color: "rgba(255, 255, 255, 0.0)"
+                border-radius: 10vw
+                height: 3.5vw
+                left: 70.0%
+                top: 10%
+                width: 3.5vw
+              tap_action: none
+              type: image
+
+            - action: none
+              entity: person.adrian
+              state_image:
+                home: local/images/3dfloorplan_v1/people/adrian_home.png
+                not_home: local/images/3dfloorplan_v1/people/adrian_away.png
+              style:
+                background-color: "rgba(255, 255, 255, 0.0)"
+                border-radius: 10vw
+                height: 3.5vw
+                left: 74.0%
+                top: 10%
+                width: 3.5vw
+              tap_action: none
+              type: image
+            #########################    TIME & DATE    #########################
+
+            - entity: sensor.time
+              hold_action:
+                action: none
+              style:
+                color: "rgba(255, 255, 255, 0.7)"
+                font-size: 3.41vw
+                font-weight: 200
+                left: 2.7%
+                letter-spacing: "-0.05vw"
+                max-width: 1px
+                top: 80%
+              tap_action:
+                action: none
+              type: state-label
+            - entity: sensor.date
+              hold_action:
+                action: none
+              style:
+                color: "rgba(255, 255, 255, 0.3)"
+                font-size: 1.3vw
+                font-weight: 300
+                left: 17.8%
+                letter-spacing: "-0.05vw"
+                text-align: left
+                top: 87%
+                width: 30%
+              tap_action:
+                action: none
+              type: state-label

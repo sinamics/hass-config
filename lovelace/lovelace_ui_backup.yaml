@@ -1,0 +1,1426 @@
+title: Home
+views:
+    title: Home
+    icon: mdi:greenhouse
+    badges: []
+    cards:
+      - type: grid
+        cards:
+          - type: grid
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: weather-forecast
+                    entity: weather.home
+                    show_forecast: true
+                  - type: grid
+                    cards:
+                      - type: gauge
+                        entity: sensor.memory_free
+                        min: 0
+                        max: 10000
+                        name: Free Mem
+                        severity:
+                          green: 2000
+                          yellow: 1000
+                          red: 0
+                      - type: gauge
+                        entity: sensor.processor_use
+                        min: 0
+                        max: 100
+                        severity:
+                          green: 0
+                          yellow: 80
+                          red: 90
+                        name: CPU %
+                      - type: gauge
+                        entity: sensor.disk_use_percent
+                        min: 0
+                        max: 100
+                        name: Disk Use
+                        severity:
+                          green: 0
+                          yellow: 70
+                          red: 90
+                      - type: gauge
+                        entity: sensor.db_size
+                        min: 0
+                        max: 1000
+                        name: Database
+                        severity:
+                          green: 0
+                          yellow: 1000
+                          red: 2000
+                    square: true
+                    columns: 4
+                columns: 1
+                square: false
+            columns: 1
+            square: false
+        columns: 1
+        square: false
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - show_state: true
+                show_name: false
+                camera_view: auto
+                type: picture-entity
+                entity: person.home
+                image: /api/image/serve/2251ac1226ee9d978f94c759b77b9cc9/512x512
+                name: Bernt
+                aspect_ratio: "1"
+              - show_state: true
+                show_name: false
+                camera_view: auto
+                type: picture-entity
+                entity: device_tracker.adrian_samsung_s20
+                image: /api/image/serve/1c357913e361c7736105aaf8b35eabdc/512x512
+                aspect_ratio: "1"
+                name: Adrian
+        columns: 2
+        square: false
+      - square: true
+        columns: 1
+        type: grid
+        title: Camera Entrance
+        cards:
+          - type: custom:frigate-card
+            camera_entity: camera.eigeland
+            view:
+              default: clips
+              camera_select: clips
+              update_seconds: 25
+              timeout_seconds: 120
+              update_force: false
+            frigate:
+              camera_name: eigeland
+            menu:
+              buttons:
+                download:
+                  enabled: false
+                frigate_ui:
+                  enabled: true
+            cameras:
+              - camera_entity: camera.eigeland
+                live_provider: auto
+      - type: history-graph
+        entities:
+          - entity: binary_sensor.oppvaskmaskin_door
+          - entity: switch.oppvaskmaskin_power
+      - cards:
+          - card:
+              type: vertical-stack
+              cards:
+                - type: button
+                  tap_action:
+                    action: toggle
+                  entity: switch.oppvaskmaskin_power
+                  icon_height: 40px
+                  show_name: false
+                - cards:
+                    - entity: switch.oppvaskmaskin_program_intensiv70
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_auto2
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_eco50
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_nightwash
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_kurz60
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_glas40
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_quick45
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                    - entity: switch.oppvaskmaskin_program_machinecare
+                      hold_action:
+                        action: more-info
+                      icon_height: 40px
+                      show_icon: true
+                      show_name: true
+                      tap_action:
+                        action: toggle
+                      type: button
+                  type: grid
+                  columns: 4
+                  square: false
+            conditions:
+              - entity: switch.oppvaskmaskin_ready_for_program_activation
+                state: "on"
+            type: conditional
+          - card:
+              type: custom:button-card
+              aspect_ratio: 4/6
+              entity: binary_sensor.oppvaskmaskin_door
+              tap_action:
+                action: call-service
+                service: switch.toggle
+                service_data:
+                  entity_id: switch.oppvaskmaskin_power
+              show_entity_picture: true
+              name: "  "
+              show_state: false
+              size: 130%
+              custom_fields:
+                power: |
+                  [[[
+                    if (states['switch.oppvaskmaskin_power'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:power"
+                        style="width: 50px; height: 40px; color: red;">
+                        </ha-icon>`
+                    else
+                      return `<ha-icon
+                        icon= "mdi:power"
+                        style="width: 50px; height: 40px; color: gray;">
+                        </ha-icon>`
+                  ]]]
+                finish_time: |
+                  [[[ 
+                    if (states['switch.oppvaskmaskin_program_active'].state == 'on')
+                    {
+                      var hour = parseInt(states['sensor.oppvaskmaskin_remaining_program_time'].state.substr(11,2));;
+                      hour = hour + 1;
+                      var minute = parseInt(states['sensor.oppvaskmaskin_remaining_program_time'].state.substr(14,2));
+                      var second = parseInt(states['sensor.oppvaskmaskin_remaining_program_time'].state.substr(17,2));
+                      if (second > 30)
+                        minute = minute + 1;
+                      if (minute > 59)
+                      {
+                        minute = minute - 60;
+                        hour = hour + 1;
+                      }
+                      if (hour > 23)
+                        hour = hour - 24;  
+                      return hour + ':' + minute;
+                    }
+                    else
+                      return '';
+                  ]]]
+                program: |
+                  [[[ 
+                    if (states['binary_sensor.oppvaskmaskin_door'].state == 'on')
+                      return '';
+                    else if (states['switch.oppvaskmaskin_program_intensiv70'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:pot"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Intensiv 70°C (S 7 6 2:20)`
+                    else if (states['switch.oppvaskmaskin_program_auto2'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:format-color-text"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Auto 45-65°C (A 6 5 2:30)`
+                    else if (states['switch.oppvaskmaskin_program_eco50'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:cash-multiple"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Eco 50°C ( N 4 4 3:15)`
+                    else if (states['switch.oppvaskmaskin_program_nightwash'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:ear-hearing-off"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Silence 50°C (N 4 4 3:55)`
+                    else if (states['switch.oppvaskmaskin_program_kurz60'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:coffee"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Kort 60°C (N 5 5 1:20)`
+                    else if (states['switch.oppvaskmaskin_program_glas40'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:glass-wine"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Glas 40°C (N 5 3 1:40)`
+                    else if (states['switch.oppvaskmaskin_program_quick45'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:flash"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Lyn 45°C ( L 4 3 0:30)`
+                    else if (states['switch.oppvaskmaskin_program_machinecare'].state == 'on')
+                      return `<ha-icon
+                        icon= "mdi:calendar-star"
+                        style="width: 100px; height: 100px; color: blue;">
+                        </ha-icon></br>Maskinpleje`
+                    else
+                      return '';
+                  ]]]
+                progress: |
+                  [[[
+                    if (states['switch.oppvaskmaskin_program_active'].state == 'on')
+                    {
+                      var prog = 0;
+                      var totalprog = parseInt(states['sensor.oppvaskmaskin_program_progress'].state);
+                      var out ='|';
+                      for (prog = 0; prog < totalprog/3; prog++)
+                      {
+                        out = out +'|';
+                      }
+                      for (prog = 0; prog < (100 -totalprog)/3; prog++)
+                      {
+                        out = out +' ';
+                      }
+                      return out + ': ' +totalprog + ' %';
+                    }
+                    else
+                      return '';
+                  ]]]
+              styles:
+                custom_fields:
+                  power:
+                    - position: absolute
+                    - top: 6%
+                    - left: 7%
+                    - color: red
+                    - font-size: 30px
+                  finish_time:
+                    - position: absolute
+                    - top: 6%
+                    - left: 40%
+                    - color: red
+                    - font-size: 30px
+                  program:
+                    - position: absolute
+                    - top: 30%
+                    - left: 25%
+                    - color: blue
+                    - font-size: 20px
+                  progress:
+                    - position: absolute
+                    - top: 60%
+                    - left: 25%
+                    - color: blue
+                    - font-size: 20px
+              state:
+                - value: "on"
+                  entity_picture: >-
+                    https://www.auktionshuset.dk/thumbs/1280x720/images/RVz0ALE6Wr/M15jalp0J2/a346b1ad4716e12e31a5ce2130fa0a892486614d.jpeg
+                - value: "off"
+                  entity_picture: >-
+                    https://img.prisguiden.no/3192/3192270/bosch-series-2-oppvaskmaskin-smu2hvw70s-hvit.720x960!m.png
+            conditions:
+              - entity: switch.oppvaskmaskin_ready_for_program_activation
+                state: "off"
+            type: conditional
+        type: vertical-stack
+      - theme: Backend-selected
+        title: Strøm
+        path: strom
+        icon: mdi:transmission-tower
+        badges: []
+        cards:
+          - type: grid
+            cards:
+              - type: grid
+                cards:
+                  - type: grid
+                    title: Pris Utsikt
+                    cards:
+                      - type: custom:apexcharts-card
+                        header:
+                          show: true
+                          title: Nordpool Prize -> 48 hours
+                          show_states: true
+                        graph_span: 2d
+                        now:
+                          show: true
+                          color: "#ff0000"
+                          label: Now
+                        span:
+                          start: day
+                        series:
+                          - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                            name: Today
+                            unit: Kr
+                            color: yellow
+                            data_generator: >
+                              let thisdate = new Date();
+                              thisdate.setHours(24,0,0,0);
+
+                              const today = [...entity.attributes.raw_today,
+                              {start:thisdate.toISOString()}]; return
+                              today.map((entry,idx) => {
+                                if(idx > 23) return [new Date(entry.start), null];
+                                return [new Date(entry.start), entry.value * 1.25];
+                              });
+                            type: column
+                            group_by:
+                              func: max
+                              duration: 60min
+                            show:
+                              legend_value: false
+                              in_header: false
+                              extremas: true
+                            extend_to: end
+                          - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                            name: Tomorrow
+                            unit: Kr
+                            data_generator: |
+                              return entity.attributes.raw_tomorrow.map((entry) => {
+                                return [new Date(entry.start), entry.value * 1.25];
+                              });
+                            type: column
+                            group_by:
+                              func: max
+                              duration: 60min
+                            show:
+                              legend_value: false
+                              in_header: false
+                              extremas: true
+                    columns: 1
+                    square: false
+                  - type: grid
+                    cards:
+                      - type: entities
+                        entities:
+                          - entity: sensor.avg_electricity_price_eigeland_50
+                            name: avg price today
+                            icon: mdi:currency-usd
+                          - entity: sensor.monthly_avg_kwh_price
+                            icon: mdi:currency-usd
+                            name: avg price this month
+                          - entity: sensor.cheaper_after_midnight
+                            name: Best after midnight
+                            icon: mdi:currency-usd
+                          - entity: sensor.cheapest_hours_1_3
+                            name: Best prize (5 hours)
+                            icon: mdi:currency-usd
+                    columns: 1
+                    square: false
+                columns: 1
+                square: false
+              - type: grid
+                title: Forbruk
+                cards:
+                  - type: custom:mini-graph-card
+                    color_thresholds:
+                      - color: "#0FA300"
+                        value: 0
+                      - color: "#18FF00"
+                        value: 2
+                      - color: "#F4F700"
+                        value: 4
+                      - color: "#FCBD00"
+                        value: 6
+                      - color: "#FD0000"
+                        value: 8
+                    entities:
+                      - sensor.power_to_kwh
+                    height: 100
+                    hour24: true
+                    decimals: 2
+                    hours_to_show: 12
+                    line_width: 1
+                    name: Forbruk nå & siste 12t
+                    points_per_hour: 15
+                    show:
+                      extrema: true
+                      icon: false
+                    font_size: 120
+                  - type: custom:mini-graph-card
+                    color_thresholds:
+                      - color: "#0FA300"
+                        value: 0
+                      - color: "#18FF00"
+                        value: 30
+                      - color: "#F4F700"
+                        value: 40
+                      - color: "#FCBD00"
+                        value: 50
+                      - color: "#FD0000"
+                        value: 75
+                    entities:
+                      - entity: sensor.consumption_lastday
+                        index: 0
+                        name: Forbruk siste 7 dager
+                        icon_template: mdi:counter
+                    aggregate_func: avg
+                    group_by: date
+                    hour24: false
+                    decimals: 2
+                    hours_to_show: 168
+                    height: 120
+                    show:
+                      icon: false
+                      graph: bar
+                    font_size: 120
+                  - type: custom:apexcharts-card
+                    graph_span: 24h
+                    span:
+                      end: day
+                    header:
+                      show: true
+                      title: Gjennomsnitt forbruk siste timen
+                    series:
+                      - entity: sensor.power_to_kwh
+                        color: yellow
+                        type: column
+                        name: Gjennomsnitt siste timen
+                        group_by:
+                          func: avg
+                          duration: 60min
+                        show:
+                          extremas: true
+                      - entity: sensor.kwh_cost_inlcuded_net_rental
+                        color: white
+                        stroke_width: 2
+                        type: line
+                        name: Strømpris inkludert avgift
+                        group_by:
+                          func: max
+                          duration: 1h
+                        show:
+                          extremas: true
+                columns: 1
+                square: false
+            columns: 1
+            square: false
+          - type: grid
+            cards:
+              - type: grid
+                cards:
+                  - type: vertical-stack
+                    title: Oversikt & Info
+                    cards:
+                      - entities:
+                          - entity: sensor.min_power_eigeland_50
+                            name: Min
+                          - entity: sensor.average_power_eigeland_50
+                            name: Snitt
+                          - entity: sensor.max_power_eigeland_50
+                            name: Max
+                          - type: divider
+                          - entity: sensor.daily_prize_accumulated_with_fees
+                            name: Kostnad i dag inkl nettleie
+                            icon: mdi:currency-usd
+                          - entity: sensor.daily_prize_accumulated_with_compensation
+                            name: Kostnad idag med kompensasjon
+                            icon: mdi:currency-usd
+                          - entity: sensor.cost_lastday
+                            name: Kostnad i går
+                            icon: mdi:currency-usd
+                          - type: divider
+                          - entity: sensor.energy_compensation_daily
+                            name: Kompensasjon i dag
+                            icon: mdi:currency-usd
+                          - entity: sensor.energy_compensation_this_month
+                            name: Kompensasjon denne måneden
+                            icon: mdi:currency-usd
+                          - type: divider
+                          - entity: sensor.monthly_prize_accumulated_with_fees
+                            name: Kostnad denne mnd
+                            icon: mdi:currency-usd
+                          - entity: sensor.monthly_prize_accumulated_with_compensation
+                            name: Kostnad denne mnd med kompensasjon
+                          - entity: sensor.cost_last_month
+                            name: Kostnad forrige mnd
+                            icon: mdi:currency-usd
+                          - entity: sensor.cost_thisyear
+                            name: Kostnad i år
+                            icon: mdi:currency-usd
+                          - entity: sensor.cost_lastyear
+                            icon: mdi:currency-usd
+                            name: Kostand i fjor
+                          - type: divider
+                          - entity: sensor.consumption_thisday
+                            name: Forbruk i dag [Tibber]
+                            icon: mdi:fire
+                          - entity: sensor.consumption_lastday
+                            name: Forbruk i går
+                            icon: mdi:fire
+                          - entity: sensor.consumption_thismonth
+                            name: Forbruk denne mnd
+                            icon: mdi:fire
+                          - entity: sensor.consumption_lastmonth
+                            name: Forbruk forrige mnd
+                            icon: mdi:fire
+                          - entity: sensor.consumption_thisyear
+                            name: Forbruk i år
+                            icon: mdi:fire
+                          - type: divider
+                          - entity: sensor.time_of_max_hour_consumption_eigeland_50
+                            name: Max strømtrekk dato
+                          - entity: sensor.monthly_peak_hour_consumption_eigeland_50
+                            name: Måndlig Strøm Peak ( Pr. Time )
+                          - entity: sensor.monthly_power_peak_prize
+                            name: Fastledd denne mnd
+                          - entity: sensor.last_meter_consumption_eigeland_50
+                            name: Målerstand
+                            secondary_info: last-changed
+                            icon: mdi:counter
+                        type: entities
+                        show_header_toggle: true
+                        state_color: false
+                  - type: vertical-stack
+                    title: Nett
+                    cards:
+                      - type: glance
+                        entities:
+                          - entity: sensor.tibber_nett
+                            name: Tibber Nett
+                            icon: mdi:lightning-bolt-outline
+                          - entity: sensor.tibber_estimert
+                            name: Estimert Forbruk
+                            icon: mdi:lightning-bolt-outline
+                          - entity: sensor.last_meter_consumption_eigeland_50
+                            name: Målerstand
+                            icon: mdi:lightning-bolt-outline
+                        show_icon: true
+                        state_color: false
+                        show_name: true
+                columns: 1
+                square: false
+            columns: 1
+            square: false
+          - type: grid
+            title: Pris & Kostnad
+            cards:
+              - type: custom:apexcharts-card
+                experimental:
+                  color_threshold: true
+                graph_span: 1d
+                header:
+                  show: true
+                  show_states: true
+                  colorize_states: true
+                  standard_format: true
+                brush:
+                  selection_span: 10m
+                apex_config:
+                  tooltip:
+                    enabled: true
+                  yaxis:
+                    - id: first
+                      show: true
+                      decimalsInFloat: 1
+                      labels:
+                        style:
+                          fontSize: 12px
+                      forceNiceScale: true
+                    - id: second
+                      opposite: true
+                      decimals: 1
+                      show: true
+                      decimalsInFloat: 1
+                      labels:
+                        style:
+                          fontSize: 12px
+                      forceNiceScale: true
+                  xaxis:
+                    axisBorder:
+                      show: false
+                    labels:
+                      style:
+                        fontSize: 14px
+                    chart:
+                      height: auto
+                    grid:
+                      show: false
+                    legend:
+                      show: true
+                      fontSize: 10px
+                    dataLabels:
+                      enabled: false
+                    stroke:
+                      width: 1
+                      curve: smooth
+                    fill:
+                      type: gradient
+                      gradient:
+                        type: vertical
+                        shadeIntensity: 0.8
+                        inverseColors: false
+                        opacityFrom: 0.8
+                        opacityTo: 0.5
+                        stops:
+                          - - 0
+                            - 50
+                            - 100
+                series:
+                  - entity: sensor.power_cost_now_with_net_rental_rounded
+                    name: Kostnad pr. time
+                    yaxis_id: first
+                    unit: " NOK"
+                    float_precision: 2
+                    type: area
+                    curve: smooth
+                    stroke_width: 1
+                    group_by:
+                      func: avg
+                      duration: 10min
+                    color: "#bd9b35"
+                    show:
+                      extremas: true
+                    color_threshold:
+                      - value: 0
+                        color: green
+                      - value: 10
+                        color: yellow
+                      - value: 18
+                        color: red
+                  - entity: sensor.kwh_cost_inlcuded_net_rental
+                    name: Strøm pris
+                    yaxis_id: second
+                    type: line
+                    curve: smooth
+                    color: white
+                    stroke_width: 1
+                    group_by:
+                      func: avg
+                      duration: 10min
+                    show:
+                      extremas: true
+              - type: custom:mini-graph-card
+                color_thresholds:
+                  - color: "#0FA300"
+                    value: 0
+                  - color: "#18FF00"
+                    value: 0.6
+                  - color: "#F4F700"
+                    value: 1
+                  - color: "#FCBD00"
+                    value: 1.5
+                  - color: "#FD0000"
+                    value: 2
+                decimals: 2
+                line_width: 2
+                hours_to_show: 48
+                height: 100
+                entities:
+                  - entity: sensor.kwh_cost_inlcuded_net_rental
+                    index: null
+                    hour24: true
+                    lower_bound: 0
+                    name: Strøm Pris inkl Mva & energiledd
+                icon: mdi:currency-usd
+                show:
+                  fill: fade
+                  icon: true
+                  extrema: true
+                  graph: line
+                  average: true
+                font_size: 120
+                points_per_hour: 4
+              - type: custom:mini-graph-card
+                hours_to_show: 48
+                entities:
+                  - entity: sensor.electricity_price_eigeland_50
+                    index: 0
+                    name: Strøm Pris Inkl Mva
+                    hour24: true
+                color_thresholds:
+                  - color: "#0FA300"
+                    value: 0
+                  - color: "#18FF00"
+                    value: 0.6
+                  - color: "#F4F700"
+                    value: 1.1
+                  - color: "#FCBD00"
+                    value: 1.35
+                  - color: "#FD9A00"
+                    value: 1.5
+                  - color: "#FD0000"
+                    value: 1.8
+                decimals: 2
+                line_width: 2
+                icon: mdi:currency-usd
+                show:
+                  fill: fade
+                  icon: true
+                  extrema: true
+                  graph: line
+                  average: true
+                smoothing: true
+                font_size: 120
+                points_per_hour: 4
+              - type: custom:mini-graph-card
+                hours_to_show: 48
+                entities:
+                  - entity: sensor.electricity_price_eigeland_50_with_compensation
+                    index: 0
+                    name: Strøm Pris med kompensasjon
+                    hour24: true
+                color_thresholds:
+                  - color: "#0FA300"
+                    value: 0
+                  - color: "#18FF00"
+                    value: 0.6
+                  - color: "#F4F700"
+                    value: 1.1
+                  - color: "#FCBD00"
+                    value: 1.35
+                  - color: "#FD9A00"
+                    value: 1.5
+                  - color: "#FD0000"
+                    value: 1.8
+                decimals: 2
+                line_width: 2
+                icon: mdi:currency-usd
+                show:
+                  fill: fade
+                  icon: true
+                  extrema: true
+                  graph: line
+                  average: true
+                smoothing: true
+                font_size: 120
+                points_per_hour: 4
+            square: false
+            columns: 1
+  - theme: Backend-selected
+    title: Utelys
+    path: garasje
+    icon: mdi:lightbulb
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+              - entity: switch.node_6
+                name: Garasje Inne
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+              - entity: light.in_wall_dimmer_module
+                name: Garasje Flomlys
+                secondary_info: last-changed
+              - entity: light.1f_house_outside_entrance_light
+                name: Utelys Inngang
+                secondary_info: last-changed
+              - entity: light.1f_house_inside_entrance_light
+                name: Gang
+                secondary_info: last-changed
+              - entity: light.2f_house_inside_ceiling_vilde_light
+                name: Vilde Soverrom
+                secondary_info: last-changed
+              - entity: light.2f_house_inside_ceiling_adrian_light
+                name: Adrian Soverrom
+                secondary_info: last-changed
+              - entity: light.smart_led_strip
+                name: Kjøkken LED
+                secondary_info: last-changed
+              - entity: switch.1f_outside_glamping
+                name: Glamping Telt
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+              - entity: light.2f_house_inside_ceiling_sturla_light
+  - theme: Backend-selected
+    icon: mdi:temperature-celsius
+    type: custom:masonry-layout
+    layout: {}
+    badges: []
+    cards:
+      - type: grid
+        columns: 1
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: " "
+                title: Ventilation
+                style: |
+                  ha-card {
+                     --ha-card-background: none;
+                    text-align: center;
+                    box-shadow: none;
+                     margin: 0;
+                    padding: 0;
+                   }
+              - type: thermostat
+                entity: climate.eigeland
+                name: Ventilation
+              - type: custom:button-card
+                show_name: true
+                show_icon: true
+                tap_action:
+                  action: toggle
+                entity: input_boolean.ventilation_auto
+                show_state: true
+                size: 50px
+                icon: |-
+                  [[[ if (entity.state == "on") return "mdi:toggle-switch";
+                      if (entity.state == "off") return "mdi:toggle-switch-off" ]]]
+              - type: weather-forecast
+                entity: weather.home
+      - type: grid
+        cards:
+          - type: markdown
+            content: " "
+            title: Room Climate
+            style: |
+              ha-card {
+                --ha-card-background: none;
+                text-align: center;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+
+              }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.1f_house_inside_livingroom_termometer_temperature
+                name: Stue Temperatur
+                line_width: 4
+                hour24: true
+                font_size: 75
+                color_thresholds:
+                  - value: 18
+                    color: blue
+                  - value: 20
+                    color: yellow
+                  - value: 23
+                    color: red
+                hours_to_show: 24
+                points_per_hour: 4
+                smoothing: true
+                logarithmic: false
+                show:
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+              - type: custom:mini-graph-card
+                graph: line
+                hour24: true
+                entities:
+                  - sensor.1f_house_inside_livingroom_termometer_humidity
+                name: Stue Fuktighet
+                line_width: 3
+                font_size: 75
+                color_thresholds_transition: smooth
+                hours_to_show: 24
+                points_per_hour: 4
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.1f_house_inside_entrance_termometer_temperature
+                name: Gang Temperatur
+                line_width: 4
+                font_size: 75
+                color_thresholds:
+                  - value: 18
+                    color: blue
+                  - value: 20
+                    color: yellow
+                  - value: 23
+                    color: red
+                hours_to_show: 24
+                points_per_hour: 4
+                hour24: true
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+              - type: custom:mini-graph-card
+                graph: line
+                entities:
+                  - sensor.1f_house_inside_entrance_termometer_humidity
+                name: Gang Fuktighet
+                line_width: 3
+                font_size: 75
+                color_thresholds_transition: smooth
+                hours_to_show: 24
+                points_per_hour: 4
+                hour24: true
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.2f_house_inside_hall_termometer_temperature
+                name: 2.Etg Temperatur
+                line_width: 4
+                font_size: 75
+                color_thresholds:
+                  - value: 18
+                    color: blue
+                  - value: 20
+                    color: yellow
+                  - value: 23
+                    color: red
+                hours_to_show: 24
+                points_per_hour: 4
+                hour24: true
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+              - type: custom:mini-graph-card
+                graph: line
+                entities:
+                  - sensor.2f_house_inside_hall_termometer_humidity
+                name: 2.Etg Fuktighet
+                line_width: 3
+                font_size: 75
+                color_thresholds_transition: smooth
+                hours_to_show: 24
+                points_per_hour: 4
+                hour24: true
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.1f_house_outside_laundryroom_termometer_temperature
+                name: Ute Temperatur
+                line_width: 4
+                font_size: 75
+                color_thresholds:
+                  - value: 18
+                    color: blue
+                  - value: 20
+                    color: yellow
+                  - value: 23
+                    color: red
+                hours_to_show: 24
+                points_per_hour: 4
+                hour24: true
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+              - type: custom:mini-graph-card
+                graph: line
+                entities:
+                  - sensor.1f_house_outside_laundryroom_termometer_humidity
+                name: Ute Fuktighet
+                line_width: 3
+                font_size: 75
+                color_thresholds_transition: smooth
+                hours_to_show: 24
+                points_per_hour: 4
+                hour24: true
+                show:
+                  labels: false
+                  fill: fade
+                  icon: false
+                  extrema: true
+                  graph: line
+                  average: false
+        columns: 1
+        square: false
+  - theme: Backend-selected
+    title: Kjøkken
+    path: kjokken
+    icon: mdi:faucet-variant
+    badges: []
+    cards:
+      - type: light
+        entity: light.smart_led_strip
+      - shorten_cards: false
+        consolidate_entities: false
+        child_card: false
+        hide_header: false
+        header: ""
+        color_wheel: true
+        persist_features: false
+        brightness: true
+        color_temp: true
+        white_value: true
+        color_picker: true
+        smooth_color_wheel: true
+        speed: true
+        intensity: true
+        force_features: false
+        show_slider_percent: true
+        full_width_sliders: true
+        brightness_icon: weather-sunny
+        white_icon: file-word-box
+        temperature_icon: thermometer
+        speed_icon: speedometer
+        intensity_icon: transit-connection-horizontal
+        type: custom:light-entity-card
+        entity: light.smart_led_strip
+        effects_list: true
+  - theme: Backend-selected
+    title: kiosk
+    path: kiosk
+    icon: mdi:cast-variant
+    type: panel
+    badges: []
+    cards:
+      - square: true
+        columns: 2
+        type: grid
+        cards:
+          - type: grid
+            columns: 2
+            cards:
+              - square: false
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    entities:
+                      - entity: switch.node_6
+                        name: Garasje Inne
+                        secondary_info: last-changed
+                        icon: mdi:lightbulb
+                      - entity: light.in_wall_dimmer_module
+                        name: Garasje Flomlys
+                        secondary_info: last-changed
+                      - entity: light.1f_house_outside_entrance_light
+                        name: Utelys Inngang
+                        secondary_info: last-changed
+                      - entity: light.1f_house_inside_entrance_light
+                        name: Gang
+                        secondary_info: last-changed
+                      - entity: light.2f_house_inside_ceiling_vilde_light
+                        name: Vilde Soverrom
+                        secondary_info: last-changed
+                      - entity: light.2f_house_inside_ceiling_adrian_light
+                        name: Adrian Soverrom
+                        secondary_info: last-changed
+                      - entity: light.smart_led_strip
+                        name: Kjøkken LED
+                        secondary_info: last-changed
+                      - entity: switch.1f_outside_glamping
+                        name: Glamping Telt
+                        secondary_info: last-changed
+                        icon: mdi:lightbulb
+                    state_color: true
+                  - type: custom:mini-graph-card
+                    entities:
+                      - sensor.1f_house_inside_entrance_termometer_temperature
+                    name: Gang Temperatur
+                    line_width: 4
+                    font_size: 95
+                    color_thresholds:
+                      - value: 18
+                        color: blue
+                      - value: 20
+                        color: yellow
+                      - value: 23
+                        color: red
+                    hours_to_show: 24
+                    points_per_hour: 4
+                    hour24: true
+                    show:
+                      labels: false
+                      fill: fade
+                      icon: false
+                      extrema: true
+                      graph: line
+                      average: false
+                  - type: custom:mini-graph-card
+                    entities:
+                      - >-
+                        sensor.1f_house_outside_laundryroom_termometer_temperature
+                    name: Ute Temperatur
+                    line_width: 4
+                    font_size: 95
+                    color_thresholds:
+                      - value: 18
+                        color: blue
+                      - value: 20
+                        color: yellow
+                      - value: 23
+                        color: red
+                    hours_to_show: 24
+                    points_per_hour: 4
+                    hour24: true
+                    show:
+                      labels: false
+                      fill: fade
+                      icon: false
+                      extrema: true
+                      graph: line
+                      average: false
+              - type: vertical-stack
+                cards:
+                  - type: grid
+                    columns: 2
+                    cards:
+                      - show_state: true
+                        show_name: false
+                        camera_view: auto
+                        type: picture-entity
+                        entity: person.home
+                        image: >-
+                          /api/image/serve/2251ac1226ee9d978f94c759b77b9cc9/512x512
+                        name: Bernt
+                        aspect_ratio: "1"
+                      - show_state: true
+                        show_name: false
+                        camera_view: auto
+                        type: picture-entity
+                        entity: device_tracker.adrian_samsung_s20
+                        image: >-
+                          /api/image/serve/1c357913e361c7736105aaf8b35eabdc/512x512
+                        aspect_ratio: "1"
+                        name: Adrian
+                  - type: thermostat
+                    entity: climate.eigeland
+                    name: Varmepumpe
+                  - type: custom:apexcharts-card
+                    header:
+                      show: true
+                      title: Strømpris neste 48 timer
+                      show_states: true
+                    graph_span: 2d
+                    now:
+                      show: true
+                      color: "#ff0000"
+                      label: Now
+                    span:
+                      start: day
+                    series:
+                      - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                        name: Today
+                        unit: Kr
+                        color: yellow
+                        data_generator: >
+                          let thisdate = new Date();
+                          thisdate.setHours(24,0,0,0);
+
+                          const today = [...entity.attributes.raw_today,
+                          {start:thisdate.toISOString()}]; return
+                          today.map((entry,idx) => {
+                            if(idx > 23) return [new Date(entry.start), null];
+                            return [new Date(entry.start), entry.value];
+                          });
+                        type: column
+                        group_by:
+                          func: max
+                          duration: 60min
+                        show:
+                          legend_value: false
+                          in_header: false
+                          extremas: true
+                      - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                        name: Tomorrow
+                        unit: Kr
+                        data_generator: |
+                          return entity.attributes.raw_tomorrow.map((entry) => {
+                            return [new Date(entry.start), entry.value * 1.25];
+                          });
+                        type: column
+                        group_by:
+                          func: max
+                          duration: 60min
+                        show:
+                          legend_value: false
+                          in_header: false
+                          extremas: true
+          - type: custom:frigate-card
+            cameras:
+              - camera_entity: camera.eigeland
+            view:
+              default: clips
+              camera_select: clips
+              timeout_seconds: 30
+              update_seconds: 120
+              update_force: true
+              dark_mode: "on"
+            dimensions:
+              aspect_ratio_mode: dynamic
+            event_gallery:
+              controls:
+                thumbnails:
+                  size: 130
+            live:
+              controls:
+                thumbnails:
+                  mode: left
+  - theme: Backend-selected
+    icon: mdi:garage-variant
+    title: garage
+    path: garage
+    badges: []
+    cards:
+      - type: picture-elements
+        image: local/images/weconnect/egolf.png
+        elements:
+          - type: image
+            entity: switch.egolf_electric_climatisation
+            image: /local/images/weconnect/blank.png
+            style:
+              top: 39.5%
+              left: 55%
+              width: 43%
+            state_image:
+              "on": /local/images/weconnect/passat_heat.png
+          - type: image
+            entity: binary_sensor.egolf_external_power
+            image: /local/images/weconnect/blank.png
+            style:
+              top: 62.8%
+              left: 21.2%
+              width: 43%
+            state_image:
+              "on": /local/images/weconnect/passatcharging.png
+          - type: image
+            entity: binary_sensor.egolf_parking_light
+            image: /local/images/weconnect/blank.png
+            style:
+              top: 65.3%
+              left: 42.9%
+              width: 37%
+            state_image:
+              "on": /local/images/weconnect/passat_light.png
+          - type: image
+            entity: binary_sensor.egolf_doors_locked
+            image: /local/images/weconnect/blank.png
+            style:
+              top: 42.3%
+              left: 57%
+              width: 2%
+            state_image:
+              locked: /local/images/weconnect/blink.gif
+          - type: state-icon
+            entity: binary_sensor.egolf_doors_locked
+            style:
+              top: 87%
+              left: 47%
+          - type: state-label
+            entity: sensor.egolf_odometer
+            style:
+              top: 96%
+              left: 12%
+          - type: state-icon
+            entity: switch.egolf_electric_climatisation
+            hold_action: toggle
+            style:
+              top: 87%
+              left: 58%
+          - type: state-icon
+            entity: switch.egolf_window_heater
+            hold_action: toggle
+            style:
+              top: 87%
+              left: 69%
+          - type: state-icon
+            entity: switch.egolf_charging
+            style:
+              top: 87%
+              left: 91%
+          - type: state-label
+            entity: sensor.egolf_battery_level
+            style:
+              top: 96%
+              left: 92%
+          - type: state-label
+            entity: sensor.egolf_charging_time_left
+            style:
+              top: 78%
+              left: 92%
+          - type: state-label
+            entity: sensor.egolf_electric_range
+            style:
+              top: 71%
+              left: 92%
+      - type: entities
+        entities:
+          - entity: switch.egolf_charging
+            name: Charging
+          - entity: switch.egolf_climatisation_from_battery
+            name: Climatisation from battery
+          - entity: lock.egolf_door_locked
+            name: Door locked
+          - entity: switch.egolf_electric_climatisation
+            name: Electric Climatisation
+          - entity: switch.egolf_force_data_refresh
+            name: Force data refresh
+          - entity: lock.egolf_trunk_locked
+            name: Trunk locked
+          - entity: switch.egolf_window_heater
+            name: Window Heater
+        title: Egolf
+      - type: entities
+        entities:
+          - entity: button.x5_xdrive30d_activate_air_conditioning
+            name: Activate air conditioning
+          - entity: button.x5_xdrive30d_deactivate_air_conditioning
+            name: Deactivate air conditioning
+          - entity: button.x5_xdrive30d_find_vehicle
+            name: Find vehicle
+          - entity: button.x5_xdrive30d_flash_lights
+            name: Flash lights
+          - entity: lock.x5_xdrive30d_lock
+            name: Lock
+          - entity: button.x5_xdrive30d_refresh_from_cloud
+            name: Refresh from cloud
+          - entity: button.x5_xdrive30d_sound_horn
+            name: Sound horn
+        title: X5 xDrive30d

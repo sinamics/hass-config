@@ -1,13 +1,14 @@
 # Example .gitignore file for your config dir.
 # An * ensures that everything will be ignored.
-*
+/*
+/*/
 
 # You can whitelist files/folders with !, these will not be ignored.
 !.gitignore
 
 !/lovelace/
 ui-lovelace.yaml
-!packages
+!packages/
 
 !/appdaemon/
 /appdaemon/*
@@ -15,12 +16,13 @@ ui-lovelace.yaml
 !configuration.yaml
 
 !www
-!www/images
-!www/images/floorplan_v2/
-!www/images/floorplan_v2/lights
-!www/images/floorplan_v2/navigation
-!www/images/floorplan_v2/shutters
-!www/images/radio_stations
+www/community
+www/js
+# !www/images
+# !www/images/floorplan_v2/
+# !www/images/floorplan_v2/lights
+# !www/images/floorplan_v2/navigation
+# !www/images/floorplan_v2/shutters
 
 
 # Ignore folders.

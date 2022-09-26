@@ -1,0 +1,464 @@
+theme: Backend-selected
+title: Strøm
+path: strom
+icon: mdi:transmission-tower
+badges: []
+cards:
+  - type: grid
+    cards:
+      - type: grid
+        cards:
+          - type: grid
+            title: Pris Utsikt
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Nordpool Prize -> 48 hours
+                  show_states: true
+                graph_span: 2d
+                now:
+                  show: true
+                  color: "#ff0000"
+                  label: Now
+                span:
+                  start: day
+                series:
+                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                    name: Today
+                    unit: Kr
+                    color: yellow
+                    data_generator: >
+                      let thisdate = new Date();
+                      thisdate.setHours(24,0,0,0);
+
+                      const today = [...entity.attributes.raw_today,
+                      {start:thisdate.toISOString()}]; return
+                      today.map((entry,idx) => {
+                        if(idx > 23) return [new Date(entry.start), null];
+                        return [new Date(entry.start), entry.value * 1.25];
+                      });
+                    type: column
+                    group_by:
+                      func: max
+                      duration: 60min
+                    show:
+                      legend_value: false
+                      in_header: false
+                      extremas: true
+                    extend_to: end
+                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                    name: Tomorrow
+                    unit: Kr
+                    data_generator: |
+                      return entity.attributes.raw_tomorrow.map((entry) => {
+                        return [new Date(entry.start), entry.value * 1.25];
+                      });
+                    type: column
+                    group_by:
+                      func: max
+                      duration: 60min
+                    show:
+                      legend_value: false
+                      in_header: false
+                      extremas: true
+            columns: 1
+            square: false
+          - type: grid
+            cards:
+              - type: entities
+                entities:
+                  - entity: sensor.avg_electricity_price_eigeland_50
+                    name: avg price today
+                    icon: mdi:currency-usd
+                  - entity: sensor.monthly_avg_kwh_price
+                    icon: mdi:currency-usd
+                    name: avg price this month
+                  - entity: sensor.cheaper_after_midnight
+                    name: Best after midnight
+                    icon: mdi:currency-usd
+                  - entity: sensor.cheapest_hours_1_3
+                    name: Best prize (5 hours)
+                    icon: mdi:currency-usd
+            columns: 1
+            square: false
+        columns: 1
+        square: false
+      - type: grid
+        title: Forbruk
+        cards:
+          - type: custom:mini-graph-card
+            color_thresholds:
+              - color: "#0FA300"
+                value: 0
+              - color: "#18FF00"
+                value: 2
+              - color: "#F4F700"
+                value: 4
+              - color: "#FCBD00"
+                value: 6
+              - color: "#FD0000"
+                value: 8
+            entities:
+              - sensor.power_to_kwh
+            height: 100
+            hour24: true
+            decimals: 2
+            hours_to_show: 12
+            line_width: 1
+            name: Forbruk nå & siste 12t
+            points_per_hour: 15
+            show:
+              extrema: true
+              icon: false
+            font_size: 120
+          - type: custom:mini-graph-card
+            color_thresholds:
+              - color: "#0FA300"
+                value: 0
+              - color: "#18FF00"
+                value: 30
+              - color: "#F4F700"
+                value: 40
+              - color: "#FCBD00"
+                value: 50
+              - color: "#FD0000"
+                value: 75
+            entities:
+              - entity: sensor.consumption_lastday
+                index: 0
+                name: Forbruk siste 7 dager
+                icon_template: mdi:counter
+            aggregate_func: avg
+            group_by: date
+            hour24: false
+            decimals: 2
+            hours_to_show: 168
+            height: 120
+            show:
+              icon: false
+              graph: bar
+            font_size: 120
+          - type: custom:apexcharts-card
+            graph_span: 24h
+            span:
+              end: day
+            header:
+              show: true
+              title: Gjennomsnitt forbruk siste timen
+            series:
+              - entity: sensor.power_to_kwh
+                color: yellow
+                type: column
+                name: Gjennomsnitt siste timen
+                group_by:
+                  func: avg
+                  duration: 60min
+                show:
+                  extremas: true
+              - entity: sensor.kwh_cost_inlcuded_net_rental
+                color: white
+                stroke_width: 2
+                type: line
+                name: Strømpris inkludert avgift
+                group_by:
+                  func: max
+                  duration: 1h
+                show:
+                  extremas: true
+        columns: 1
+        square: false
+    columns: 1
+    square: false
+  - type: grid
+    cards:
+      - type: grid
+        cards:
+          - type: vertical-stack
+            title: Oversikt & Info
+            cards:
+              - entities:
+                  - entity: sensor.min_power_eigeland_50
+                    name: Min
+                  - entity: sensor.average_power_eigeland_50
+                    name: Snitt
+                  - entity: sensor.max_power_eigeland_50
+                    name: Max
+                  - type: divider
+                  - entity: sensor.daily_prize_accumulated_with_fees
+                    name: Kostnad i dag inkl nettleie
+                    icon: mdi:currency-usd
+                  - entity: sensor.daily_prize_accumulated_with_compensation
+                    name: Kostnad idag med kompensasjon
+                    icon: mdi:currency-usd
+                  - entity: sensor.cost_lastday
+                    name: Kostnad i går
+                    icon: mdi:currency-usd
+                  - type: divider
+                  - entity: sensor.energy_compensation_daily
+                    name: Kompensasjon i dag
+                    icon: mdi:currency-usd
+                  - entity: sensor.energy_compensation_this_month
+                    name: Kompensasjon denne måneden
+                    icon: mdi:currency-usd
+                  - type: divider
+                  - entity: sensor.monthly_prize_accumulated_with_fees
+                    name: Kostnad denne mnd
+                    icon: mdi:currency-usd
+                  - entity: sensor.monthly_prize_accumulated_with_compensation
+                    name: Kostnad denne mnd med kompensasjon
+                  - entity: sensor.cost_last_month
+                    name: Kostnad forrige mnd
+                    icon: mdi:currency-usd
+                  - entity: sensor.cost_thisyear
+                    name: Kostnad i år
+                    icon: mdi:currency-usd
+                  - entity: sensor.cost_lastyear
+                    icon: mdi:currency-usd
+                    name: Kostand i fjor
+                  - type: divider
+                  - entity: sensor.consumption_thisday
+                    name: Forbruk i dag [Tibber]
+                    icon: mdi:fire
+                  - entity: sensor.consumption_lastday
+                    name: Forbruk i går
+                    icon: mdi:fire
+                  - entity: sensor.consumption_thismonth
+                    name: Forbruk denne mnd
+                    icon: mdi:fire
+                  - entity: sensor.consumption_lastmonth
+                    name: Forbruk forrige mnd
+                    icon: mdi:fire
+                  - entity: sensor.consumption_thisyear
+                    name: Forbruk i år
+                    icon: mdi:fire
+                  - type: divider
+                  - entity: sensor.time_of_max_hour_consumption_eigeland_50
+                    name: Max strømtrekk dato
+                  - entity: sensor.monthly_peak_hour_consumption_eigeland_50
+                    name: Måndlig Strøm Peak ( Pr. Time )
+                  - entity: sensor.monthly_power_peak_prize
+                    name: Fastledd denne mnd
+                  - entity: sensor.last_meter_consumption_eigeland_50
+                    name: Målerstand
+                    secondary_info: last-changed
+                    icon: mdi:counter
+                type: entities
+                show_header_toggle: true
+                state_color: false
+          - type: vertical-stack
+            title: Nett
+            cards:
+              - type: glance
+                entities:
+                  - entity: sensor.tibber_nett
+                    name: Tibber Nett
+                    icon: mdi:lightning-bolt-outline
+                  - entity: sensor.tibber_estimert
+                    name: Estimert Forbruk
+                    icon: mdi:lightning-bolt-outline
+                  - entity: sensor.last_meter_consumption_eigeland_50
+                    name: Målerstand
+                    icon: mdi:lightning-bolt-outline
+                show_icon: true
+                state_color: false
+                show_name: true
+        columns: 1
+        square: false
+    columns: 1
+    square: false
+  - type: grid
+    title: Pris & Kostnad
+    cards:
+      - type: custom:apexcharts-card
+        experimental:
+          color_threshold: true
+        graph_span: 1d
+        header:
+          show: true
+          show_states: true
+          colorize_states: true
+          standard_format: true
+        brush:
+          selection_span: 10m
+        apex_config:
+          tooltip:
+            enabled: true
+          yaxis:
+            - id: first
+              show: true
+              decimalsInFloat: 1
+              labels:
+                style:
+                  fontSize: 12px
+              forceNiceScale: true
+            - id: second
+              opposite: true
+              decimals: 1
+              show: true
+              decimalsInFloat: 1
+              labels:
+                style:
+                  fontSize: 12px
+              forceNiceScale: true
+          xaxis:
+            axisBorder:
+              show: false
+            labels:
+              style:
+                fontSize: 14px
+            chart:
+              height: auto
+            grid:
+              show: false
+            legend:
+              show: true
+              fontSize: 10px
+            dataLabels:
+              enabled: false
+            stroke:
+              width: 1
+              curve: smooth
+            fill:
+              type: gradient
+              gradient:
+                type: vertical
+                shadeIntensity: 0.8
+                inverseColors: false
+                opacityFrom: 0.8
+                opacityTo: 0.5
+                stops:
+                  - - 0
+                    - 50
+                    - 100
+        series:
+          - entity: sensor.power_cost_now_with_net_rental_rounded
+            name: Kostnad pr. time
+            yaxis_id: first
+            unit: " NOK"
+            float_precision: 2
+            type: area
+            curve: smooth
+            stroke_width: 1
+            group_by:
+              func: avg
+              duration: 10min
+            color: "#bd9b35"
+            show:
+              extremas: true
+            color_threshold:
+              - value: 0
+                color: green
+              - value: 10
+                color: yellow
+              - value: 18
+                color: red
+          - entity: sensor.kwh_cost_inlcuded_net_rental
+            name: Strøm pris
+            yaxis_id: second
+            type: line
+            curve: smooth
+            color: white
+            stroke_width: 1
+            group_by:
+              func: avg
+              duration: 10min
+            show:
+              extremas: true
+      - type: custom:mini-graph-card
+        color_thresholds:
+          - color: "#0FA300"
+            value: 0
+          - color: "#18FF00"
+            value: 0.6
+          - color: "#F4F700"
+            value: 1
+          - color: "#FCBD00"
+            value: 1.5
+          - color: "#FD0000"
+            value: 2
+        decimals: 2
+        line_width: 2
+        hours_to_show: 48
+        height: 100
+        entities:
+          - entity: sensor.kwh_cost_inlcuded_net_rental
+            index: null
+            hour24: true
+            lower_bound: 0
+            name: Strøm Pris inkl Mva & energiledd
+        icon: mdi:currency-usd
+        show:
+          fill: fade
+          icon: true
+          extrema: true
+          graph: line
+          average: true
+        font_size: 120
+        points_per_hour: 4
+      - type: custom:mini-graph-card
+        hours_to_show: 48
+        entities:
+          - entity: sensor.electricity_price_eigeland_50
+            index: 0
+            name: Strøm Pris Inkl Mva
+            hour24: true
+        color_thresholds:
+          - color: "#0FA300"
+            value: 0
+          - color: "#18FF00"
+            value: 0.6
+          - color: "#F4F700"
+            value: 1.1
+          - color: "#FCBD00"
+            value: 1.35
+          - color: "#FD9A00"
+            value: 1.5
+          - color: "#FD0000"
+            value: 1.8
+        decimals: 2
+        line_width: 2
+        icon: mdi:currency-usd
+        show:
+          fill: fade
+          icon: true
+          extrema: true
+          graph: line
+          average: true
+        smoothing: true
+        font_size: 120
+        points_per_hour: 4
+      - type: custom:mini-graph-card
+        hours_to_show: 48
+        entities:
+          - entity: sensor.electricity_price_eigeland_50_with_compensation
+            index: 0
+            name: Strøm Pris med kompensasjon
+            hour24: true
+        color_thresholds:
+          - color: "#0FA300"
+            value: 0
+          - color: "#18FF00"
+            value: 0.6
+          - color: "#F4F700"
+            value: 1.1
+          - color: "#FCBD00"
+            value: 1.35
+          - color: "#FD9A00"
+            value: 1.5
+          - color: "#FD0000"
+            value: 1.8
+        decimals: 2
+        line_width: 2
+        icon: mdi:currency-usd
+        show:
+          fill: fade
+          icon: true
+          extrema: true
+          graph: line
+          average: true
+        smoothing: true
+        font_size: 120
+        points_per_hour: 4
+    square: false
+    columns: 1

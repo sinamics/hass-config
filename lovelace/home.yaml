@@ -1,0 +1,354 @@
+theme: Backend-selected
+title: Home
+icon: mdi:greenhouse
+badges: []
+cards:
+  - type: grid
+    cards:
+      - type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: weather-forecast
+                entity: weather.home
+                show_forecast: true
+              - type: grid
+                cards:
+                  - type: gauge
+                    entity: sensor.memory_free
+                    min: 0
+                    max: 10000
+                    name: Free Mem
+                    severity:
+                      green: 2000
+                      yellow: 1000
+                      red: 0
+                  - type: gauge
+                    entity: sensor.processor_use
+                    min: 0
+                    max: 100
+                    severity:
+                      green: 0
+                      yellow: 80
+                      red: 90
+                    name: CPU %
+                  - type: gauge
+                    entity: sensor.disk_use_percent
+                    min: 0
+                    max: 100
+                    name: Disk Use
+                    severity:
+                      green: 0
+                      yellow: 70
+                      red: 90
+                  - type: gauge
+                    entity: sensor.db_size
+                    min: 0
+                    max: 1000
+                    name: Database
+                    severity:
+                      green: 0
+                      yellow: 1000
+                      red: 2000
+                square: true
+                columns: 4
+            columns: 1
+            square: false
+        columns: 1
+        square: false
+    columns: 1
+    square: false
+  - type: grid
+    cards:
+      - type: horizontal-stack
+        cards:
+          - show_state: true
+            show_name: false
+            camera_view: auto
+            type: picture-entity
+            entity: person.home
+            image: /api/image/serve/2251ac1226ee9d978f94c759b77b9cc9/512x512
+            name: Bernt
+            aspect_ratio: "1"
+          - show_state: true
+            show_name: false
+            camera_view: auto
+            type: picture-entity
+            entity: device_tracker.adrian_samsung_s20
+            image: /api/image/serve/1c357913e361c7736105aaf8b35eabdc/512x512
+            aspect_ratio: "1"
+            name: Adrian
+    columns: 2
+    square: false
+  - square: true
+    columns: 1
+    type: grid
+    title: Camera Entrance
+    cards:
+      - type: custom:frigate-card
+        camera_entity: camera.eigeland
+        view:
+          default: clips
+          camera_select: clips
+          update_seconds: 25
+          timeout_seconds: 120
+          update_force: false
+        frigate:
+          camera_name: eigeland
+        menu:
+          buttons:
+            download:
+              enabled: false
+            frigate_ui:
+              enabled: true
+        cameras:
+          - camera_entity: camera.eigeland
+            live_provider: auto
+  - type: history-graph
+    entities:
+      - entity: binary_sensor.oppvaskmaskin_door
+      - entity: switch.oppvaskmaskin_power
+  - cards:
+      - card:
+          type: vertical-stack
+          cards:
+            - type: button
+              tap_action:
+                action: toggle
+              entity: switch.oppvaskmaskin_power
+              icon_height: 40px
+              show_name: false
+            - cards:
+                - entity: switch.oppvaskmaskin_program_intensiv70
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_auto2
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_eco50
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_nightwash
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_kurz60
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_glas40
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_quick45
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+                - entity: switch.oppvaskmaskin_program_machinecare
+                  hold_action:
+                    action: more-info
+                  icon_height: 40px
+                  show_icon: true
+                  show_name: true
+                  tap_action:
+                    action: toggle
+                  type: button
+              type: grid
+              columns: 4
+              square: false
+        conditions:
+          - entity: switch.oppvaskmaskin_ready_for_program_activation
+            state: "on"
+        type: conditional
+      - card:
+          type: custom:button-card
+          aspect_ratio: 4/6
+          entity: binary_sensor.oppvaskmaskin_door
+          tap_action:
+            action: call-service
+            service: switch.toggle
+            service_data:
+              entity_id: switch.oppvaskmaskin_power
+          show_entity_picture: true
+          name: "  "
+          show_state: false
+          size: 130%
+          custom_fields:
+            power: |
+              [[[
+                if (states['switch.oppvaskmaskin_power'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:power"
+                    style="width: 50px; height: 40px; color: red;">
+                    </ha-icon>`
+                else
+                  return `<ha-icon
+                    icon= "mdi:power"
+                    style="width: 50px; height: 40px; color: gray;">
+                    </ha-icon>`
+              ]]]
+            finish_time: |
+              [[[ 
+                if (states['switch.oppvaskmaskin_program_active'].state == 'on')
+                {
+                  var hour = parseInt(states['sensor.oppvaskmaskin_remaining_program_time'].state.substr(11,2));;
+                  hour = hour + 1;
+                  var minute = parseInt(states['sensor.oppvaskmaskin_remaining_program_time'].state.substr(14,2));
+                  var second = parseInt(states['sensor.oppvaskmaskin_remaining_program_time'].state.substr(17,2));
+                  if (second > 30)
+                    minute = minute + 1;
+                  if (minute > 59)
+                  {
+                    minute = minute - 60;
+                    hour = hour + 1;
+                  }
+                  if (hour > 23)
+                    hour = hour - 24;  
+                  return hour + ':' + minute;
+                }
+                else
+                  return '';
+              ]]]
+            program: |
+              [[[ 
+                if (states['binary_sensor.oppvaskmaskin_door'].state == 'on')
+                  return '';
+                else if (states['switch.oppvaskmaskin_program_intensiv70'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:pot"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Intensiv 70°C (S 7 6 2:20)`
+                else if (states['switch.oppvaskmaskin_program_auto2'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:format-color-text"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Auto 45-65°C (A 6 5 2:30)`
+                else if (states['switch.oppvaskmaskin_program_eco50'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:cash-multiple"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Eco 50°C ( N 4 4 3:15)`
+                else if (states['switch.oppvaskmaskin_program_nightwash'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:ear-hearing-off"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Silence 50°C (N 4 4 3:55)`
+                else if (states['switch.oppvaskmaskin_program_kurz60'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:coffee"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Kort 60°C (N 5 5 1:20)`
+                else if (states['switch.oppvaskmaskin_program_glas40'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:glass-wine"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Glas 40°C (N 5 3 1:40)`
+                else if (states['switch.oppvaskmaskin_program_quick45'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:flash"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Lyn 45°C ( L 4 3 0:30)`
+                else if (states['switch.oppvaskmaskin_program_machinecare'].state == 'on')
+                  return `<ha-icon
+                    icon= "mdi:calendar-star"
+                    style="width: 100px; height: 100px; color: blue;">
+                    </ha-icon></br>Maskinpleje`
+                else
+                  return '';
+              ]]]
+            progress: |
+              [[[
+                if (states['switch.oppvaskmaskin_program_active'].state == 'on')
+                {
+                  var prog = 0;
+                  var totalprog = parseInt(states['sensor.oppvaskmaskin_program_progress'].state);
+                  var out ='|';
+                  for (prog = 0; prog < totalprog/3; prog++)
+                  {
+                    out = out +'|';
+                  }
+                  for (prog = 0; prog < (100 -totalprog)/3; prog++)
+                  {
+                    out = out +' ';
+                  }
+                  return out + ': ' +totalprog + ' %';
+                }
+                else
+                  return '';
+              ]]]
+          styles:
+            custom_fields:
+              power:
+                - position: absolute
+                - top: 6%
+                - left: 7%
+                - color: red
+                - font-size: 30px
+              finish_time:
+                - position: absolute
+                - top: 6%
+                - left: 40%
+                - color: red
+                - font-size: 30px
+              program:
+                - position: absolute
+                - top: 30%
+                - left: 25%
+                - color: blue
+                - font-size: 20px
+              progress:
+                - position: absolute
+                - top: 60%
+                - left: 25%
+                - color: blue
+                - font-size: 20px
+          state:
+            - value: "on"
+              entity_picture: >-
+                https://www.auktionshuset.dk/thumbs/1280x720/images/RVz0ALE6Wr/M15jalp0J2/a346b1ad4716e12e31a5ce2130fa0a892486614d.jpeg
+            - value: "off"
+              entity_picture: >-
+                https://img.prisguiden.no/3192/3192270/bosch-series-2-oppvaskmaskin-smu2hvw70s-hvit.720x960!m.png
+        conditions:
+          - entity: switch.oppvaskmaskin_ready_for_program_activation
+            state: "off"
+        type: conditional
+    type: vertical-stack

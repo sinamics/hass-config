@@ -1,0 +1,37 @@
+theme: Backend-selected
+title: Utelys
+path: garasje
+icon: mdi:lightbulb
+badges: []
+cards:
+  - type: vertical-stack
+    cards:
+      - type: entities
+        entities:
+          - entity: switch.node_6
+            name: Garasje Inne
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.in_wall_dimmer_module
+            name: Garasje Flomlys
+            secondary_info: last-changed
+          - entity: light.1f_house_outside_entrance_light
+            name: Utelys Inngang
+            secondary_info: last-changed
+          - entity: light.1f_house_inside_entrance_light
+            name: Gang
+            secondary_info: last-changed
+          - entity: light.2f_house_inside_ceiling_vilde_light
+            name: Vilde Soverrom
+            secondary_info: last-changed
+          - entity: light.2f_house_inside_ceiling_adrian_light
+            name: Adrian Soverrom
+            secondary_info: last-changed
+          - entity: light.smart_led_strip
+            name: Kjøkken LED
+            secondary_info: last-changed
+          - entity: switch.1f_outside_glamping
+            name: Glamping Telt
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.2f_house_inside_ceiling_sturla_light

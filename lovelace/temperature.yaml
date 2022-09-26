@@ -1,0 +1,227 @@
+theme: Backend-selected
+icon: mdi:temperature-celsius
+type: custom:masonry-layout
+layout: {}
+badges: []
+cards:
+  - type: grid
+    columns: 1
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            content: " "
+            title: Ventilation
+            style: |
+              ha-card {
+                  --ha-card-background: none;
+                text-align: center;
+                box-shadow: none;
+                  margin: 0;
+                padding: 0;
+                }
+          - type: thermostat
+            entity: climate.hvac_eigeland
+            name: Ventilation
+          - type: custom:button-card
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: toggle
+            entity: input_boolean.ventilation_auto
+            show_state: true
+            size: 50px
+            icon: |-
+              [[[ if (entity.state == "on") return "mdi:toggle-switch";
+                  if (entity.state == "off") return "mdi:toggle-switch-off" ]]]
+          - type: weather-forecast
+            entity: weather.home
+  - type: grid
+    cards:
+      - type: markdown
+        content: " "
+        title: Room Climate
+        style: |
+          ha-card {
+            --ha-card-background: none;
+            text-align: center;
+            box-shadow: none;
+            margin: 0;
+            padding: 0;
+
+          }
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.1f_house_inside_livingroom_termometer_temperature
+            name: Stue Temperatur
+            line_width: 4
+            hour24: true
+            font_size: 75
+            color_thresholds:
+              - value: 18
+                color: blue
+              - value: 20
+                color: yellow
+              - value: 23
+                color: red
+            hours_to_show: 24
+            points_per_hour: 4
+            smoothing: true
+            logarithmic: false
+            show:
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+          - type: custom:mini-graph-card
+            graph: line
+            hour24: true
+            entities:
+              - sensor.1f_house_inside_livingroom_termometer_humidity
+            name: Stue Fuktighet
+            line_width: 3
+            font_size: 75
+            color_thresholds_transition: smooth
+            hours_to_show: 24
+            points_per_hour: 4
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.1f_house_inside_entrance_termometer_temperature
+            name: Gang Temperatur
+            line_width: 4
+            font_size: 75
+            color_thresholds:
+              - value: 18
+                color: blue
+              - value: 20
+                color: yellow
+              - value: 23
+                color: red
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+          - type: custom:mini-graph-card
+            graph: line
+            entities:
+              - sensor.1f_house_inside_entrance_termometer_humidity
+            name: Gang Fuktighet
+            line_width: 3
+            font_size: 75
+            color_thresholds_transition: smooth
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.2f_house_inside_hall_termometer_temperature
+            name: 2.Etg Temperatur
+            line_width: 4
+            font_size: 75
+            color_thresholds:
+              - value: 18
+                color: blue
+              - value: 20
+                color: yellow
+              - value: 23
+                color: red
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+          - type: custom:mini-graph-card
+            graph: line
+            entities:
+              - sensor.2f_house_inside_hall_termometer_humidity
+            name: 2.Etg Fuktighet
+            line_width: 3
+            font_size: 75
+            color_thresholds_transition: smooth
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.1f_house_outside_laundryroom_termometer_temperature
+            name: Ute Temperatur
+            line_width: 4
+            font_size: 75
+            color_thresholds:
+              - value: 18
+                color: blue
+              - value: 20
+                color: yellow
+              - value: 23
+                color: red
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+          - type: custom:mini-graph-card
+            graph: line
+            entities:
+              - sensor.1f_house_outside_laundryroom_termometer_humidity
+            name: Ute Fuktighet
+            line_width: 3
+            font_size: 75
+            color_thresholds_transition: smooth
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+    columns: 1
+    square: false

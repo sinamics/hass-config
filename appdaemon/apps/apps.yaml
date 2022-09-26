@@ -1,0 +1,46 @@
+global_modules:
+  - sensors
+  - constants
+
+kapasitetsledd:
+  module: kapasitetsledd
+  class: kapasitetsledd
+  global_dependencies:
+    - sensors
+    - constants
+
+energiledd:
+  module: energiledd
+  class: energiledd
+  global_dependencies:
+    - constants
+
+compensation:
+  module: compensation
+  class: Compensation
+  global_dependencies:
+    - sensors
+    - constants
+
+store:
+  module: store
+  class: Store
+  global_dependencies:
+    - sensors
+
+core:
+  module: core
+  class: Core
+  global_dependencies:
+    - sensors
+    - constants
+  dependencies:
+    - compensation
+    - store
+    - energiledd
+
+#### VENTILATION ####
+
+ventilation:
+  module: main
+  class: Main
