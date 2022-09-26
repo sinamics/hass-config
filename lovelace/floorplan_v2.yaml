@@ -390,7 +390,7 @@ cards:
           - type: custom:weather-card
             #entity: weather.darksky_daily
             entity: weather.home
-            {# icons: "/local/icons/weather_icons/static/" #}
+            icons: "/local/icons/weather_icons/animated/"
             current: true
             details: true # true false
             number_of_forecasts: 5
