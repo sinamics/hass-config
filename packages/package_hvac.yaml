@@ -37,3 +37,11 @@ sensor:
                 {% else %}
                 {{ 0 }}
                 {% endif %}
+        hvac_eigeland_problem:
+            icon_template: mdi:air-conditioner
+            value_template: >
+                {% if (states('sensor.1f_house_outside_laundryroom_termometer_temperature') == 'unknown') or (states('sensor.1f_house_outside_laundryroom_termometer_temperature') == 'unavailable') %}
+                {{ 1 }}
+                {% else %}
+                {{ 0 }}
+                {% endif %}
