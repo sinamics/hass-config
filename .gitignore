@@ -14,6 +14,10 @@ ui-lovelace.yaml
 /appdaemon/*
 !/appdaemon/apps
 !configuration.yaml
+!ui-lovelace.yaml
+!customize.yaml
+!template.yaml
+!template_sensor.yaml
 
 !www
 www/community

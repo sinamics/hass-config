@@ -1,0 +1,34 @@
+# lovelace_gen
+
+button_card_templates: !include lovelace/button_card_template.yaml
+custom_header:
+  compact_mode: true
+  editor_warnings: false
+  # exceptions:
+  #   - conditions:
+  #       user_agent: Lenovo
+  #     config:
+  #       disable_sidebar: true
+  #       hide_header: true
+  #       kiosk_mode: true
+  #   - conditions:
+  #       user: tablet
+  #     config:
+  #       disable_sidebar: true
+  #       kiosk_mode: true
+  #   - conditions:
+  #       device_id: ad1c431c-ead81f17
+  #     config:
+  #       disable_sidebar: true
+  #       kiosk_mode: true
+title: Home
+views:
+  - !include lovelace/floorplan_v1.yaml
+  - !include lovelace/floorplan_v2.yaml
+  - !include lovelace/home.yaml
+  - !include lovelace/energy.yaml
+  - !include lovelace/lights.yaml
+  - !include lovelace/temperature.yaml
+  - !include lovelace/kitchen.yaml
+  - !include lovelace/kiosk.yaml
+  - !include lovelace/garage.yaml
