@@ -100,7 +100,7 @@ cards:
                     show_name: false
                     camera_view: auto
                     type: picture-entity
-                    entity: person.home
+                    entity: person.bernt
                     image: >-
                       /api/image/serve/2251ac1226ee9d978f94c759b77b9cc9/512x512
                     name: Bernt
@@ -115,7 +115,7 @@ cards:
                     aspect_ratio: "1"
                     name: Adrian
               - type: thermostat
-                entity: climate.eigeland
+                entity: climate.hvac_eigeland
                 name: Varmepumpe
               - type: custom:apexcharts-card
                 header:

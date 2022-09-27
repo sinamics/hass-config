@@ -926,7 +926,7 @@ cards:
             #     width: 10%
             #   text: "People at home:"
             - action: none
-              entity: person.home
+              entity: person.bernt
               state_image:
                 home: local/images/floorplan_v1/people/bernt_home.png
                 not_home: local/images/floorplan_v1/people/bernt_away.png

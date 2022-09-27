@@ -45,8 +45,8 @@
                 ("2f_house_inside_ceiling_vilde_light"               , "upstairs" , 73  , 80  , 2.8   , 2.8 , -4),
                 ("2f_house_inside_ceiling_adrian_light"               , "upstairs" , 89  , 80  , 3   , 3 , -6),
                 ("2f_house_inside_ceiling_sturla_light"               , "upstairs" , 80  , 49  , 3.1   , 3.1 , -5),
-                ("outside_glamping"               , "outside" , 10  , 49  , 3.1   , 3.1 , -5),
-                ("garage_inside_ceiling_light"               , "outside" , 25  , 49  , 3.1   , 3.1 , -5),
+                ("outside_glamping"               , "outside" , 0.2  , 55  , 1.1   , 5 , 0),
+                ("garage_inside_ceiling_light"               , "outside" , 12  , 49  , 6.4   , 5.1 , 0),
                 ("in_wall_dimmer_module"              , "outside", 30  , 50  , 5, 5 , 0)] %}
 
 #--------------------------------------------------------------------------------------------------
@@ -54,6 +54,14 @@
 #--------------------------------------------------------------------------------------------------
 #                 entity                          , group       , left, top, scaleX, scaleY, deg)
 {% set media = [("samsung_q8_series_65"               , "downstairs" , 45  , 73  , 1.2   , 0.5  , 0)] %}
+
+#--------------------------------------------------------------------------------------------------
+# Media
+#--------------------------------------------------------------------------------------------------
+#                 entity                 , left, top)
+{% set persons = [("bernt"               ,  85 ,  4),
+                  ("adrian"              ,  89 ,  4)] %}
+
 
 #                       group       , left, top
 {% set light_groups = [("outside"   , 30, 34),
@@ -893,10 +901,10 @@ cards:
       - type: custom:frigate-card
         camera_entity: camera.eigeland
         style:
-          left: 35%
-          top: 89%
-          width: 7%
-          height: 13.7%
+          left: 10%
+          top: 82%
+          width: 14%
+          height: 6.5%
         event_gallery:
           controls:
             thumbnails:
@@ -906,7 +914,7 @@ cards:
         view:
           default: clips
           camera_select: clips
-          update_seconds: 25
+          update_seconds: 120
           timeout_seconds: 120
           update_force: false
         frigate:
@@ -922,6 +930,31 @@ cards:
             live_provider: auto
             
 
+########  ######## ########   ######   #######  ##    ##  ######  
+##     ## ##       ##     ## ##    ## ##     ## ###   ## ##    ## 
+##     ## ##       ##     ## ##       ##     ## ####  ## ##       
+########  ######   ########   ######  ##     ## ## ## ##  ######  
+##        ##       ##   ##         ## ##     ## ##  ####       ## 
+##        ##       ##    ##  ##    ## ##     ## ##   ### ##    ## 
+##        ######## ##     ##  ######   #######  ##    ##  ###### 
+#########################    People at home    #########################
+
+      {% for entity, left, top in persons %}
+      - action: none
+        entity: "person.{{ entity }}"
+        state_image:
+          home: "local/images/floorplan_v1/people/{{ entity }}_home.png"
+          not_home: "local/images/floorplan_v1/people/{{ entity }}_away.png"
+        style:
+          background-color: "rgba(255, 255, 255, 0.0)"
+          border-radius: 10vw
+          height: 3.5vw
+          left: {{ left }}%
+          top: {{ top }}%
+          width: 3.5vw
+        tap_action: none
+        type: image 
+      {% endfor %}
 
 ##    ##    ###    ##     ## ####  ######      ###    ######## ####  #######  ##    ## 
 ###   ##   ## ##   ##     ##  ##  ##    ##    ## ##      ##     ##  ##     ## ###   ## 
@@ -1145,7 +1178,7 @@ cards:
           left: 2.7%
           letter-spacing: "-0.05vw"
           max-width: 1px
-          top: 80%
+          top: 90%
         tap_action:
           action: none
         type: state-label
@@ -1156,14 +1189,15 @@ cards:
           color: "rgba(255, 255, 255, 0.3)"
           font-size: 1.3vw
           font-weight: 300
-          left: 17.9%
+          left: 18%
           letter-spacing: "-0.05vw"
           text-align: left
-          top: 86%
+          top: 96%
           width: 30%
         tap_action:
           action: none
         type: state-label
+
 ##     ## ##    ## ########     ###    #### ########  
 ##     ## ###   ## ##     ##   ## ##    ##  ##     ## 
 ##     ## ####  ## ##     ##  ##   ##   ##  ##     ## 
