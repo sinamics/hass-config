@@ -38,22 +38,22 @@
 #    If more than one exists with the same name - must be consecutive
 #  - List groups for group buttons
 #--------------------------------------------------------------------------------------------------
-#                 entity                                                                ,    group       , left, top, scaleX, scaleY, deg)
-{% set lights = [("smart_led_strip"                                                     , "downstairs"   ,  42  , 65  , 2.2   , 2.2  , 0   ),
-                ("1f_house_inside_entrance_light"                                       , "downstairs"   ,  51  , 51  , 2.8   , 1.8  , 0   ),
-                ("1f_house_outside_entrance_light"                                      , "outside"      ,  47  , 41  , 1.5   , 1.5  , 0   ),
+#                 entity                                                                ,    group       , left , top, scaleX, scaleY, deg)
+{% set lights = [("smart_led_strip"                                                     , "downstairs"   ,  42  , 65  , 2.2   , 2.2  ,  0   ),
+                ("1f_house_inside_entrance_light"                                       , "downstairs"   ,  51  , 51  , 2.8   , 1.8  ,  0   ),
+                ("1f_house_outside_entrance_light"                                      , "outside"      ,  47  , 41  , 1.5   , 1.5  ,  0   ),
                 ("2f_house_inside_ceiling_vilde_light"                                  , "upstairs"     ,  73  , 80  , 2.8   , 2.8  , -4  ),
                 ("2f_house_inside_ceiling_adrian_light"                                 , "upstairs"     ,  89  , 80  , 3     , 3    , -6  ),
                 ("2f_house_inside_ceiling_sturla_light"                                 , "upstairs"     ,  80  , 49  , 3.1   , 3.1  , -5  ),
-                ("outside_glamping"                                                     , "outside"      ,  0.2 , 55  , 1.1   , 5    , 0   ),
-                ("garage_inside_ceiling_light"                                          , "outside"      ,  12  , 49  , 6.4   , 5.1  , 0   ),
-                ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 50  , 5     ,  5   , 0   )] %}
+                ("outside_glamping"                                                     , "outside"      ,  0.2 , 55  , 1.1   , 5    ,  0   ),
+                ("garage_inside_ceiling_light"                                          , "outside"      ,  12  , 49  , 6.4   , 5.1  ,  0   ),
+                ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 50  , 5     ,  5   ,  0   )] %}
 
 #--------------------------------------------------------------------------------------------------
 # Media
 #--------------------------------------------------------------------------------------------------
-#                 entity                          , group       , left, top, scaleX, scaleY, deg)
-{% set media = [("samsung_q8_series_65"               , "downstairs" , 45  , 73  , 1.2   , 0.5  , 0)] %}
+#                 entity                                                                ,   group        , left , top, scaleX, scaleY, deg)
+{% set media = [("samsung_q8_series_65"                                                 , "downstairs"   ,  45  , 73  , 1.2   , 0.5  ,  0   )] %}
 
 #--------------------------------------------------------------------------------------------------
 # Media
