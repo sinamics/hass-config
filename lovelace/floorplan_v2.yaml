@@ -943,8 +943,8 @@ cards:
       - action: none
         entity: "person.{{ entity }}"
         state_image:
-          home: "local/images/floorplan_v1/people/{{ entity }}_home.png"
-          not_home: "local/images/floorplan_v1/people/{{ entity }}_away.png"
+          home: "local/images/floorplan_v2/people/{{ entity }}_home.png"
+          not_home: "local/images/floorplan_v2/people/{{ entity }}_away.png"
         style:
           background-color: "rgba(255, 255, 255, 0.0)"
           border-radius: 10vw
