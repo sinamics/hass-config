@@ -45,6 +45,8 @@
                 ("2f_house_inside_ceiling_vilde_light"               , "upstairs" , 73  , 80  , 2.8   , 2.8 , -4),
                 ("2f_house_inside_ceiling_adrian_light"               , "upstairs" , 89  , 80  , 3   , 3 , -6),
                 ("2f_house_inside_ceiling_sturla_light"               , "upstairs" , 80  , 49  , 3.1   , 3.1 , -5),
+                ("outside_glamping"               , "outside" , 10  , 49  , 3.1   , 3.1 , -5),
+                ("garage_inside_ceiling_light"               , "outside" , 25  , 49  , 3.1   , 3.1 , -5),
                 ("in_wall_dimmer_module"              , "outside", 30  , 50  , 5, 5 , 0)] %}
 
 #--------------------------------------------------------------------------------------------------
@@ -56,8 +58,7 @@
 #                       group       , left, top
 {% set light_groups = [("outside"   , 30, 34),
                        ("downstairs", 53, 34),
-                       ("upstairs"  , 78, 34),
-                       ("hallway"      , 3 , 74)] %}
+                       ("upstairs"  , 78, 34)] %}
 
 #--------------------------------------------------------------------------------------------------
 # HVAC
@@ -448,10 +449,11 @@ cards:
               {% if (debug == true) %}
               border: 1px solid red
               {%- endif %}
-              left: -5% #-3% 0%
+              left: -4% #-3% 0%
               top: -6%  #-3% 0%
               transform: 'translate(0%, 0%) scale(0.7, 0.7)'
-          - type: image
+              mix-blend-mode: lighten
+          {# - type: image
             image: /local/images/floorplan_v2/transparent_square.png
             entity: weather.darksky_hourly
             style:
@@ -487,15 +489,15 @@ cards:
             double_tap_action:
               action: none
             hold_action:
-              action: none
+              action: none #}
 
-######     ###    ##       ######## ##    ## ########     ###    ########   
-##    ##   ## ##   ##       ##       ###   ## ##     ##   ## ##   ##     ## 
-##        ##   ##  ##       ##       ####  ## ##     ##  ##   ##  ##     ## 
-##       ##     ## ##       ######   ## ## ## ##     ## ##     ## ########  
-##       ######### ##       ##       ##  #### ##     ## ######### ##   ##   
-##    ## ##     ## ##       ##       ##   ### ##     ## ##     ## ##    ##  
-######  ##     ## ######## ######## ##    ## ########  ##     ## ##     ##  
+ ######     ###    ##       ######## ##    ## ########  ######## ########  
+##    ##   ## ##   ##       ##       ###   ## ##     ## ##       ##     ## 
+##        ##   ##  ##       ##       ####  ## ##     ## ##       ##     ## 
+##       ##     ## ##       ######   ## ## ## ##     ## ######   ########  
+##       ######### ##       ##       ##  #### ##     ## ##       ##   ##   
+##    ## ##     ## ##       ##       ##   ### ##     ## ##       ##    ##  
+ ######  ##     ## ######## ######## ##    ## ########  ######## ##     ## 
 #CALENDAR
 
       - type: conditional
@@ -563,25 +565,18 @@ cards:
         double_tap_action:
           action: more-info
         hold_action:
-          {% if entity == "kitchen_table_light" %}
-          action: fire-dom-event
-          browser_mod:
-            command: more_info
-            deviceID:
-              - this
-            style: |
-              :host .content {
-                width: 30vw;
-              }
-            entity_id: light.kitchen_table_light_ambilight
-          {% else %}
           action: more-info
-          {% endif %}
         type: image
       {%- endif %}
       {% endfor %}
 
-
+##     ## ######## ########  ####    ###    
+###   ### ##       ##     ##  ##    ## ##   
+#### #### ##       ##     ##  ##   ##   ##  
+## ### ## ######   ##     ##  ##  ##     ## 
+##     ## ##       ##     ##  ##  ######### 
+##     ## ##       ##     ##  ##  ##     ## 
+##     ## ######## ########  #### ##     ## 
 # MEDIA
 
       # ------------------------------
@@ -686,8 +681,8 @@ cards:
         style:
           background-color: {{ background_color }}
           border-radius: {{ border_radius }}%
-          left: 3%
-          top: 92%
+          left: 55.5%
+          top: 34%
           transform: translate(-50%, -50%) scale({{ group_scaleX }}, {{ group_scaleY }})
         tap_action:
           action: fire-dom-event
@@ -783,56 +778,78 @@ cards:
               content:
                 title: {{ entity.capitalize() }} Air Conditioning
                 show_header_toggle: false
-                {# type: custom:simple-thermostat #}
-                type: thermostat
-                entity: climate.hvac_{{ entity }}
-                header: false
-                setpoints:
-                layout:
-                  step: row
-                  mode:
-                    names: false
-                    icons: true
-                    headings: false
-                decimals: 0
-                step_size: 1
-                hide:
-                  state: true
-                  temperature: true
-                control:
-                  hvac: true
-                  fan:
-                    "low":
-                      icon: mdi:fan-speed-1
-                    "mid":
-                      icon: mdi:fan-speed-2
-                    "high":
-                      icon: mdi:fan-speed-3
-        double_tap_action:
-          action: more-info
-        hold_action:
-          action: none
-          {# action: fire-dom-event
-          browser_mod:
-            command: popup
-            deviceID:
-              - this
-            style: |
-              :host .content {
-                height: 55vh;
-                width: 85vw;
-              }
-            title: {{ entity.capitalize() }} Air Conditioning
-            card:
-              {{ create_schedulers_popup("hvac_" ~ entity, "S_HVAC") }} #}
+                type: grid
+                {% set num_settings_columns = 1 %}
+                columns: {{ num_settings_columns }}
+                square: false
+                cards:
+                  - type: thermostat
+                    show_header_toggle: false
+                    {# type: custom:simple-thermostat #}
+                    entity: climate.hvac_{{ entity }}
+                    header: false
+                    setpoints:
+                    layout:
+                      step: row
+                      mode:
+                        names: false
+                        icons: true
+                        headings: false
+                    decimals: 0
+                    step_size: 1
+                    hide:
+                      state: true
+                      temperature: true
+                    control:
+                      hvac: true
+                      fan:
+                        "low":
+                          icon: mdi:fan-speed-1
+                        "mid":
+                          icon: mdi:fan-speed-2
+                        "high":
+                          icon: mdi:fan-speed-3
+                  {# - type: markdown
+                    content: Set Auto Temperature control #}
+                  - type: custom:button-card
+                    show_name: true
+                    show_icon: true
+                    tap_action:
+                      action: toggle
+                    entity: input_boolean.ventilation_auto
+                    name: Set Auto Temperature control
+                    show_state: true
+                    size: 50px
+                    icon: |-
+                      [[[ if (entity.state == "on") return "mdi:toggle-switch";
+                          if (entity.state == "off") return "mdi:toggle-switch-off" ]]]
+
+
+            double_tap_action:
+              action: more-info
+            hold_action:
+              action: none
+              {# action: fire-dom-event
+              browser_mod:
+                command: popup
+                deviceID:
+                  - this
+                style: |
+                  :host .content {
+                    height: 55vh;
+                    width: 85vw;
+                  }
+                title: {{ entity.capitalize() }} Air Conditioning
+                card:
+                  {{ create_schedulers_popup("hvac_" ~ entity, "S_HVAC") }} #}
 
       # Show temperature
-      - type: state-label
+      {# - type: state-label
         entity: sensor.{{ entity ~ '_temperature' }}
         style:
-          left: {{ left + 1 }}%
-          top: {{ top }}%
-          transform: 'translate(0, -50%)'
+          left: {{ left + 1.3 }}%
+          top: {{ top - 1 }}%
+          transform: 'translate(0, -50%)' #}
 
       # Show airconditioner state (if ON)
       - type: conditional
@@ -857,7 +874,7 @@ cards:
             entity: climate.hvac_{{ entity }}
             attribute: "temperature"
             style:
-              left: {{ left + 4.5 }}%
+              left: {{ left + 4.9 }}%
               top: {{ top + 1.5 }}%
               transform: 'translate(0, -50%)'
 
@@ -873,37 +890,38 @@ cards:
 ##       ##     ## ####  ######   ##     ##   ##    ########
 # FRIGATE
 
-      {# - type: conditional
-        conditions:
-          - entity: input_boolean.ui_hide_frigate
-            state_not: 'on'
-        elements:
-          - type: custom:frigate-card
-            camera_entity: camera.eigeland
-            view:
-              default: clips
-              camera_select: clips
-              update_seconds: 25
-              timeout_seconds: 120
-              update_force: false
-            frigate:
-              camera_name: eigeland
-            menu:
-              buttons:
-                download:
-                  enabled: false
-                frigate_ui:
-                  enabled: true
-            cameras:
-              - camera_entity: camera.eigeland
-                live_provider: auto #}
-            {# style:
-              {% if (debug == true) %}
-              border: 1px solid red
-              {%- endif %}
-              left: -5% #-3% 0%
-              top: -6%  #-3% 0%
-              transform: 'translate(0%, 0%) scale(0.8, 0.8)' #}
+      - type: custom:frigate-card
+        camera_entity: camera.eigeland
+        style:
+          left: 35%
+          top: 89%
+          width: 7%
+          height: 13.7%
+        event_gallery:
+          controls:
+            thumbnails:
+              size: 75
+        view_layout:
+          grid-area: main
+        view:
+          default: clips
+          camera_select: clips
+          update_seconds: 25
+          timeout_seconds: 120
+          update_force: false
+        frigate:
+          camera_name: eigeland
+        menu:
+          buttons:
+            download:
+              enabled: false
+            frigate_ui:
+              enabled: true
+        cameras:
+          - camera_entity: camera.eigeland
+            live_provider: auto
+            
+
 
 ##    ##    ###    ##     ## ####  ######      ###    ######## ####  #######  ##    ## 
 ###   ##   ## ##   ##     ##  ##  ##    ##    ## ##      ##     ##  ##     ## ###   ## 
@@ -1107,7 +1125,45 @@ cards:
                       {% endfor %}
                       - type: section
                   {% endfor %} #}
+      
 
+########     ###    ######## ######## ######## #### ##     ## ######## 
+##     ##   ## ##      ##    ##          ##     ##  ###   ### ##       
+##     ##  ##   ##     ##    ##          ##     ##  #### #### ##       
+##     ## ##     ##    ##    ######      ##     ##  ## ### ## ######   
+##     ## #########    ##    ##          ##     ##  ##     ## ##       
+##     ## ##     ##    ##    ##          ##     ##  ##     ## ##       
+########  ##     ##    ##    ########    ##    #### ##     ## ######## 
+
+      - entity: sensor.time
+        hold_action:
+          action: none
+        style:
+          color: "rgba(255, 255, 255, 0.7)"
+          font-size: 3.41vw
+          font-weight: 200
+          left: 2.7%
+          letter-spacing: "-0.05vw"
+          max-width: 1px
+          top: 80%
+        tap_action:
+          action: none
+        type: state-label
+      - entity: sensor.datetime_string
+        hold_action:
+          action: none
+        style:
+          color: "rgba(255, 255, 255, 0.3)"
+          font-size: 1.3vw
+          font-weight: 300
+          left: 17.9%
+          letter-spacing: "-0.05vw"
+          text-align: left
+          top: 86%
+          width: 30%
+        tap_action:
+          action: none
+        type: state-label
 ##     ## ##    ## ########     ###    #### ########  
 ##     ## ###   ## ##     ##   ## ##    ##  ##     ## 
 ##     ## ####  ## ##     ##  ##   ##   ##  ##     ## 

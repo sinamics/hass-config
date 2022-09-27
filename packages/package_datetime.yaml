@@ -1,0 +1,11 @@
+#####################################
+########## E N T I T I E S ##########
+#####################################
+
+sensor:
+  - platform: template
+    sensors:
+        datetime_string:
+            icon_template: mdi:clock
+            value_template: >
+                {% set mo = now().strftime('%m') | int %} {% set months = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"] %} {{ now().strftime('%d') + ' ' + months[mo - 1] + ' '+ now().strftime('%Y')}}

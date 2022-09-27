@@ -1,0 +1,13 @@
+#####################################
+########## E N T I T I E S ##########
+#####################################
+
+# Make light entities from switches
+light:
+  - platform: switch
+    name: outside_glamping
+    entity_id: switch.outside_glamping
+
+  - platform: switch
+    name: garage_inside_ceiling_light
+    entity_id: switch.node_6
