@@ -38,16 +38,16 @@
 #    If more than one exists with the same name - must be consecutive
 #  - List groups for group buttons
 #--------------------------------------------------------------------------------------------------
-#                 entity                          , group       , left, top, scaleX, scaleY, deg)
-{% set lights = [("smart_led_strip"               , "downstairs" , 42  , 65  , 2.2   , 2.2  , 0),
-                ("1f_house_inside_entrance_light"               , "downstairs" , 51  , 51  , 2.8   , 1.8  , 0),
-                ("1f_house_outside_entrance_light"               , "outside" , 47  , 41  , 1.5   , 1.5  , 0),
-                ("2f_house_inside_ceiling_vilde_light"               , "upstairs" , 73  , 80  , 2.8   , 2.8 , -4),
-                ("2f_house_inside_ceiling_adrian_light"               , "upstairs" , 89  , 80  , 3   , 3 , -6),
-                ("2f_house_inside_ceiling_sturla_light"               , "upstairs" , 80  , 49  , 3.1   , 3.1 , -5),
-                ("outside_glamping"               , "outside" , 0.2  , 55  , 1.1   , 5 , 0),
-                ("garage_inside_ceiling_light"               , "outside" , 12  , 49  , 6.4   , 5.1 , 0),
-                ("in_wall_dimmer_module"              , "outside", 30  , 50  , 5, 5 , 0)] %}
+#                 entity                                                                ,    group       , left, top, scaleX, scaleY, deg)
+{% set lights = [("smart_led_strip"                                                     , "downstairs"   ,  42  , 65  , 2.2   , 2.2  , 0   ),
+                ("1f_house_inside_entrance_light"                                       , "downstairs"   ,  51  , 51  , 2.8   , 1.8  , 0   ),
+                ("1f_house_outside_entrance_light"                                      , "outside"      ,  47  , 41  , 1.5   , 1.5  , 0   ),
+                ("2f_house_inside_ceiling_vilde_light"                                  , "upstairs"     ,  73  , 80  , 2.8   , 2.8  , -4  ),
+                ("2f_house_inside_ceiling_adrian_light"                                 , "upstairs"     ,  89  , 80  , 3     , 3    , -6  ),
+                ("2f_house_inside_ceiling_sturla_light"                                 , "upstairs"     ,  80  , 49  , 3.1   , 3.1  , -5  ),
+                ("outside_glamping"                                                     , "outside"      ,  0.2 , 55  , 1.1   , 5    , 0   ),
+                ("garage_inside_ceiling_light"                                          , "outside"      ,  12  , 49  , 6.4   , 5.1  , 0   ),
+                ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 50  , 5     ,  5   , 0   )] %}
 
 #--------------------------------------------------------------------------------------------------
 # Media
@@ -137,9 +137,9 @@
 # Actions
 #  - Buttons are placed from left to right
 #--------------------------------------------------------------------------------------------------
-{% set actions_left, actions_top = namespace(value=60), 3 %}
+{% set actions_left, actions_top = namespace(value=60), -1 %}
 {% set actions_left_offset = 8 %}
-{% set actions_scaleX, actions_scaleY = 3, 3 %}
+{% set actions_scaleX, actions_scaleY = 2, 2 %}
 #                             entity
 {% set actions_entities = [("input_boolean.goodnight")] %}
 
@@ -147,18 +147,17 @@
 # Temperature Sensors
 #  - They include humidity and battery values as well
 #--------------------------------------------------------------------------------------------------
-{% set temperature_sensors_font_size = 75 %}
-#                              entity                                  , category       , left, top
-{% set temperature_sensors = [("1f_house_inside_livingroom_termometer_temperature"            , "room"         , 47, 85  ),
-                              ("1f_house_inside_entrance_termometer_temperature"                      , "room"         , 53  , 71  ),
-                              ("2f_house_inside_hall_termometer_temperature"                      , "room"         , 80  , 71  ),
-                              ("1f_house_outside_laundryroom_termometer_temperature"                     , "room"         , 32  , 70)] %}
+#                              entity                                                   , category , left ,  top ,  font_size
+{% set temperature_sensors = [("1f_house_inside_livingroom_termometer_temperature"      , "room"   ,  47  ,   85  ,    75  ),
+                              ("1f_house_inside_entrance_termometer_temperature"        , "room"   ,  53  ,   71  ,    75  ),
+                              ("2f_house_inside_hall_termometer_temperature"            , "room"   ,  80  ,   71  ,    75  ),
+                              ("1f_house_outside_laundryroom_termometer_temperature"    , "room"   ,  32  ,   70  ,    120 )] %}
 
-#                              entity                 , category       , left, top
-{% set humidity_sensors = [("1f_house_inside_livingroom_termometer_humidity" , "room"         , 36.5, 93  ),
-                           ("1f_house_inside_entrance_termometer_humidity"           , "room"         , 45  , 59  ),
-                           ("2f_house_inside_hall_termometer_humidity"           , "room"         , 36  , 56  ),
-                           ("1f_house_outside_laundryroom_termometer_humidity"          , "room"         , 28  , 61.5)] %}
+#                              entity                                                   , category , left ,   top
+{% set humidity_sensors = [("1f_house_inside_livingroom_termometer_humidity"            , "room"   , 36.5 ,   93  ),
+                           ("1f_house_inside_entrance_termometer_humidity"              , "room"   , 45   ,   59  ),
+                           ("2f_house_inside_hall_termometer_humidity"                  , "room"   , 36   ,   56  ),
+                           ("1f_house_outside_laundryroom_termometer_humidity"          , "room"   , 28   ,   61.5)] %}
 
 #                              entity                     , category       , left, top
 {% set battery_sensors = [("master_bedroom_battery_level" , "room"         , 36.5, 93  ),
@@ -664,7 +663,7 @@ cards:
    ##    ######## ##     ## ##        ######## ##     ## ##     ##    ##     #######  ##     ## ########     ######  ######## ##    ##  ######   #######  ##     ##  ######  
 # TEMPERATURE SENSORS
 
-      {% for entity, category, left, top in temperature_sensors %}
+      {% for entity, category, left, top, font_size in temperature_sensors %}
       - type: conditional
         conditions:
           {% if category == "room" %}
@@ -680,7 +679,7 @@ cards:
             left: {{ left }}%
             top: {{ top }}%
             transform: translate(0, -50%)
-            font-size: {{ temperature_sensors_font_size }}%
+            font-size: {{ font_size }}%
       {% endfor %}
 
       - type: state-icon
@@ -729,7 +728,7 @@ cards:
                         card:
                           type: history-graph
                           entities:
-                            {% for entity, category, left, top in temperature_sensors %}
+                            {% for entity, category, left, top, font_size in temperature_sensors %}
                             {% if category == "room" %}
                             - entity: sensor.{{ entity }}
                             {% endif %}
