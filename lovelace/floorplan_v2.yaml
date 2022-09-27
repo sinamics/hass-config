@@ -917,14 +917,14 @@ cards:
           update_seconds: 120
           timeout_seconds: 120
           update_force: false
+          actions: 
+            media_viewer: snapshot
+            event_gallery: snapshot
         frigate:
           camera_name: eigeland
         menu:
-          buttons:
-            download:
-              enabled: false
-            frigate_ui:
-              enabled: true
+          style: none
+          button_size: 20
         cameras:
           - camera_entity: camera.eigeland
             live_provider: auto
