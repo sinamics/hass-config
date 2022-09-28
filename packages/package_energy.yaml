@@ -1,0 +1,24 @@
+###########################################
+########## A U T O M A T I O N S ##########
+###########################################
+
+automation:
+  - alias: Strøm Forbruk Dagskifte
+    description: ""
+    trigger:
+      - at: "00:01"
+        platform: time
+    action:
+      - alias: ""
+        data_template:
+          entity_id: input_number.consumption_lastday
+          value: >-
+            {{ (states('sensor.last_meter_consumption_eigeland_50')|float -
+            float(states('input_number.consumption_startofday'))) | round(1) }}
+        service: input_number.set_value
+      - alias: ""
+        data_template:
+          entity_id: input_number.consumption_startofday
+          value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
+        service: input_number.set_value
+    mode: single
