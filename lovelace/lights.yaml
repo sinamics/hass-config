@@ -22,10 +22,10 @@ cards:
             name: Gang
             secondary_info: last-changed
           - entity: light.2f_house_inside_ceiling_vilde_light
-            name: Vilde Soverrom
+            name: Vilde Soverom
             secondary_info: last-changed
           - entity: light.2f_house_inside_ceiling_adrian_light
-            name: Adrian Soverrom
+            name: Adrian Soverom
             secondary_info: last-changed
           - entity: light.smart_led_strip
             name: Kjøkken LED
@@ -35,3 +35,21 @@ cards:
             secondary_info: last-changed
             icon: mdi:lightbulb
           - entity: light.2f_house_inside_ceiling_sturla_light
+            name: Sturla Soverom
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+
+          - entity: light.1f_house_inside_livingroom_corner_light
+            name: Stue Hjørne Lys
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+
+          - entity: light.2f_house_inside_ceiling_hall_light
+            name: 2 Etg Gang Lys
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+
+          - entity: light.1f_house_inside_ceiling_laundryroom_light
+            name: Vaskerom lys
+            secondary_info: last-changed
+            icon: mdi:lightbulb
