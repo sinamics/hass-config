@@ -1065,7 +1065,7 @@ cards:
       - type: state-label
         entity: "sensor.{{ battery_level }}"
         style:
-          left: {{ left + 0.3 }}%
+          left: {{ left + 0.2 }}%
           top: {{ top + 4.2 }}%
       {% endfor %}
 
