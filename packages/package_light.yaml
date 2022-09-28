@@ -9,20 +9,23 @@ light:
       - light.2f_house_inside_ceiling_vilde_light
       - light.2f_house_inside_ceiling_sturla_light
       - light.2f_house_inside_ceiling_adrian_light
+      - light.2f_house_inside_ceiling_hall_light
 
   - platform: group
     name: Downstairs Lights
     entities:
       - light.1f_house_inside_entrance_light
+      - light.1f_house_inside_livingroom_corner_light
+      - light.1f_house_inside_ceiling_laundryroom_light
       - light.smart_led_strip
 
   - platform: group
     name: Outside Lights
     entities:
-    - light.outside_glamping
-    - light.in_wall_dimmer_module
-    - light.1f_house_outside_entrance_light
-    - light.garage_inside_ceiling_light
+      - light.outside_glamping
+      - light.in_wall_dimmer_module
+      - light.1f_house_outside_entrance_light
+      - light.garage_inside_ceiling_light
 
 sensor:
   - platform: template
