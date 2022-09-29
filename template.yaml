@@ -1,21 +1,21 @@
 sensor:
-  - name: "power_to_kwh"
-    unit_of_measurement: Kwh
-    state: >
-      {% if is_number(states('sensor.power_eigeland_50'))  %}
-        {{ states('sensor.power_eigeland_50')|float / 1000  }}
-      {% else %}
-        0
-      {% endif %}
+  # - name: "power_to_kwh"
+  #   unit_of_measurement: Kwh
+  #   state: >
+  #     {% if is_number(states('sensor.power_eigeland_50'))  %}
+  #       {{ states('sensor.power_eigeland_50')|float / 1000  }}
+  #     {% else %}
+  #       0
+  #     {% endif %}
 
-  - name: "accumulated_consumption_eigeland_50_rounded"
-    unit_of_measurement: Kwh
-    state: >
-      {% if is_number(states('sensor.accumulated_consumption_eigeland_50'))  %}
-        {{ states('sensor.accumulated_consumption_eigeland_50')|float | round(2) }}
-      {% else %}
-        0
-      {% endif %}
+  # - name: "accumulated_consumption_eigeland_50_rounded"
+  #   unit_of_measurement: Kwh
+  #   state: >
+  #     {% if is_number(states('sensor.accumulated_consumption_eigeland_50'))  %}
+  #       {{ states('sensor.accumulated_consumption_eigeland_50')|float | round(2) }}
+  #     {% else %}
+  #       0
+  #     {% endif %}
 
   # - name: "energiledd"
   #   unit_of_measurement: NOK
@@ -27,32 +27,32 @@ sensor:
   #       {{  0.4251 }}
   #     {% endif %}
 
-  - name: "tibber_estimert"
-    state: "{{ state_attr('sensor.electricity_price_eigeland_50', 'estimated_annual_consumption') }}"
-    unit_of_measurement: kWh
+  # - name: "tibber_estimert"
+  #   state: "{{ state_attr('sensor.electricity_price_eigeland_50', 'estimated_annual_consumption') }}"
+  #   unit_of_measurement: kWh
 
-  - name: "tibber_nett"
-    state: "{{ state_attr('sensor.electricity_price_eigeland_50', 'grid_company') }}"
+  # - name: "tibber_nett"
+  #   state: "{{ state_attr('sensor.electricity_price_eigeland_50', 'grid_company') }}"
 
-  - name: "consumption_thisyear"
-    state: "{{ (states('sensor.last_meter_consumption_eigeland_50')|float(0) - float(states('input_number.consumption_startofyear'))) | round(1) }}"
-    unit_of_measurement: kWh
+  # - name: "consumption_thisyear"
+  #   state: "{{ (states('input_number.consumption_total')|float(0) - float(states('input_number.consumption_startofyear'))) | round(1) }}"
+  #   unit_of_measurement: kWh
 
-  - name: "consumption_thismonth"
-    state: "{{ (states('sensor.last_meter_consumption_eigeland_50')|float(0) - float(states('input_number.consumption_startofmonth'))) | round(1) }}"
-    unit_of_measurement: kWh
+  # - name: "consumption_thismonth"
+  #   state: "{{ (states('input_number.consumption_total')|float(0) - float(states('input_number.consumption_startofmonth'))) | round(1) }}"
+  #   unit_of_measurement: kWh
 
-  - name: "consumption_lastmonth"
-    state: "{{ float(states('input_number.consumption_last_month')) }}"
-    unit_of_measurement: kWh
+  # - name: "consumption_lastmonth"
+  #   state: "{{ float(states('input_number.consumption_last_month')) }}"
+  #   unit_of_measurement: kWh
 
-  - name: "consumption_thisday"
-    state: "{{ (states('sensor.last_meter_consumption_eigeland_50')|float(0) - float(states('input_number.consumption_startofday'))) | round(1) }}"
-    unit_of_measurement: kWh
+  # - name: "consumption_thisday"
+  #   state: "{{ (states('input_number.consumption_total')|float(0) - float(states('input_number.consumption_startofday'))) | round(1) }}"
+  #   unit_of_measurement: kWh
 
-  - name: "consumption_lastday"
-    state: "{{ float(states('input_number.consumption_lastday')) }}"
-    unit_of_measurement: kWh
+  # - name: "consumption_lastday"
+  #   state: "{{ float(states('input_number.consumption_lastday')) }}"
+  #   unit_of_measurement: kWh
 
   ###########################################
   #
@@ -60,59 +60,59 @@ sensor:
   #
   ###########################################
   # Kwh pris inkl nettleie.
-  - name: "kwh_cost_inlcuded_net_rental"
-    unit_of_measurement: NOK/kWh
-    state: "{{ ( states('sensor.electricity_price_eigeland_50')| float + states('sensor.energiledd') | float) | round(4) }}"
+  # - name: "kwh_cost_inlcuded_net_rental"
+  #   unit_of_measurement: NOK/kWh
+  #   state: "{{ ( states('sensor.electricity_price_eigeland_50')| float + states('sensor.energiledd') | float) | round(4) }}"
 
-    # Nettleie kostnad på dagens forbruk.
-  - name: "cost_net_rental"
-    unit_of_measurement: NOK/kWh
-    state: >
-      {% if is_number(states('sensor.accumulated_consumption_eigeland_50'))  %}
-        {{ (states('sensor.accumulated_consumption_eigeland_50')|float * (states('sensor.energiledd') | float)) | round(4) }}
-      {% else %}
-        0
-      {% endif %}
+  #   # Nettleie kostnad på dagens forbruk.
+  # - name: "cost_net_rental"
+  #   unit_of_measurement: NOK/kWh
+  #   state: >
+  #     {% if is_number(states('sensor.accumulated_consumption_eigeland_50'))  %}
+  #       {{ (states('sensor.accumulated_consumption_eigeland_50')|float * (states('sensor.energiledd') | float)) | round(4) }}
+  #     {% else %}
+  #       0
+  #     {% endif %}
 
-  - name: "power_cost_now_with_net_rental_rounded"
-    unit_of_measurement: NOK/kWh
-    state: "{{ (( states('sensor.kwh_cost_inlcuded_net_rental') | float(0) ) * (states('sensor.power_eigeland_50') | float(0) | multiply(0.001))) | round(2) }}"
+  # - name: "power_cost_now_with_net_rental_rounded"
+  #   unit_of_measurement: NOK/kWh
+  #   state: "{{ (( states('sensor.kwh_cost_inlcuded_net_rental') | float(0) ) * (states('sensor.power_eigeland_50') | float(0) | multiply(0.001))) | round(2) }}"
 
-  - name: "power_cost_daily_with_net_rental_rounded"
-    unit_of_measurement: NOK
-    state: "{{ (( states('sensor.accumulated_cost_eigeland_50_rounded') | float(0) ) + (states('sensor.cost_net_rental') | float(0))) | round(2)  }}"
+  # - name: "power_cost_daily_with_net_rental_rounded"
+  #   unit_of_measurement: NOK
+  #   state: "{{ (( states('sensor.accumulated_cost_eigeland_50_rounded') | float(0) ) + (states('sensor.cost_net_rental') | float(0))) | round(2)  }}"
 
-  - name: "accumulated_cost_eigeland_50_rounded"
-    unit_of_measurement: NOK
-    state: "{{ states('sensor.accumulated_cost_eigeland_50')|float(0) | round(2) }}"
+  # - name: "accumulated_cost_eigeland_50_rounded"
+  #   unit_of_measurement: NOK
+  #   state: "{{ states('sensor.accumulated_cost_eigeland_50')|float(0) | round(2) }}"
 
-  - name: "cost_startofday"
-    state: "{{ (states('sensor.total_cost_since_startup')|float(0)- float(states('input_number.cost_startofday'))) | round(1) }}"
-    unit_of_measurement: NOK
+  # - name: "cost_startofday"
+  #   state: "{{ (states('sensor.total_cost_since_startup')|float(0)- float(states('input_number.cost_startofday'))) | round(1) }}"
+  #   unit_of_measurement: NOK
 
-  - name: "cost_lastday"
-    state: "{{ float(states('input_number.cost_lastday')) | float(0) }}"
-    unit_of_measurement: NOK
+  # - name: "cost_lastday"
+  #   state: "{{ float(states('input_number.cost_lastday')) | float(0) }}"
+  #   unit_of_measurement: NOK
 
-  - name: "cost_thismonth"
-    state: "{{ (states('sensor.total_cost_since_startup')|float(0) - float(states('input_number.cost_startofmonth'))) | round(1) }}"
-    unit_of_measurement: NOK
+  # - name: "cost_thismonth"
+  #   state: "{{ (states('sensor.total_cost_since_startup')|float(0) - float(states('input_number.cost_startofmonth'))) | round(1) }}"
+  #   unit_of_measurement: NOK
 
-  - name: "cost_last_month"
-    state: "{{ float(states('input_number.cost_last_month')) | float(0) }}"
-    unit_of_measurement: NOK
+  # - name: "cost_last_month"
+  #   state: "{{ float(states('input_number.cost_last_month')) | float(0) }}"
+  #   unit_of_measurement: NOK
 
-  - name: "cost_thisyear"
-    state: "{{ (states('sensor.total_cost_since_startup')|float(0) - float(states('input_number.cost_startofyear'))) | round(1) }}"
-    unit_of_measurement: NOK
+  # - name: "cost_thisyear"
+  #   state: "{{ (states('sensor.total_cost_since_startup')|float(0) - float(states('input_number.cost_startofyear'))) | round(1) }}"
+  #   unit_of_measurement: NOK
 
-  - name: "cost_lastyear"
-    state: "{{ float(states('input_number.cost_last_year')) | round(1) }}"
-    unit_of_measurement: NOK
+  # - name: "cost_lastyear"
+  #   state: "{{ float(states('input_number.cost_last_year')) | round(1) }}"
+  #   unit_of_measurement: NOK
 
-  - name: "total_cost_since_startup"
-    state: "{{ float(states('input_number.total_cost')) | float(0) }}"
-    unit_of_measurement: NOK
+  # - name: "total_cost_since_startup"
+  #   state: "{{ float(states('input_number.total_cost')) | float(0) }}"
+  #   unit_of_measurement: NOK
 
     ## APPDAEMON permanent sensor
   - name: "daily_prize_accumulated_with_fees"

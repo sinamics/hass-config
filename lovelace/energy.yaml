@@ -217,19 +217,19 @@ cards:
                     icon: mdi:currency-usd
                     name: Kostand i fjor
                   - type: divider
-                  - entity: sensor.consumption_thisday
+                  - entity: sensor.kwh_consumption_today
                     name: Forbruk i dag [Tibber]
                     icon: mdi:fire
-                  - entity: sensor.consumption_lastday
+                  - entity: sensor.kwh_consumption_lastday
                     name: Forbruk i går
                     icon: mdi:fire
-                  - entity: sensor.consumption_thismonth
+                  - entity: sensor.kwh_consumption_thismonth
                     name: Forbruk denne mnd
                     icon: mdi:fire
-                  - entity: sensor.consumption_lastmonth
+                  - entity: sensor.kwh_consumption_lastmonth
                     name: Forbruk forrige mnd
                     icon: mdi:fire
-                  - entity: sensor.consumption_thisyear
+                  - entity: sensor.kwh_consumption_thisyear
                     name: Forbruk i år
                     icon: mdi:fire
                   - type: divider

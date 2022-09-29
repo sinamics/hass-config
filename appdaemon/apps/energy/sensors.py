@@ -4,12 +4,18 @@
 # Electricity price without VAT
 sensor_electricity_price = "sensor.nordpool_kwh_krsand_nok_3_095_0"
 
-# Power in watt usage ( polled every 10 sec from Tibber API )
-sensor_watt_consumption = "sensor.power_eigeland_50"
+# Power in watt usage ( polled every 10 sec mqtt)
+sensor_watt_consumption = "sensor.kamstrup_active_power_import"
 
 # These sensors should be created in home assistant beforhand.
 monthly_net_consumption_eigeland_50 = "sensor.monthly_net_consumption_eigeland_50"
-accumulated_consumption_eigeland_50 = "sensor.accumulated_consumption_eigeland_50"
+
+# forbruk
+kwh_consumption_total = "input_number.kwh_consumption_total"
+kwh_consumption_today = "input_number.kwh_consumption_today"
+kwh_consumption_thismonth= "input_number.kwh_consumption_thismonth"
+kwh_consumption_lastmonth = "input_number.kwh_consumption_lastmonth"
+
 energy_compensation_this_month = "sensor.energy_compensation_this_month"
 energy_compensation_daily = "sensor.energy_compensation_daily"
 monthly_peak_hour_consumption_eigeland_50 = "sensor.monthly_peak_hour_consumption_eigeland_50"
@@ -25,6 +31,6 @@ daily_prize_accumulated_with_fees = "input_number.daily_prize_accumulated_with_f
 monthly_prize_accumulated_with_fees = "input_number.monthly_prize_accumulated_with_fees"
 yearly_prize_accumulated_with_fees = "input_number.yearly_prize_accumulated_with_fees"
 daily_prize_accumulated_with_compensation = "input_number.daily_prize_accumulated_with_compensation"
-electricity_price_eigeland_50_with_compensation = "input_number.electricity_price_eigeland_50_with_compensation"
-electricity_price_eigeland_50_with_fees = "input_number.electricity_price_eigeland_50_with_fees"
+electricity_price_with_compensation = "input_number.electricity_price_with_compensation"
+electricity_price_with_fees = "input_number.electricity_price_with_fees"
 energiledd = "input_number.energiledd"

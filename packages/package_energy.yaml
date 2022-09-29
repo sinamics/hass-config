@@ -1,3 +1,263 @@
+  
+  
+sensor:
+## KWH 
+  - platform: template
+    sensors:
+      kwh_consumption_total:
+        icon_template: mdi:fire
+        value_template: >
+          {{ states('input_number.kwh_consumption_total') }}
+
+  - platform: template
+    sensors:
+      kwh_consumption_today:
+        icon_template: mdi:fire
+        value_template: >
+          {{ states('input_number.kwh_consumption_today') }}    
+
+  - platform: template
+    sensors:
+      kwh_consumption_lastday:
+        icon_template: mdi:fire
+        value_template: >
+          {{ states('input_number.kwh_consumption_lastday') }}    
+
+  - platform: template
+    sensors:
+      kwh_consumption_thismonth:
+        icon_template: mdi:fire
+        value_template: >
+          {{ states('input_number.kwh_consumption_thismonth') }}
+
+  - platform: template
+    sensors:
+      kwh_consumption_lastmonth:
+        icon_template: mdi:fire
+        value_template: >
+          {{ states('input_number.kwh_consumption_lastmonth') }}
+
+  - platform: template
+    sensors:
+      kwh_consumption_thisyear:
+        icon_template: mdi:fire
+        value_template: >
+          {{ states('input_number.kwh_consumption_thisyear') }}
+
+## Cost
+  - platform: template
+    sensors:
+      total_cost:
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.total_cost') }}
+
+  - platform: template
+    sensors:
+      cost_lastday:
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.cost_lastday') }}
+
+  - platform: template
+    sensors:
+      cost_last_month:
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.cost_last_month') }}
+
+  - platform: template
+    sensors:
+      cost_lastyear:
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.cost_lastyear') }}
+
+  - platform: template
+    sensors:
+      cost_thisyear:
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.cost_thisyear') }}
+
+
+
+input_number:
+#Cost
+  cost_lastday:
+    name: Konstnad forrige dag
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  cost_last_month:
+    name: Konstnad forrige måned
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  cost_thisyear:
+    name: Konstnad dette året.
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  cost_lastyear:
+    name: Konstnad forrige året.
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  total_cost:
+    name: Total kostnad fra oppstart
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  #### APPDAEMON ENERGY ####
+  kwh_consumption_total:
+    name: Total forbruk
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_consumption_thismonth:
+    name: Forbruk denne måneden
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_consumption_lastmonth:
+    name: Forbruk sist måned
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_consumption_today:
+    name: Daglig forbruk
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_consumption_lastday:
+    name: Forbruk i går
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_consumption_thisyear:
+    name: Forbruk hittil i år
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  daily_prize_accumulated_with_fees:
+    name: Daglig kostnad inkludert vat og energiledd
+    max: 999999999
+    min: -999999999
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  monthly_avg_kwh_price:
+    name: månedtlig akkumulert gjensomsnitt pris for kwh
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK/kWh"
+    icon: mdi:counter
+
+  monthly_prize_accumulated_with_fees:
+    name: Måndeltig kostnad inkludert vat
+    max: 999999999
+    min: -999999999
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  yearly_prize_accumulated_with_fees:
+    name: Årlig kostnad inkludert vat
+    max: 999999999
+    min: -999999999
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  daily_prize_accumulated_with_compensation:
+    name: Daglig kostnad inkludert komensasjon
+    max: 999999999
+    min: -999999999
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  #electricity_price_eigeland_50_with_fees:
+  electricity_price_with_fees:
+    name: kwh kostand inkludert avgifter
+    max: 999999999
+    min: -999999999
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  #electricity_price_eigeland_50_with_compensation:
+  electricity_price_with_compensation:
+    name: kwh pris inkludert kompensasjon
+    max: 999999999
+    min: -999999999
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  energiledd:
+    name: energiledd day/night
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK/kWh"
+    icon: mdi:counter
+
 ###########################################
 ########## A U T O M A T I O N S ##########
 ###########################################
@@ -9,74 +269,74 @@ automation:
 ##  Strøm Forbruk Dagskifte
 ##
 ##
-  - alias: Strøm Forbruk Dagskifte
-    description: ""
-    trigger:
-      - at: "00:01"
-        platform: time
-    action:
-      - alias: ""
-        data_template:
-          entity_id: input_number.consumption_lastday
-          value: >-
-            {{ (states('sensor.last_meter_consumption_eigeland_50')|float -
-            float(states('input_number.consumption_startofday'))) | round(1) }}
-        service: input_number.set_value
-      - alias: ""
-        data_template:
-          entity_id: input_number.consumption_startofday
-          value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
-        service: input_number.set_value
-    mode: single
+  # - alias: Strøm Forbruk Dagskifte
+  #   description: ""
+  #   trigger:
+  #     - at: "00:01"
+  #       platform: time
+  #   action:
+  #     - alias: ""
+  #       data_template:
+  #         entity_id: input_number.consumption_lastday
+  #         value: >-
+  #           {{ (states('sensor.last_meter_consumption_eigeland_50')|float -
+  #           float(states('input_number.consumption_startofday'))) | round(1) }}
+  #       service: input_number.set_value
+  #     - alias: ""
+  #       data_template:
+  #         entity_id: input_number.consumption_startofday
+  #         value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
+  #       service: input_number.set_value
+  #   mode: single
 
 ##
 ##
 ##  Strøm Forbruk Månedsskifte
 ##
 ##  
-  - alias: Strøm Forbruk Månedsskifte
-    description: ""
-    trigger:
-      - at: "0:02"
-        platform: time
-    condition:
-      - condition: template
-        value_template: "{{ now().day == 1 }}"
-    action:
-      - alias: Set consumption for last month
-        data_template:
-          entity_id: input_number.consumption_last_month
-          value: >-
-            {{ (states('sensor.last_meter_consumption_eigeland_50')|float -
-            float(states('input_number.consumption_startofmonth'))) | round(1) }}
-        service: input_number.set_value
-      - alias: ""
-        data_template:
-          entity_id: input_number.consumption_startofmonth
-          value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
-        service: input_number.set_value
-    mode: single
+#   - alias: Strøm Forbruk Månedsskifte
+#     description: ""
+#     trigger:
+#       - at: "0:02"
+#         platform: time
+#     condition:
+#       - condition: template
+#         value_template: "{{ now().day == 1 }}"
+#     action:
+#       - alias: Set consumption for last month
+#         data_template:
+#           entity_id: input_number.consumption_last_month
+#           value: >-
+#             {{ (states('sensor.last_meter_consumption_eigeland_50')|float -
+#             float(states('input_number.consumption_startofmonth'))) | round(1) }}
+#         service: input_number.set_value
+#       - alias: ""
+#         data_template:
+#           entity_id: input_number.consumption_startofmonth
+#           value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
+#         service: input_number.set_value
+#     mode: single
 
-##
-##
+# ##
+# ##
 ##  Strøm Forbruk Årsskifte
 ##
 ##  
-  - alias: Strøm Forbruk Årsskifte
-    description: ""
-    trigger:
-      - at: "0:03"
-        platform: time
-    condition:
-      - condition: template
-        value_template: "{{ now().day == 1 and now().month == 1 }}"
-    action:
-      - alias: ""
-        data_template:
-          value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
-          entity_id: input_number.consumption_startofyear
-        service: input_number.set_value
-    mode: single
+  # - alias: Strøm Forbruk Årsskifte
+  #   description: ""
+  #   trigger:
+  #     - at: "0:03"
+  #       platform: time
+  #   condition:
+  #     - condition: template
+  #       value_template: "{{ now().day == 1 and now().month == 1 }}"
+  #   action:
+  #     - alias: ""
+  #       data_template:
+  #         value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
+  #         entity_id: input_number.consumption_startofyear
+  #       service: input_number.set_value
+  #   mode: single
 
 ##  KOSTNAD
 ##

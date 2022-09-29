@@ -22,7 +22,6 @@ sensor: !include sensor.yaml
 
 template: !include template.yaml
 utility_meter: !include utility_meter.yaml
-input_number: !include input_number.yaml
 input_boolean: !include input_boolean.yaml
 input_text: !include input_text.yaml
 recorder: !include recorder.yaml
@@ -136,3 +135,11 @@ group:
       - update.samba_backup_update
       - update.samba_share_update
       - update.studio_code_server_update
+
+# logger:
+#   default: info
+#   logs:
+#     nordpool: debug
+#     custom_components.nordpool: debug
+#     custom_components.nordpool.sensor: debug
+#     custom_components.nordpool.aio_price: debug

@@ -30,7 +30,7 @@ class Compensation(hass.Hass):
         # Listners
         self.listen_state(self.avg_price_handler, sensors.sensor_electricity_price, attribute="all", immediate=True)
         self.listen_state(self.montly_power_consumption_handler, sensors.monthly_net_consumption_eigeland_50, immediate=True)
-        self.listen_state(self.daily_power_consumption_handler, sensors.accumulated_consumption_eigeland_50, immediate=True)
+        self.listen_state(self.daily_power_consumption_handler, sensors.accumulated_consumption, immediate=True)
 
         # Run every month at first day 00:00
         today = date.today()
@@ -45,7 +45,6 @@ class Compensation(hass.Hass):
     def daily_power_consumption_handler(self, entity, attribute, old, new, kwargs):
         if new == "unavailable":
             return
-
         self.daily_consumption = new
         self.daily()
 
@@ -63,6 +62,8 @@ class Compensation(hass.Hass):
     def daily(self):
         if self.avg_price_today > constants.COMPENSATION_THRESHOLD:
             self.daily_compensation = self.calculate_compensation_amount(self.avg_price_today, self.daily_consumption)
+            # self.daily_consumption = 18.2
+            # self.daily_compensation = 36.2
         self.set_state(sensors.energy_compensation_daily, state = round(self.daily_compensation, 2), attributes = {"compensation": round(self.daily_compensation,2), "unit_of_measurement": "NOK"})
 
     def monthly(self):

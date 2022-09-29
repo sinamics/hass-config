@@ -382,7 +382,7 @@
 # START
 
 badges: []
-icon: 'mdi:home-outline'
+icon: 'mdi:rotate-3d-variant'
 panel: true
 path: floorplan
 title: FloorPlan
