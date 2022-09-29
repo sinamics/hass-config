@@ -152,6 +152,98 @@ sensor:
         value_template: >
           {{ states('input_number.cost_thisyear') }}
 
+  - platform: template
+    sensors:
+      daily_prize_accumulated_with_fees:
+        unique_id: daily_prize_accumulated_with_fees
+        unit_of_measurement: NOK
+        value_template: >
+          {{ float(states('input_number.daily_prize_accumulated_with_fees'))| float(0) }}
+
+  - platform: template
+    sensors:
+      monthly_prize_accumulated_with_fees:
+        unique_id: monthly_prize_accumulated_with_fees
+        unit_of_measurement: NOK
+        value_template: >
+          {{ float(states('input_number.monthly_prize_accumulated_with_fees'))| float(0) }}
+
+  - platform: template
+    sensors:
+      monthly_prize_accumulated_with_compensation:
+        unique_id: monthly_prize_accumulated_with_compensation
+        unit_of_measurement: NOK
+        value_template: >
+          {{ float(states('input_number.monthly_prize_accumulated_with_fees')) - float(states('sensor.energy_compensation_this_month')) }}
+
+  - platform: template
+    sensors:
+      yearly_prize_accumulated_with_fees:
+        unique_id: yearly_prize_accumulated_with_fees
+        unit_of_measurement: NOK
+        value_template: >
+          {{ float(states('input_number.yearly_prize_accumulated_with_fees'))| float(0) }}
+
+  - platform: template
+    sensors:
+      daily_prize_accumulated_with_compensation:
+        unique_id: daily_prize_accumulated_with_compensation
+        unit_of_measurement: NOK
+        value_template: >
+          {{ float(states('input_number.daily_prize_accumulated_with_compensation'))| float(0) }}
+
+  - platform: template
+    sensors:
+      avg_electricity_price_eigeland_50:
+        unique_id: avg_electricity_price_eigeland_50
+        unit_of_measurement: NOK/kWh
+        value_template: >
+          {{ float(state_attr('sensor.electricity_price_eigeland_50', 'avg_price'))| float(0) }}
+
+  - platform: template
+    sensors:
+      monthly_avg_kwh_price:
+        unique_id: monthly_avg_kwh_price
+        unit_of_measurement: NOK/kWh
+        value_template: >
+          {{ float(states('input_number.monthly_avg_kwh_price'))| float(0) }}
+
+  - platform: template
+    sensors:
+      energiledd:
+        unique_id: energiledd
+        unit_of_measurement: NOK/kWh
+        value_template: >
+          {{ float(states('input_number.energiledd'))| float(0) }}
+
+  - platform: template  
+    sensors:
+      cheapest_hours_1_3:
+        unique_id: "cheapest_hours_1_3"
+        value_template: >-
+          {% set l=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_today')|sort(attribute='value') %}
+          {% set timeNow = now() %}
+          {{  (timeNow >= l[0].start and timeNow <= l[0].end)
+            or (timeNow >= l[1].start and timeNow <= l[1].end)
+            or (timeNow >= l[2].start and timeNow <= l[2].end)
+            or (timeNow >= l[3].start and timeNow <= l[3].end)
+            or (timeNow >= l[4].start and timeNow <= l[4].end)}}
+
+  - platform: template
+    sensors:
+      cheaper_after_midnight:
+        unique_id: cheaper_after_midnight
+        value_template: >-
+          {% set l1=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_today')|selectattr('start', '>=', now().replace(hour=18,minute=0,second=0,microsecond=0))|sort(attribute='value') %}
+          {% set l2=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_tomorrow')|selectattr('start', '<', (now()+timedelta(days=1)).replace(hour=6,minute=0,second=0,microsecond=0))|sort(attribute='value') %}
+          {% set l3=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_tomorrow')|selectattr('start', '>=', (now()+timedelta(days=1)).replace(hour=6,minute=0,second=0,microsecond=0))|sort(attribute='value') %}
+          {% if now().hour>=14 and l3|length>0 and l2|length>0 and l1|length>0 %}
+          {{ float(l2[0].value)<float(l1[0].value) and float(l2[0].value)<float(l3[0].value)}}
+          {% else %}
+          False
+          {% endif %}
+
+
 input_number:
 #Cost
   cost_lastday:
@@ -198,6 +290,7 @@ input_number:
     mode: box
     unit_of_measurement: "NOK"
     icon: mdi:counter
+
 
   #### APPDAEMON ENERGY ####
 

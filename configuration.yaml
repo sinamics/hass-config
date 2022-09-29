@@ -20,7 +20,6 @@ scene: !include scenes.yaml
 switch: !include switch.yaml
 sensor: !include sensor.yaml
 
-template: !include template.yaml
 utility_meter: !include utility_meter.yaml
 input_boolean: !include input_boolean.yaml
 input_text: !include input_text.yaml
