@@ -100,7 +100,7 @@ cards:
               - color: "#FD0000"
                 value: 8
             entities:
-              - sensor.power_to_kwh
+              - sensor.kwh_active_usage
             height: 100
             hour24: true
             decimals: 2
@@ -125,7 +125,7 @@ cards:
               - color: "#FD0000"
                 value: 75
             entities:
-              - entity: sensor.consumption_lastday
+              - entity: sensor.kwh_consumption_lastday
                 index: 0
                 name: Forbruk siste 7 dager
                 icon_template: mdi:counter
@@ -139,33 +139,33 @@ cards:
               icon: false
               graph: bar
             font_size: 120
-          - type: custom:apexcharts-card
-            graph_span: 24h
-            span:
-              end: day
-            header:
-              show: true
-              title: Gjennomsnitt forbruk siste timen
-            series:
-              - entity: sensor.power_to_kwh
-                color: yellow
-                type: column
-                name: Gjennomsnitt siste timen
-                group_by:
-                  func: avg
-                  duration: 60min
-                show:
-                  extremas: true
-              - entity: sensor.kwh_price_with_fees
-                color: white
-                stroke_width: 2
-                type: line
-                name: Strømpris inkludert avgift
-                group_by:
-                  func: max
-                  duration: 1h
-                show:
-                  extremas: true
+          # - type: custom:apexcharts-card
+          #   graph_span: 24h
+          #   span:
+          #     end: day
+          #   header:
+          #     show: true
+          #     title: Gjennomsnitt forbruk siste timen
+          #   series:
+          #     - entity: sensor.power_to_kwh
+          #       color: yellow
+          #       type: column
+          #       name: Gjennomsnitt siste timen
+          #       group_by:
+          #         func: avg
+          #         duration: 60min
+          #       show:
+          #         extremas: true
+          #     - entity: sensor.kwh_price_with_fees
+          #       color: white
+          #       stroke_width: 2
+          #       type: line
+          #       name: Strømpris inkludert avgift
+          #       group_by:
+          #         func: max
+          #         duration: 1h
+          #       show:
+          #         extremas: true
         columns: 1
         square: false
     columns: 1
@@ -178,12 +178,12 @@ cards:
             title: Oversikt & Info
             cards:
               - entities:
-                  - entity: sensor.min_power_eigeland_50
-                    name: Min
-                  - entity: sensor.average_power_eigeland_50
-                    name: Snitt
-                  - entity: sensor.max_power_eigeland_50
-                    name: Max
+                  - entity: sensor.kwh_min
+                    name: Min kWh
+                  # - entity: sensor.kwh_max
+                  #   name: Snitt
+                  - entity: sensor.kwh_max
+                    name: Max kWh
                   - type: divider
                   - entity: sensor.daily_prize_accumulated_with_fees
                     name: Kostnad i dag inkl nettleie
@@ -218,7 +218,7 @@ cards:
                     name: Kostand i fjor
                   - type: divider
                   - entity: sensor.kwh_consumption_today
-                    name: Forbruk i dag [Tibber]
+                    name: Forbruk i dag
                     icon: mdi:fire
                   - entity: sensor.kwh_consumption_lastday
                     name: Forbruk i går
@@ -246,23 +246,23 @@ cards:
                 type: entities
                 show_header_toggle: true
                 state_color: false
-          - type: vertical-stack
-            title: Nett
-            cards:
-              - type: glance
-                entities:
-                  - entity: sensor.tibber_nett
-                    name: Tibber Nett
-                    icon: mdi:lightning-bolt-outline
-                  - entity: sensor.tibber_estimert
-                    name: Estimert Forbruk
-                    icon: mdi:lightning-bolt-outline
-                  - entity: sensor.last_meter_consumption_eigeland_50
-                    name: Målerstand
-                    icon: mdi:lightning-bolt-outline
-                show_icon: true
-                state_color: false
-                show_name: true
+          # - type: vertical-stack
+          #   title: Nett
+          #   cards:
+          #     - type: glance
+          #       entities:
+          #         - entity: sensor.tibber_nett
+          #           name: Tibber Nett
+          #           icon: mdi:lightning-bolt-outline
+          #         - entity: sensor.tibber_estimert
+          #           name: Estimert Forbruk
+          #           icon: mdi:lightning-bolt-outline
+          #         - entity: sensor.last_meter_consumption_eigeland_50
+          #           name: Målerstand
+          #           icon: mdi:lightning-bolt-outline
+          #       show_icon: true
+          #       state_color: false
+          #       show_name: true
         columns: 1
         square: false
     columns: 1

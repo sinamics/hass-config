@@ -6,6 +6,7 @@ sensor:
     sensors:
       kwh_consumption_total:
         icon_template: mdi:fire
+        unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_consumption_total') }}
 
@@ -13,6 +14,7 @@ sensor:
     sensors:
       kwh_consumption_today:
         icon_template: mdi:fire
+        unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_consumption_today') }}    
 
@@ -20,6 +22,7 @@ sensor:
     sensors:
       kwh_consumption_lastday:
         icon_template: mdi:fire
+        unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_consumption_lastday') }}    
 
@@ -27,6 +30,7 @@ sensor:
     sensors:
       kwh_consumption_thismonth:
         icon_template: mdi:fire
+        unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_consumption_thismonth') }}
 
@@ -34,6 +38,7 @@ sensor:
     sensors:
       kwh_consumption_lastmonth:
         icon_template: mdi:fire
+        unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_consumption_lastmonth') }}
 
@@ -41,14 +46,42 @@ sensor:
     sensors:
       kwh_consumption_thisyear:
         icon_template: mdi:fire
+        unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_consumption_thisyear') }}
+
+  - platform: template
+    sensors:
+      kwh_active_usage:
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.kwh_active_usage') }}
+      
+  - platform: template
+    sensors:
+      kwh_min:
+        unique_id: kwh_min
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.kwh_min') }}
+      
+  - platform: template
+    sensors:
+      kwh_max:
+        unique_id: kwh_max
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.kwh_max') }}
 
 ## Realtime Cost
   - platform: template
     sensors:
       kwh_price_with_fees:
         unique_id: kwh_price_with_fees
+        unit_of_measurement: "NOK"
         icon_template: mdi:currency-usd
         value_template: >
           {{ states('input_number.kwh_price_with_fees') }}
@@ -59,6 +92,7 @@ sensor:
     sensors:
       energy_compensation_daily:
         unique_id: energy_compensation_daily
+        unit_of_measurement: "NOK"
         icon_template: mdi:currency-usd
         value_template: >
           {{ states('input_number.energy_compensation_daily') }}
@@ -67,6 +101,7 @@ sensor:
     sensors:
       kwh_price_with_compensation:
         unique_id: kwh_price_with_compensation
+        unit_of_measurement: "NOK"
         icon_template: mdi:currency-usd
         value_template: >
           {{ states('input_number.kwh_price_with_compensation') }}
@@ -75,28 +110,36 @@ sensor:
   - platform: template
     sensors:
       total_cost:
+        unique_id: total_cost
         icon_template: mdi:currency-usd
+        unit_of_measurement: "NOK"
         value_template: >
           {{ states('input_number.total_cost') }}
 
   - platform: template
     sensors:
       cost_lastday:
+        unique_id: cost_lastday
         icon_template: mdi:currency-usd
+        unit_of_measurement: "NOK"
         value_template: >
           {{ states('input_number.cost_lastday') }}
 
   - platform: template
     sensors:
       cost_last_month:
+        unique_id: cost_last_month
         icon_template: mdi:currency-usd
+        unit_of_measurement: "NOK"
         value_template: >
           {{ states('input_number.cost_last_month') }}
 
   - platform: template
     sensors:
       cost_lastyear:
+        unique_id: cost_lastyear
         icon_template: mdi:currency-usd
+        unit_of_measurement: "NOK"
         value_template: >
           {{ states('input_number.cost_lastyear') }}
 
@@ -105,10 +148,9 @@ sensor:
       cost_thisyear:
         unique_id: cost_thisyear
         icon_template: mdi:currency-usd
+        unit_of_measurement: "NOK"
         value_template: >
           {{ states('input_number.cost_thisyear') }}
-
-
 
 input_number:
 #Cost
@@ -158,6 +200,16 @@ input_number:
     icon: mdi:counter
 
   #### APPDAEMON ENERGY ####
+
+  kwh_active_usage:
+    name: Nåværende forbruk
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
   kwh_consumption_total:
     name: Total forbruk
     max: 999999999
@@ -205,6 +257,24 @@ input_number:
 
   kwh_consumption_thisyear:
     name: Forbruk hittil i år
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_max:
+    name: Maks forbruk
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_min:
+    name: Min forbruk
     max: 999999999
     min: 0
     step: 0.001
@@ -266,7 +336,7 @@ input_number:
     mode: box
     unit_of_measurement: "NOK"
     icon: mdi:counter
-
+  
   #electricity_price_eigeland_50_with_compensation:
   kwh_price_with_compensation:
     name: kwh pris inkludert kompensasjon

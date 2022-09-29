@@ -24,6 +24,8 @@ class Core(hass.Hass):
 
     # # kwh usage
     self.kwh_power = 0
+    self.kwh_power_min = self.store_class.get_kwh_min()
+    self.kwh_power_max = self.store_class.get_kwh_max()
     self.kwh_prize = 0
     self.watt_usage = 0
 
@@ -60,6 +62,26 @@ class Core(hass.Hass):
       self.prize_calculation()
 
   def watt_kwh_consumption(self):
+
+      kwh_usage = self.watt_usage / 1000
+
+      # set min max
+      if self.kwh_power_min == 0:
+          self.kwh_power_min = kwh_usage
+          self.kwh_power_max = kwh_usage
+
+      if kwh_usage < self.kwh_power_min:
+        self.kwh_power_min = kwh_usage
+
+      if kwh_usage > self.kwh_power_max:
+        self.kwh_power_max = kwh_usage
+      
+      self.store_class.set_kwh_min(round(self.kwh_power_min, 2))
+      self.store_class.set_kwh_max(round(self.kwh_power_max, 2))
+      
+      self.store_class.set_kwh_active_usage(round(kwh_usage, 2))
+      # kwh usage now
+        
       # convert to kwh usage
       self.kwh_consumption +=  self.watt_usage / 3600 * 10 / 1000
       self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
@@ -67,6 +89,9 @@ class Core(hass.Hass):
 
       #self.kwh_consumption = 3615.07
       self.store_class.set_total_accumulated_kwh(self.kwh_consumption)
+      self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
+      self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
+      
       # self.log(self.kwh_consumption)
 
   def prize_calculation(self):

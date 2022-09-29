@@ -16,6 +16,15 @@ class Store(hass.Hass):
 
 
     """  SETTERS  """
+    def set_kwh_active_usage(self, price):
+        self.set_value(sensors.kwh_active_usage, round(price, 4))
+
+    def set_kwh_min(self, price):
+        self.set_value(sensors.kwh_min, round(price, 4))
+
+    def set_kwh_max(self, price):
+        self.set_value(sensors.kwh_max, round(price, 4))
+
     def set_kwh_consumption_lastmonth(self, price):
         self.set_value(sensors.kwh_consumption_lastmonth, round(price, 4))
 
@@ -51,6 +60,15 @@ class Store(hass.Hass):
 
 
     """  GETTERS  """
+    def get_kwh_active_usage(self):
+        return float(self.get_state(sensors.kwh_active_usage, default=0))
+
+    def get_kwh_min(self):
+        return float(self.get_state(sensors.kwh_min, default=0))
+
+    def get_kwh_max(self):
+        return float(self.get_state(sensors.kwh_max, default=0))
+
     def get_kwh_consumption_lastmonth(self):
         return float(self.get_state(sensors.kwh_consumption_lastmonth, default=0))
 

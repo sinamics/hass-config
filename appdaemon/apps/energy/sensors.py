@@ -4,8 +4,9 @@
 # Electricity price without VAT
 sensor_electricity_price = "sensor.nordpool_kwh_krsand_nok_3_095_0"
 
-# Power in watt usage ( polled every 10 sec mqtt)
+# Power in watt usage ( polled every 10 sec mqtt) 
 sensor_watt_consumption = "sensor.kamstrup_active_power_import"
+
 
 # These sensors should be created in home assistant beforhand.
 monthly_net_consumption_eigeland_50 = "sensor.monthly_net_consumption_eigeland_50"
@@ -15,6 +16,9 @@ kwh_consumption_total = "input_number.kwh_consumption_total"
 kwh_consumption_today = "input_number.kwh_consumption_today"
 kwh_consumption_thismonth= "input_number.kwh_consumption_thismonth"
 kwh_consumption_lastmonth = "input_number.kwh_consumption_lastmonth"
+kwh_active_usage = "input_number.kwh_active_usage"
+kwh_max = "input_number.kwh_max"
+kwh_min = "input_number.kwh_min"
 
 energy_compensation_this_month = "sensor.energy_compensation_this_month"
 energy_compensation_daily = "sensor.energy_compensation_daily"
