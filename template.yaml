@@ -135,10 +135,6 @@ sensor:
     state: "{{ float(states('input_number.daily_prize_accumulated_with_compensation'))| float(0) }}"
     unit_of_measurement: NOK
 
-  - name: "electricity_price_eigeland_50_with_compensation"
-    state: "{{ float(states('input_number.electricity_price_eigeland_50_with_compensation'))| float(0) }}"
-    unit_of_measurement: NOK/kWh
-
   - name: "avg_electricity_price_eigeland_50"
     state: "{{ float(state_attr('sensor.electricity_price_eigeland_50', 'avg_price'))| float(0) }}"
     unit_of_measurement: NOK/kWh

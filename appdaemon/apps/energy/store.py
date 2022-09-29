@@ -12,7 +12,7 @@ class Store(hass.Hass):
 
         """ ------------ Listners -------------- """
         # send notification when kwh prize goes up
-        self.listen_state(self.notify_high_prize, sensors.electricity_price_with_fees)
+        self.listen_state(self.notify_high_prize, sensors.kwh_price_with_fees)
 
 
     """  SETTERS  """
@@ -38,13 +38,13 @@ class Store(hass.Hass):
         self.set_value(sensors.yearly_prize_accumulated_with_fees, round(price, 2))
 
     def set_kwh_price_with_fees(self, price):
-        self.set_value(sensors.electricity_price_with_fees, round(price, 2))
+        self.set_value(sensors.kwh_price_with_fees, round(price, 2))
 
     def set_daily_accumulated_kwh_price_with_compensation(self, price):
         self.set_value(sensors.daily_prize_accumulated_with_compensation, round(price, 2))
 
     def set_kwh_price_with_compensation(self, price):
-        self.set_value(sensors.electricity_price_with_compensation, round(price, 2))
+        self.set_value(sensors.kwh_price_with_compensation, round(price, 2))
 
     def set_energiledd(self, price):
         self.set_value(sensors.energiledd, round(price, 2))
@@ -76,7 +76,7 @@ class Store(hass.Hass):
         return float(self.get_state(sensors.daily_prize_accumulated_with_compensation, default=0))
 
     def get_kwh_price_with_compensation(self):
-        return float(self.get_state(sensors.electricity_price_with_compensation, default=0))
+        return float(self.get_state(sensors.kwh_price_with_compensation, default=0))
 
     def get_energiledd(self, price):
         return float(self.get_state(sensors.energiledd, default=0))

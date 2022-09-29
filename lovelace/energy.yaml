@@ -156,7 +156,7 @@ cards:
                   duration: 60min
                 show:
                   extremas: true
-              - entity: sensor.kwh_cost_inlcuded_net_rental
+              - entity: sensor.kwh_price_with_fees
                 color: white
                 stroke_width: 2
                 type: line
@@ -195,7 +195,7 @@ cards:
                     name: Kostnad i går
                     icon: mdi:currency-usd
                   - type: divider
-                  - entity: sensor.energy_compensation_daily
+                  - entity: sensor.kwh_price_with_compensation
                     name: Kompensasjon i dag
                     icon: mdi:currency-usd
                   - entity: sensor.energy_compensation_this_month
@@ -332,7 +332,7 @@ cards:
                     - 50
                     - 100
         series:
-          - entity: sensor.power_cost_now_with_net_rental_rounded
+          - entity: sensor.kwh_price_with_fees
             name: Kostnad pr. time
             yaxis_id: first
             unit: " NOK"
@@ -353,7 +353,7 @@ cards:
                 color: yellow
               - value: 18
                 color: red
-          - entity: sensor.kwh_cost_inlcuded_net_rental
+          - entity: sensor.kwh_price_with_fees
             name: Strøm pris
             yaxis_id: second
             type: line
@@ -382,7 +382,7 @@ cards:
         hours_to_show: 48
         height: 100
         entities:
-          - entity: sensor.kwh_cost_inlcuded_net_rental
+          - entity: sensor.kwh_price_with_fees
             index: null
             hour24: true
             lower_bound: 0
@@ -431,7 +431,7 @@ cards:
       - type: custom:mini-graph-card
         hours_to_show: 48
         entities:
-          - entity: sensor.electricity_price_eigeland_50_with_compensation
+          - entity: sensor.kwh_price_with_compensation
             index: 0
             name: Strøm Pris med kompensasjon
             hour24: true
