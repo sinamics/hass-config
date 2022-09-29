@@ -155,3 +155,20 @@ automation:
 ##  Strøm Kostnad Årsskifte
 ##
 ##  
+  - alias: Strøm Kostnad Årsskifte
+    description: ''
+    trigger:
+      - at: '0:03:00'
+        platform: time
+    condition:
+      - condition: template
+        value_template: '{{ now().day == 1 and now().month == 1 }}'
+    action:
+      - alias: ''
+        data_template:
+          entity_id: input_number.cost_last_year
+          value: >-
+            {{ states('input_number.total_cost')|float -
+            states('input_number.cost_startofyear')|float }}
+        service: input_number.set_value
+    mode: single
