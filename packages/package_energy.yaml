@@ -2,7 +2,13 @@
 ########## A U T O M A T I O N S ##########
 ###########################################
 
+
 automation:
+##
+##
+##  Strøm Forbruk Dagskifte
+##
+##
   - alias: Strøm Forbruk Dagskifte
     description: ""
     trigger:
@@ -22,3 +28,130 @@ automation:
           value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
         service: input_number.set_value
     mode: single
+
+##
+##
+##  Strøm Forbruk Månedsskifte
+##
+##  
+  - alias: Strøm Forbruk Månedsskifte
+    description: ""
+    trigger:
+      - at: "0:02"
+        platform: time
+    condition:
+      - condition: template
+        value_template: "{{ now().day == 1 }}"
+    action:
+      - alias: Set consumption for last month
+        data_template:
+          entity_id: input_number.consumption_last_month
+          value: >-
+            {{ (states('sensor.last_meter_consumption_eigeland_50')|float -
+            float(states('input_number.consumption_startofmonth'))) | round(1) }}
+        service: input_number.set_value
+      - alias: ""
+        data_template:
+          entity_id: input_number.consumption_startofmonth
+          value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
+        service: input_number.set_value
+    mode: single
+
+##
+##
+##  Strøm Forbruk Årsskifte
+##
+##  
+  - alias: Strøm Forbruk Årsskifte
+    description: ""
+    trigger:
+      - at: "0:03"
+        platform: time
+    condition:
+      - condition: template
+        value_template: "{{ now().day == 1 and now().month == 1 }}"
+    action:
+      - alias: ""
+        data_template:
+          value: "{{ states('sensor.last_meter_consumption_eigeland_50')|float }}"
+          entity_id: input_number.consumption_startofyear
+        service: input_number.set_value
+    mode: single
+
+##  KOSTNAD
+##
+##  Strøm Kostnad Dagskifte
+##
+##  
+  - alias: Strøm Kostnad Dagskifte
+    description: ""
+    trigger:
+      - at: "23:59"
+        platform: time
+    action:
+      - alias: Kost pris i går
+        data_template:
+          entity_id: input_number.cost_lastday
+          value: "{{ states('sensor.power_cost_daily_with_net_rental_rounded')|float }}"
+        service: input_number.set_value
+      - alias: Kost pris pr dag
+        data_template:
+          entity_id: input_number.cost_startofday
+          value: "{{ states('sensor.total_cost_since_startup')|float }}"
+        service: input_number.set_value
+    mode: single
+
+##  KOSTNAD
+##
+##  Strøm Kostnad Månedsskifte
+##
+##  
+  - alias: Strøm Kostnad Månedsskifte
+    description: ""
+    trigger:
+      - at: "0:01"
+        platform: time
+    condition:
+      - condition: template
+        value_template: "{{ now().day == 1 }}"
+    action:
+      - alias: Set cost for last month
+        data_template:
+          entity_id: input_number.cost_last_month
+          value: >-
+            {{ states('input_number.total_cost')|float -
+            states('input_number.cost_startofmonth')|float }}
+        service: input_number.set_value
+      - alias: ""
+        data_template:
+          entity_id: input_number.cost_startofmonth
+          value: "{{ states('sensor.total_cost_since_startup')|float }}"
+        service: input_number.set_value
+    mode: single
+
+##  KOSTNAD
+##
+##  Strøm Kostnad Oppstart
+##
+##  
+  - alias: Strøm Kostnad Oppstart
+    description: ""
+    trigger:
+      - at: "23:59"
+        platform: time
+    condition: []
+    action:
+      - alias: Total cost summed
+        data_template:
+          entity_id: input_number.total_cost
+          value: >-
+            {{ states('input_number.total_cost')|float +
+            states('sensor.power_cost_daily_with_net_rental_rounded')|float }}
+        service: input_number.set_value
+    mode: single
+
+##  KOSTNAD
+##
+##  Strøm Kostnad Årsskifte
+##
+##  

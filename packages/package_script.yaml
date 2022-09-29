@@ -1,0 +1,16 @@
+###########################################
+########## A U T O M A T I O N S ##########
+###########################################
+
+
+automation:
+  - alias: Digital Ocean DDNS Updater
+    description: ""
+    trigger:
+      - platform: time_pattern
+        minutes: "30"
+    condition: []
+    action:
+      - service: shell_command.do_ddns_updater
+        data: {}
+    mode: single

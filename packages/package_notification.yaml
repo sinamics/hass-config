@@ -1,0 +1,50 @@
+###########################################
+########## A U T O M A T I O N S ##########
+###########################################
+
+
+automation:
+  - alias: Send høy strømpris notifikasjon
+    description: ""
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kwh_cost_inlcuded_net_rental
+        above: "5"
+        for:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - platform: numeric_state
+        entity_id: sensor.kwh_cost_inlcuded_net_rental
+        above: "6"
+        for:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - platform: numeric_state
+        entity_id: sensor.kwh_cost_inlcuded_net_rental
+        above: "7"
+        for:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - platform: numeric_state
+        entity_id: sensor.kwh_cost_inlcuded_net_rental
+        above: "8"
+        for:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+    condition: []
+    action:
+      - service: notify.mobile_app_berntchristian_s22
+        data:
+          message: >-
+            Prisen er {{ float(states('sensor.kwh_cost_inlcuded_net_rental') |
+            round(2)) }} kr kWh
+          title: Høy Strømpris!!
+    mode: single

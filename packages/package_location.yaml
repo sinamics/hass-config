@@ -1,0 +1,20 @@
+###########################################
+########## A U T O M A T I O N S ##########
+###########################################
+
+
+automation:
+  - alias: Update work location
+    description: ""
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.samsung_s22_ultra_wifi_connection
+        to: Eigeland
+    condition: []
+    action:
+      - service: device_tracker.samsung_s22_ultra
+        data:
+          location_name: Home
+          dev_id: S22_ultra_wifi_location
+    mode: single
