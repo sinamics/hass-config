@@ -214,7 +214,7 @@ cards:
                   - entity: sensor.cost_last_month
                     name: Kostnad forrige mnd
                     icon: mdi:currency-usd
-                  - entity: sensor.cost_thisyear
+                  - entity: sensor.yearly_prize_accumulated_with_fees
                     name: Kostnad i år
                     icon: mdi:currency-usd
                   - entity: sensor.cost_lastyear

@@ -112,7 +112,7 @@ class Core(hass.Hass):
     self.cost_monthly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     self.cost_yearly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     # self.cost_daily = 77.25
-    
+    # self.cost_yearly = 17743.0
     # set state with updated prize
     self.store_class.set_daily_prize_accumulated_with_fees(round(self.cost_daily, 2))
     self.store_class.set_monthly_prize_accumulated_with_fees(round(self.cost_monthly, 2))
