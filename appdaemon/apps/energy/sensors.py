@@ -14,6 +14,7 @@ monthly_net_consumption_eigeland_50 = "sensor.monthly_net_consumption_eigeland_5
 # forbruk
 kwh_consumption_total = "input_number.kwh_consumption_total"
 kwh_consumption_today = "input_number.kwh_consumption_today"
+kwh_consumption_lastday = "input_number.kwh_consumption_lastday"
 kwh_consumption_thismonth= "input_number.kwh_consumption_thismonth"
 kwh_consumption_lastmonth = "input_number.kwh_consumption_lastmonth"
 kwh_active_usage = "input_number.kwh_active_usage"
@@ -30,11 +31,12 @@ monthly_power_peak_prize = "sensor.monthly_power_peak_prize"
 #These input_numbers must be created in home assistant beforhand.
 #The main reason we use input_number is to keep values persistent between restart of HA.
 #
-monthly_avg_kwh_price = "input_number.monthly_avg_kwh_price"
 daily_prize_accumulated_with_fees = "input_number.daily_prize_accumulated_with_fees"
-monthly_prize_accumulated_with_fees = "input_number.monthly_prize_accumulated_with_fees"
-yearly_prize_accumulated_with_fees = "input_number.yearly_prize_accumulated_with_fees"
 daily_prize_accumulated_with_compensation = "input_number.daily_prize_accumulated_with_compensation"
+cost_lastday = "input_number.cost_lastday"
+monthly_prize_accumulated_with_fees = "input_number.monthly_prize_accumulated_with_fees"
+monthly_avg_kwh_price = "input_number.monthly_avg_kwh_price"
+yearly_prize_accumulated_with_fees = "input_number.yearly_prize_accumulated_with_fees"
 kwh_price_with_compensation = "input_number.kwh_price_with_compensation"
 kwh_price_with_fees = "input_number.kwh_price_with_fees"
 energiledd = "input_number.energiledd"

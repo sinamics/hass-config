@@ -61,9 +61,9 @@
 #--------------------------------------------------------------------------------------------------
 # Media
 #--------------------------------------------------------------------------------------------------
-#                  entity                        , battery_level                                , left, top)
-{% set persons = [("bernt"                       , "berntchristian_s22_battery_level"           ,  85 ,  4),
-                  ("adrian"                      , "adrian_samsung_s20_battery_level"           ,  89 ,  4)] %}
+#                  entity                        , battery_level                     , charging            , left, top)
+{% set persons = [("bernt"                       , "berntchristian_s22_battery_level", "berntchristian_s22_is_charging"           ,  85 ,  4),
+                  ("adrian"                      , "adrian_samsung_s20_battery_level", "adrian_samsung_s20_is_charging"           ,  89 ,  4)] %}
 
 
 #                       group       , left, top
@@ -606,8 +606,8 @@ cards:
             entities:
               - entity: calendar.family
                 name: calendar.family
-              {# - entity: calendar.cbegelan_gmail_com
-                name: calendar.cbegelan_gmail_com #}
+              - entity: calendar.cbegelan_gmail_com
+                name: calendar.cbegelan_gmail_com
             maxDaysToShow: 7
             maxEventCount: 4
             showLocation: true
@@ -1062,7 +1062,7 @@ cards:
 ##        ######## ##     ##  ######   #######  ##    ##  ###### 
 #########################    People at home    #########################
 
-      {% for entity, battery_level, left, top in persons %}
+      {% for entity, battery_level, charging, left, top in persons %}
       - action: none
         entity: "person.{{ entity }}"
         state_image:
@@ -1079,18 +1079,29 @@ cards:
           action: more-info
         type: image
 
-      {# - type: conditional
-        conditions:
-          - entity: "person.{{ entity }}"
-            state: 'home'
-        elements: #}
+
       - type: state-label
         entity: "sensor.{{ battery_level }}"
         style:
           left: {{ left + 0.2 }}%
           top: {{ top + 4.2 }}%
-      {% endfor %}
 
+      - type: conditional
+        conditions:
+          - entity: "binary_sensor.{{ charging }}"
+            state_not: "off"
+        elements:
+          - type: state-icon
+            entity: "binary_sensor.{{ charging }}"
+            icon: mdi:flash
+            state_color: false
+            style:
+              --mdc-icon-size: 15px
+              --paper-item-icon-color: green
+              color: green
+              left: {{ left - 1.5 }}%
+              top: {{ top + 4.1 }}%
+      {% endfor %}
 ##    ##    ###    ##     ## ####  ######      ###    ######## ####  #######  ##    ## 
 ###   ##   ## ##   ##     ##  ##  ##    ##    ## ##      ##     ##  ##     ## ###   ## 
 ####  ##  ##   ##  ##     ##  ##  ##         ##   ##     ##     ##  ##     ## ####  ## 

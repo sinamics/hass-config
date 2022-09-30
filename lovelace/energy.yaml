@@ -195,18 +195,22 @@ cards:
                     name: Kostnad i går
                     icon: mdi:currency-usd
                   - type: divider
-                  - entity: sensor.kwh_price_with_compensation
+                  - entity: sensor.energy_compensation_daily
                     name: Kompensasjon i dag
                     icon: mdi:currency-usd
                   - entity: sensor.energy_compensation_this_month
                     name: Kompensasjon denne måneden
                     icon: mdi:currency-usd
                   - type: divider
+                  - entity: sensor.cost_lastday
+                    name: Kostnad i går
+                    icon: mdi:currency-usd                  
                   - entity: sensor.monthly_prize_accumulated_with_fees
                     name: Kostnad denne mnd
                     icon: mdi:currency-usd
                   - entity: sensor.monthly_prize_accumulated_with_compensation
                     name: Kostnad denne mnd med kompensasjon
+                    icon: mdi:currency-usd
                   - entity: sensor.cost_last_month
                     name: Kostnad forrige mnd
                     icon: mdi:currency-usd
@@ -239,7 +243,7 @@ cards:
                     name: Måndlig Strøm Peak ( Pr. Time )
                   - entity: sensor.monthly_power_peak_prize
                     name: Fastledd denne mnd
-                  - entity: sensor.last_meter_consumption_eigeland_50
+                  - entity: sensor.kwh_consumption_total
                     name: Målerstand
                     secondary_info: last-changed
                     icon: mdi:counter

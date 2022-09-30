@@ -14,8 +14,13 @@ class Store(hass.Hass):
         # send notification when kwh prize goes up
         self.listen_state(self.notify_high_prize, sensors.kwh_price_with_fees)
 
-
     """  SETTERS  """
+    def set_cost_lastday(self, price):
+        self.set_value(sensors.cost_lastday, round(price, 4))
+
+    def set_kwh_consumption_lastday(self, price):
+        self.set_value(sensors.kwh_consumption_lastday, round(price, 4))
+
     def set_kwh_active_usage(self, price):
         self.set_value(sensors.kwh_active_usage, round(price, 4))
 
@@ -60,8 +65,11 @@ class Store(hass.Hass):
 
 
     """  GETTERS  """
-    def get_kwh_active_usage(self):
-        return float(self.get_state(sensors.kwh_active_usage, default=0))
+    def get_cost_lastday(self):
+        return float(self.get_state(sensors.cost_lastday, default=0))
+
+    def get_kwh_consumption_lastday(self):
+        return float(self.get_state(sensors.kwh_consumption_lastday, default=0))
 
     def get_kwh_min(self):
         return float(self.get_state(sensors.kwh_min, default=0))

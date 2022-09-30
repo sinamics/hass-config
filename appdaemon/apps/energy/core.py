@@ -137,10 +137,13 @@ class Core(hass.Hass):
     
 
   def run_every_day(self, kwargs):
-    # run cleanup functions and shift numbers for new hour / min / day
+    # run cleanup functions and shift numbers for new hour / min / day 
     self.log("cleanup function run_every_day " + str(datetime.now()))
+    self.store_class.set_kwh_consumption_lastday(round(self.kwh_consumption_today, 2))
+    self.store_class.cost_lastday(round(self.cost_daily, 2))
     self.cost_daily = 0
     self.kwh_consumption_today = 0
+
 
   def run_every_month(self, kwargs):
     # run cleanup functions and shift numbers for new hour / min / day
