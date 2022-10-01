@@ -6,7 +6,7 @@
 light:
   - platform: switch
     name: outside_glamping
-    entity_id: switch.outside_glamping
+    entity_id: switch.1f_outside_glamping
 
   - platform: switch
     name: garage_inside_ceiling_light

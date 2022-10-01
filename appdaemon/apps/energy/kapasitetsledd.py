@@ -15,7 +15,7 @@ class kapasitetsledd(hass.Hass):
         self.peak_calculation()
         
         # update whenever new peak is updated from Tibber 
-        self.listen_state(self.peak_handler, sensors.monthly_peak_hour_consumption_eigeland_50, immediate=True)
+        self.listen_state(self.peak_handler, sensors.monthly_kwh_peak_hour, immediate=True)
 
     def peak_handler(self, entity, attribute, old, new, kwargs):
         """Event handler: watt peak changed"""

@@ -1,6 +1,13 @@
-  
-  
 sensor:
+
+##    ## ##      ## ##     ##     ######  ######## ##    ##  ######   #######  ########  
+##   ##  ##  ##  ## ##     ##    ##    ## ##       ###   ## ##    ## ##     ## ##     ## 
+##  ##   ##  ##  ## ##     ##    ##       ##       ####  ## ##       ##     ## ##     ## 
+#####    ##  ##  ## #########     ######  ######   ## ## ##  ######  ##     ## ########  
+##  ##   ##  ##  ## ##     ##          ## ##       ##  ####       ## ##     ## ##   ##   
+##   ##  ##  ##  ## ##     ##    ##    ## ##       ##   ### ##    ## ##     ## ##    ##  
+##    ##  ###  ###  ##     ##     ######  ######## ##    ##  ######   #######  ##     ## 
+
 ## KWH 
   - platform: template
     sensors:
@@ -75,6 +82,35 @@ sensor:
         unit_of_measurement: "kWh"
         value_template: >
           {{ states('input_number.kwh_max') }}
+
+  - platform: template
+    sensors:
+      monthly_kwh_peak_hour:
+        unique_id: monthly_kwh_peak_hour
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.monthly_kwh_peak_hour') }}
+
+  - platform: template
+    sensors:
+      monthly_power_peak_prize:
+        unique_id: monthly_power_peak_prize
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.monthly_power_peak_prize') }}
+
+
+
+
+########  ########  ####  ######  ########     ######  ######## ##    ##  ######   #######  ########  
+##     ## ##     ##  ##  ##    ## ##          ##    ## ##       ###   ## ##    ## ##     ## ##     ## 
+##     ## ##     ##  ##  ##       ##          ##       ##       ####  ## ##       ##     ## ##     ## 
+########  ########   ##  ##       ######       ######  ######   ## ## ##  ######  ##     ## ########  
+##        ##   ##    ##  ##       ##                ## ##       ##  ####       ## ##     ## ##   ##   
+##        ##    ##   ##  ##    ## ##          ##    ## ##       ##   ### ##    ## ##     ## ##    ##  
+##        ##     ## ####  ######  ########     ######  ######## ##    ##  ######   #######  ##     ## 
 
 ## Realtime Cost
   - platform: template
@@ -237,45 +273,14 @@ sensor:
 
 
 input_number:
-#Cost
-  cost_lastday:
-    name: Konstnad forrige dag
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK"
-    icon: mdi:counter
 
-  cost_last_month:
-    name: Konstnad forrige måned
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK"
-    icon: mdi:counter
-
-  cost_lastyear:
-    name: Konstnad forrige året.
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK"
-    icon: mdi:counter
-
-  total_cost:
-    name: Total kostnad fra oppstart
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK"
-    icon: mdi:counter
-
-
-  #### APPDAEMON ENERGY ####
+##    ## ##      ## ##     ##    #### ##    ## ########  ##     ## ########    ##    ## ##     ## ##     ## ########  ######## ########  
+##   ##  ##  ##  ## ##     ##     ##  ###   ## ##     ## ##     ##    ##       ###   ## ##     ## ###   ### ##     ## ##       ##     ## 
+##  ##   ##  ##  ## ##     ##     ##  ####  ## ##     ## ##     ##    ##       ####  ## ##     ## #### #### ##     ## ##       ##     ## 
+#####    ##  ##  ## #########     ##  ## ## ## ########  ##     ##    ##       ## ## ## ##     ## ## ### ## ########  ######   ########  
+##  ##   ##  ##  ## ##     ##     ##  ##  #### ##        ##     ##    ##       ##  #### ##     ## ##     ## ##     ## ##       ##   ##   
+##   ##  ##  ##  ## ##     ##     ##  ##   ### ##        ##     ##    ##       ##   ### ##     ## ##     ## ##     ## ##       ##    ##  
+##    ##  ###  ###  ##     ##    #### ##    ## ##         #######     ##       ##    ##  #######  ##     ## ########  ######## ##     ##
 
   kwh_active_usage:
     name: Nåværende forbruk
@@ -357,6 +362,80 @@ input_number:
     mode: box
     unit_of_measurement: "kWh"
     icon: mdi:counter
+
+  monthly_kwh_peak_hour:
+    name: Strøm peak denne måneden
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  monthly_power_peak_prize:
+    name: pris kapasitetledd denne måneden
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+########  ########  ####  ######  ########    #### ##    ## ########  ##     ## ########    ##    ## ##     ## ##     ## ########  ######## ########  
+##     ## ##     ##  ##  ##    ## ##           ##  ###   ## ##     ## ##     ##    ##       ###   ## ##     ## ###   ### ##     ## ##       ##     ## 
+##     ## ##     ##  ##  ##       ##           ##  ####  ## ##     ## ##     ##    ##       ####  ## ##     ## #### #### ##     ## ##       ##     ## 
+########  ########   ##  ##       ######       ##  ## ## ## ########  ##     ##    ##       ## ## ## ##     ## ## ### ## ########  ######   ########  
+##        ##   ##    ##  ##       ##           ##  ##  #### ##        ##     ##    ##       ##  #### ##     ## ##     ## ##     ## ##       ##   ##   
+##        ##    ##   ##  ##    ## ##           ##  ##   ### ##        ##     ##    ##       ##   ### ##     ## ##     ## ##     ## ##       ##    ##  
+##        ##     ## ####  ######  ########    #### ##    ## ##         #######     ##       ##    ##  #######  ##     ## ########  ######## ##     ## 
+
+  cost_lastday:
+    name: Konstnad forrige dag
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  cost_last_month:
+    name: Konstnad forrige måned
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  cost_lastyear:
+    name: Konstnad forrige året.
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+  total_cost:
+    name: Total kostnad fra oppstart
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+
+
+  #### APPDAEMON ENERGY ####
+
+
+########  ########  ####  ######  ########    #### ##    ## ########  ##     ## ########    ##    ## ##     ## ##     ## ########  ######## ########  
+##     ## ##     ##  ##  ##    ## ##           ##  ###   ## ##     ## ##     ##    ##       ###   ## ##     ## ###   ### ##     ## ##       ##     ## 
+##     ## ##     ##  ##  ##       ##           ##  ####  ## ##     ## ##     ##    ##       ####  ## ##     ## #### #### ##     ## ##       ##     ## 
+########  ########   ##  ##       ######       ##  ## ## ## ########  ##     ##    ##       ## ## ## ##     ## ## ### ## ########  ######   ########  
+##        ##   ##    ##  ##       ##           ##  ##  #### ##        ##     ##    ##       ##  #### ##     ## ##     ## ##     ## ##       ##   ##   
+##        ##    ##   ##  ##    ## ##           ##  ##   ### ##        ##     ##    ##       ##   ### ##     ## ##     ## ##     ## ##       ##    ##  
+##        ##     ## ####  ######  ########    #### ##    ## ##         #######     ##       ##    ##  #######  ##     ## ########  ######## ##     ## 
 
   daily_prize_accumulated_with_fees:
     name: Daglig kostnad inkludert vat og energiledd
@@ -440,11 +519,11 @@ input_number:
     mode: box
     unit_of_measurement: "NOK/kWh"
     icon: mdi:counter
+
+
 ###########################################
 ########## A U T O M A T I O N S ##########
 ###########################################
-
-
 automation:
 ##
 ##

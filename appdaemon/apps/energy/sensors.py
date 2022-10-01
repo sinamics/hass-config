@@ -23,8 +23,9 @@ kwh_min = "input_number.kwh_min"
 
 energy_compensation_this_month = "sensor.energy_compensation_this_month"
 energy_compensation_daily = "sensor.energy_compensation_daily"
-monthly_peak_hour_consumption_eigeland_50 = "sensor.monthly_peak_hour_consumption_eigeland_50"
-monthly_power_peak_prize = "sensor.monthly_power_peak_prize"
+
+monthly_kwh_peak_hour = "input_number.monthly_kwh_peak_hour"
+monthly_power_peak_prize = "input_number.monthly_power_peak_prize"
 
 
 #

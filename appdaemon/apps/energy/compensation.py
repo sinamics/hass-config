@@ -29,7 +29,7 @@ class Compensation(hass.Hass):
 
         # Listners
         self.listen_state(self.avg_price_handler, sensors.sensor_electricity_price, attribute="all", immediate=True)
-        self.listen_state(self.montly_power_consumption_handler, sensors.monthly_net_consumption_eigeland_50, immediate=True)
+        self.listen_state(self.montly_power_consumption_handler, sensors.kwh_consumption_thismonth, immediate=True)
         self.listen_state(self.daily_power_consumption_handler, sensors.kwh_consumption_today, immediate=True)
 
         # Run every month at first day 00:00

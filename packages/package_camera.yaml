@@ -1,0 +1,23 @@
+#https://github.com/AlexxIT/WebRTC/wiki/PTZ-Config-Examples
+script:
+  camera_ptz:
+    sequence:
+      - service: reolink_dev.ptz_control
+        data:
+          entity_id: 'camera.eigeland360'
+          command: "{{ direction }}"
+          speed: 8
+      - delay:
+          # supports seconds, milliseconds, minutes, hours
+          seconds: 2
+      - service: reolink_dev.ptz_control
+        data:
+          entity_id: 'camera.eigeland360'
+          command: STOP
+  camera_preset:
+    sequence:
+      - service: reolink_dev.ptz_control
+        data:
+          entity_id: 'camera.eigeland360'
+          command: TOPOS
+          preset: "{{ position }}"

@@ -87,12 +87,13 @@ class Core(hass.Hass):
       self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
       self.kwh_consumption_this_month +=  self.watt_usage / 3600 * 10 / 1000
 
+      # self.kwh_consumption_today = 12.95
+      
       #self.kwh_consumption = 3615.07
       self.store_class.set_total_accumulated_kwh(self.kwh_consumption)
       self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
       self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
       
-      # self.log(self.kwh_consumption)
 
   def prize_calculation(self):
     """Event handler: watt consumption changed"""
@@ -111,7 +112,7 @@ class Core(hass.Hass):
     self.cost_daily += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     self.cost_monthly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     self.cost_yearly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
-    # self.cost_daily = 77.25
+    # self.cost_daily = 16.37
     # self.cost_yearly = 17743.0
     # set state with updated prize
     self.store_class.set_daily_prize_accumulated_with_fees(round(self.cost_daily, 2))

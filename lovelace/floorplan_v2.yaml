@@ -48,7 +48,7 @@
                 ("2f_house_inside_ceiling_sturla_light"                                 , "upstairs"     ,  80  , 49  , 3.1   , 3.1  , -5   ),
                 ("2f_house_inside_ceiling_hall_light"                                   , "upstairs"     ,  84  , 64  , 5.5   , 1.8  ,  0   ),
                 ("1f_house_outside_entrance_light"                                      , "outside"      ,  46  , 42  , 1.5   , 1.5  ,  0   ),
-                ("outside_glamping"                                                     , "outside"      ,  0.2 , 55  , 1.1   , 5    ,  0   ),
+                ("1f_outside_glamping"                                                  , "outside"      ,  0.2 , 55  , 1.1   , 5    ,  0   ),
                 ("garage_inside_ceiling_light"                                          , "outside"      ,  12  , 49  , 6.4   , 5.1  ,  0   ),
                 ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 55  , 5     ,  6   ,  0   )] %}
 
@@ -59,11 +59,18 @@
 {% set media = [("samsung_q8_series_65"                                                 , "downstairs"   ,  45.7  , 76.3  , 0    ,0  ,  0   )] %}
 
 #--------------------------------------------------------------------------------------------------
-# Media
+# Camera
 #--------------------------------------------------------------------------------------------------
-#                  entity                        , battery_level                     , charging            , left, top)
-{% set persons = [("bernt"                       , "berntchristian_s22_battery_level", "berntchristian_s22_is_charging"           ,  85 ,  4),
-                  ("adrian"                      , "adrian_samsung_s20_battery_level", "adrian_samsung_s20_is_charging"           ,  89 ,  4)] %}
+#                 entity                                                                ,   group        , left , top, scaleX, scaleY, deg)
+{% set cameras = [("eigeland"                                                           , "outside"      ,  37  , 90.3  , 0    ,0  ,  0   ),
+                  ("stue"                                                               , "outside"      ,  47.7  , 65  , 0    ,0  ,  0   )] %}
+
+#--------------------------------------------------------------------------------------------------
+# persons
+#--------------------------------------------------------------------------------------------------
+#                  entity                        , battery_level                     , charging                                   , left  , top)
+{% set persons = [("bernt"                       , "berntchristian_s22_battery_level", "berntchristian_s22_is_charging"           ,  85   ,  4),
+                  ("adrian"                      , "adrian_samsung_s20_battery_level", "adrian_samsung_s20_is_charging"           ,  89.5 ,  4)] %}
 
 
 #                       group       , left, top
@@ -388,7 +395,7 @@ path: floorplan
 title: FloorPlan
 cards:
   - type: picture-elements
-    image: /local/images/floorplan_v2/lights/base_t_night.png
+    image: /local/images/floorplan_v2/base_t_night.png
     style: |
       ha-card {
         border-style: none;
@@ -587,7 +594,156 @@ cards:
                   legend_value: false
                   in_header: false
                   extremas: true
-                  
+
+      # ------------------------------
+      # Define Energy active areas
+      # ------------------------------
+
+      - entity: sensor.kamstrup_active_power_import
+        image: /local/images/floorplan_v2/transparent_square.png
+        style:
+          opacity: 0
+          {% if (debug == true) %}
+          border: 1px solid red
+          opacity: 1
+          {%- endif %}
+          left: 25%
+          top: 76%
+          transform: rotate({{ 0 }}deg) scale({{ 8.0 }}, {{ 1.2 }})
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content:
+                title: Strømoversikt
+                show_header_toggle: false
+                type: grid
+                columns: 1
+                square: false
+                card_mod:
+                style: |
+                  :host .content {
+                    width: 75vw;
+                    height: 75;
+                  }
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - entities:
+                          - entity: sensor.kwh_min
+                            name: Min kWh
+                          # - entity: sensor.kwh_max
+                          #   name: Snitt
+                          - entity: sensor.kwh_max
+                            name: Max kWh
+                          - type: divider
+                          - entity: sensor.daily_prize_accumulated_with_fees
+                            name: Kostnad i dag inkl nettleie
+                            icon: mdi:currency-usd
+                          - entity: sensor.daily_prize_accumulated_with_compensation
+                            name: Kostnad idag med kompensasjon
+                            icon: mdi:currency-usd
+                          - entity: sensor.cost_lastday
+                            name: Kostnad i går
+                            icon: mdi:currency-usd
+                          - type: divider
+                          - entity: sensor.energy_compensation_daily
+                            name: Kompensasjon i dag
+                            icon: mdi:currency-usd
+                          - entity: sensor.energy_compensation_this_month
+                            name: Kompensasjon denne måneden
+                            icon: mdi:currency-usd
+                          - type: divider
+                          - entity: sensor.cost_lastday
+                            name: Kostnad i går
+                            icon: mdi:currency-usd                  
+                          - entity: sensor.monthly_prize_accumulated_with_fees
+                            name: Kostnad denne mnd
+                            icon: mdi:currency-usd
+                          - entity: sensor.monthly_prize_accumulated_with_compensation
+                            name: Kostnad denne mnd med kompensasjon
+                            icon: mdi:currency-usd
+                          - entity: sensor.cost_last_month
+                            name: Kostnad forrige mnd
+                            icon: mdi:currency-usd
+                          - entity: sensor.yearly_prize_accumulated_with_fees
+                            name: Kostnad i år
+                            icon: mdi:currency-usd
+                          - entity: sensor.cost_lastyear
+                            icon: mdi:currency-usd
+                            name: Kostand i fjor
+                          - type: divider
+                          - entity: sensor.kwh_consumption_today
+                            name: Forbruk i dag
+                            icon: mdi:fire
+                          - entity: sensor.kwh_consumption_lastday
+                            name: Forbruk i går
+                            icon: mdi:fire
+                          - entity: sensor.kwh_consumption_thismonth
+                            name: Forbruk denne mnd
+                            icon: mdi:fire
+                          - entity: sensor.kwh_consumption_lastmonth
+                            name: Forbruk forrige mnd
+                            icon: mdi:fire
+                          - entity: sensor.kwh_consumption_thisyear
+                            name: Forbruk i år
+                            icon: mdi:fire
+                          - type: divider
+                          - entity: sensor.time_of_max_hour_consumption_eigeland_50
+                            name: Max strømtrekk dato
+                          - entity: sensor.monthly_peak_hour_consumption_eigeland_50
+                            name: Måndlig Strøm Peak ( Pr. Time )
+                          - entity: sensor.monthly_power_peak_prize
+                            name: Fastledd denne mnd
+                          - entity: sensor.kwh_consumption_total
+                            name: Målerstand
+                            secondary_info: last-changed
+                            icon: mdi:counter
+                        type: entities
+                        show_header_toggle: true
+                        state_color: false
+                columns: 1
+                square: false
+            columns: 1
+            square: false
+            deviceID:
+              - this
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none 
+        type: image
+        # Voltage
+      - type: state-label
+        entity: sensor.kamstrup_voltage_l1
+        style:
+          left: 25%
+          top: 76.2%
+          transform: translate(0, -50%)
+          font-size: 80%
+      - type: state-label
+        entity: sensor.kamstrup_voltage_l2
+        style:
+          left: 25%
+          top: 78.3%
+          transform: translate(0, -50%)
+          font-size: 80%
+      - type: state-label
+        entity: sensor.kamstrup_voltage_l3
+        style:
+          left: 25%
+          top: 80.3%
+          transform: translate(0, -50%)
+          font-size: 80%   
+      # KWH    
+      - type: state-label
+        entity: sensor.kwh_active_usage
+        style:
+          left: 24.5%
+          top: 82.6%
+          transform: translate(0, -50%)
+          font-size: 85%    
  ######     ###    ##       ######## ##    ## ########  ######## ########  
 ##    ##   ## ##   ##       ##       ###   ## ##     ## ##       ##     ## 
 ##        ##   ##  ##       ##       ####  ## ##     ## ##       ##     ## 
@@ -608,12 +764,14 @@ cards:
                 name: calendar.family
               - entity: calendar.cbegelan_gmail_com
                 name: calendar.cbegelan_gmail_com
-            maxDaysToShow: 7
+            maxDaysToShow: 2
             maxEventCount: 4
             showLocation: true
             showMonth: true
             showWeekDay: true
             showDate: false
+            showPrivate: false
+            hideDeclined: true
             showDescription: false
             showNoEventsForToday: true
             disableEventLink: true
@@ -778,6 +936,158 @@ cards:
         type: state-icon
       {% endfor %}
 
+
+
+ ######     ###    ##     ## ######## ########     ###    
+##    ##   ## ##   ###   ### ##       ##     ##   ## ##   
+##        ##   ##  #### #### ##       ##     ##  ##   ##  
+##       ##     ## ## ### ## ######   ########  ##     ## 
+##       ######### ##     ## ##       ##   ##   ######### 
+##    ## ##     ## ##     ## ##       ##    ##  ##     ## 
+ ######  ##     ## ##     ## ######## ##     ## ##     ## 
+
+# CAMERA
+      {% for entity, group, left, top, scaleX, scaleY, deg in cameras %}
+      {% if ((loop.index0 == 0) or ((loop.previtem is defined) and (entity != loop.previtem))) %}
+      - type: image
+        entity: camera.{{ entity }}
+        state_image:
+          'unavailable': /local/images/floorplan_v2/transparent_square.png
+          'off': /local/images/floorplan_v2/transparent_square.png
+          'recording': /local/images/floorplan_v2/camera/{{ entity }}.png
+        style:
+          left: {{ left }}%
+          top: {{ top }}%
+          width: 50px
+          opacity: 0.4
+          z-index: 20
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        tap_action:
+          action: fire-dom-event
+          browser_mod:
+            service: browser_mod.popup
+            data:
+              content:
+                title: Kamera {{ entity }}
+                show_header_toggle: false
+                type: grid
+                columns: 1
+                square: false
+                card_mod:
+                style: |
+                  :host .content {
+                    width: 75vw;
+                    height: 75;
+                  }
+                cards:
+                  - type: grid
+                    columns: 1
+                    square: false
+                    cards:
+                      - type: custom:frigate-card
+                        camera_entity: camera.{{ entity }}
+                        style:
+                          left: 10%
+                          top: 82%
+                          width: 14%
+                          height: 6.5%
+                        event_gallery:
+                          controls:
+                            thumbnails:
+                              size: 75
+                        media_viewer:
+                          auto_play: all
+                        view_layout:
+                          grid-area: main
+                        dimensions:
+                          aspect_ratio_mode: dynamic
+                        timeline:
+                          show_recordings: true
+                        view:
+                          update_force: false
+                          actions: 
+                            media_viewer: snapshot
+                            event_gallery: snapshot
+                        frigate:
+                          camera_name: "{{ entity }}"
+                        cameras:
+                          - camera_entity: camera.{{ entity }}
+                            live_provider: auto
+                        elements:
+                        - type: custom:frigate-card-conditional
+                          conditions:
+                            mediaLoaded: true
+                            view:
+                              - live
+                              - image
+                          elements:
+                          - type: custom:frigate-card-ptz
+                            orientation: horizontal
+                            style:
+                              transform: none
+                              right: 20px
+                              top: 180px
+                            service: script.camera_ptz
+                            data_left:
+                              direction: LEFT
+                            data_right:
+                              direction: RIGHT
+                            data_up:
+                              direction: UP
+                            data_down:
+                              direction: DOWN
+
+                          - type: custom:frigate-card-menu-submenu
+                            icon: mdi:menu
+                            items:
+                              - title: Vei inn
+                                icon: mdi:lightbulb
+                                tap_action:
+                                  action: call-service
+                                  service: script.camera_preset
+                                  service_data:
+                                    position: 1
+                              - title: Tuna
+                                icon: mdi:lightbulb
+                                tap_action:
+                                  action: call-service
+                                  service: script.camera_preset
+                                  service_data:
+                                    position: 3
+                              - title: Ned
+                                icon: mdi:lightbulb
+                                tap_action:
+                                  action: call-service
+                                  service: script.camera_preset
+                                  service_data:
+                                    position: 8
+                                    
+            deviceID:
+              - this
+
+      - type: conditional
+        conditions:
+          - entity: camera.{{ entity }}
+            state: "recording"
+        elements:
+          - type: state-icon
+            entity: camera.{{ entity }}
+            icon: mdi:radiobox-marked
+            state_color: false
+            style:
+              --mdc-icon-size: 15px
+              --paper-item-icon-color: red
+              left: {{ left - 0.55 }}%
+              top: {{ top - 1 }}%
+ #             animation: blink 2s ease infinite
+            
+   
+      {% endif %}
+      {% endfor %}
+
 ######## ######## ##     ## ########  ######## ########     ###    ######## ##     ## ########  ########     ######  ######## ##    ##  ######   #######  ########   ######  
    ##    ##       ###   ### ##     ## ##       ##     ##   ## ##      ##    ##     ## ##     ## ##          ##    ## ##       ###   ## ##    ## ##     ## ##     ## ##    ## 
    ##    ##       #### #### ##     ## ##       ##     ##  ##   ##     ##    ##     ## ##     ## ##          ##       ##       ####  ## ##       ##     ## ##     ## ##       
@@ -792,9 +1102,8 @@ cards:
         conditions:
           {% if category == "room" %}
           - entity: input_boolean.ui_hide_room_temperatures
-          {% elif category == "water_boiler" %}
-          - entity: input_boolean.ui_hide_water_boiler_temperatures
           {% endif %}
+
             state_not: 'on'
         elements:
         - type: state-label
@@ -842,13 +1151,15 @@ cards:
                         square: false
                         cards:
                           - type: 'custom:slider-entity-row'
-                            entity: input_number.ui_water_boiler_graph_hours
+                            entity: input_number.ui_temperature_graph_hours
                             hide_state: false
+                            style: |
+                              width: 75vw
                       - type: 'custom:config-template-card'
                         variables:
-                          HOURS: states['input_number.ui_water_boiler_graph_hours'].state
+                          HOURS: states['input_number.ui_temperature_graph_hours'].state
                         entities:
-                          - input_number.ui_water_boiler_graph_hours
+                          - input_number.ui_temperature_graph_hours
                         card:
                           type: history-graph
                           entities:
@@ -1051,7 +1362,8 @@ cards:
         cameras:
           - camera_entity: camera.eigeland
             live_provider: auto
-            
+
+
 
 ########  ######## ########   ######   #######  ##    ##  ######  
 ##     ## ##       ##     ## ##    ## ##     ## ###   ## ##    ## 
@@ -1084,7 +1396,7 @@ cards:
         entity: "sensor.{{ battery_level }}"
         style:
           left: {{ left + 0.2 }}%
-          top: {{ top + 4.2 }}%
+          top: {{ top + 5 }}%
 
       - type: conditional
         conditions:
@@ -1097,10 +1409,10 @@ cards:
             state_color: false
             style:
               --mdc-icon-size: 15px
-              --paper-item-icon-color: green
+              --paper-item-icon-color: rgb(255, 204, 102)
               color: green
-              left: {{ left - 1.5 }}%
-              top: {{ top + 4.1 }}%
+              left: {{ left - 1.4 }}%
+              top: {{ top + 5 }}%
       {% endfor %}
 ##    ##    ###    ##     ## ####  ######      ###    ######## ####  #######  ##    ## 
 ###   ##   ## ##   ##     ##  ##  ##    ##    ## ##      ##     ##  ##     ## ###   ## 
