@@ -48,7 +48,9 @@
                 ("2f_house_inside_ceiling_sturla_light"                                 , "upstairs"     ,  80  , 49  , 3.1   , 3.1  , -5   ),
                 ("2f_house_inside_ceiling_hall_light"                                   , "upstairs"     ,  84  , 64  , 5.5   , 1.8  ,  0   ),
                 ("1f_house_outside_entrance_light"                                      , "outside"      ,  46  , 42  , 1.5   , 1.5  ,  0   ),
-                ("1f_outside_glamping"                                                  , "outside"      ,  0.2 , 55  , 1.1   , 5    ,  0   ),
+
+                ("1f_outside_glamping"                                                  , "outside"      ,  4   , 75  , 2.5     , 2.5    ,  0   ),
+
                 ("garage_inside_ceiling_light"                                          , "outside"      ,  12  , 49  , 6.4   , 5.1  ,  0   ),
                 ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 55  , 5     ,  6   ,  0   )] %}
 
@@ -61,9 +63,9 @@
 #--------------------------------------------------------------------------------------------------
 # Camera
 #--------------------------------------------------------------------------------------------------
-#                 entity                                                                ,   group        , left , top, scaleX, scaleY, deg)
-{% set cameras = [("eigeland"                                                           , "outside"      ,  37  , 90.3  , 0    ,0  ,  0   ),
-                  ("stue"                                                               , "outside"      ,  47.7  , 65  , 0    ,0  ,  0   )] %}
+#                 entity                  PTZ script                                   ,   group        , left , top, scaleX, scaleY, deg)
+{% set cameras = [("eigeland"            , "script.reolink_ptz"                        , "outside"      ,  37  , 90.3  , 0    ,0  ,  0   ),
+                  ("stue"                , "script.tapo_ptz"                           , "outside"      ,  61  , 65    , 0    ,0  ,  0   )] %}
 
 #--------------------------------------------------------------------------------------------------
 # persons
@@ -947,7 +949,7 @@ cards:
  ######  ##     ## ##     ## ######## ##     ## ##     ## 
 
 # CAMERA
-      {% for entity, group, left, top, scaleX, scaleY, deg in cameras %}
+      {% for entity, ptz_script, group, left, top, scaleX, scaleY, deg in cameras %}
       {% if ((loop.index0 == 0) or ((loop.previtem is defined) and (entity != loop.previtem))) %}
       - type: image
         entity: camera.{{ entity }}
@@ -1030,7 +1032,7 @@ cards:
                               transform: none
                               right: 20px
                               top: 180px
-                            service: script.camera_ptz
+                            service: "{{ ptz_script }}"
                             data_left:
                               direction: LEFT
                             data_right:
@@ -1335,8 +1337,8 @@ cards:
       - type: custom:frigate-card
         camera_entity: camera.eigeland
         style:
-          left: 10%
-          top: 82%
+          left: 26%
+          top: 94%
           width: 14%
           height: 6.5%
         event_gallery:

@@ -336,7 +336,7 @@ cards:
                     - 50
                     - 100
         series:
-          - entity: sensor.kwh_price_with_fees
+          - entity: sensor.price_usage_now
             name: Kostnad pr. time
             yaxis_id: first
             unit: " NOK"

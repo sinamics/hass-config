@@ -101,6 +101,15 @@ sensor:
         value_template: >
           {{ states('input_number.monthly_power_peak_prize') }}
 
+  - platform: template
+    sensors:
+      price_usage_now:
+        unique_id: price_usage_now
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.price_usage_now') }}
+
 
 
 
@@ -374,6 +383,15 @@ input_number:
 
   monthly_power_peak_prize:
     name: pris kapasitetledd denne måneden
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  price_usage_now:
+    name: pris basert på nåværende forbruk
     max: 999999999
     min: 0
     step: 0.1

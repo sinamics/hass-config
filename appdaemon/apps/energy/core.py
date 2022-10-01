@@ -102,7 +102,7 @@ class Core(hass.Hass):
 
     # prize with energy factor based on time of day
     # Add VAT to the kwh price and add energiledd that already has VAT from agder energi.
-    kwh_prize_with_energyfactory = float(self.kwh_prize) * constants.VAT + energiledd.energy_factor(self)
+    kwh_prize_with_energyfactory = (float(self.kwh_prize) * constants.VAT) + energiledd.energy_factor(self)
 
     # spred watts to each seconds and multiply by the api call time diffrence.
     # spread to 10sec interval as this is the api call time from tibber.
@@ -127,6 +127,10 @@ class Core(hass.Hass):
     # calculate current kwh price with compensation
     kwh_vat = float(self.kwh_prize) / 100 * 25
     kwh_price_with_compensation = (float(self.kwh_prize) - self.compensation_api_class.kwh_compensation()) + (float(self.kwh_prize) / 100 * 25) + energiledd.energy_factor(self)
+
+    # self.log((self.kwh_prize * 1.25) + energiledd.energy_factor(self))
+    # Price based on current kwh usage
+    self.store_class.set_price_usage_now(round((self.watt_usage / 1000) * ((self.kwh_prize * 1.25) + energiledd.energy_factor(self)), 2))
 
     # set_kwh_price_with_compensation
     self.store_class.set_kwh_price_with_compensation(round(kwh_price_with_compensation, 2))

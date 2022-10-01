@@ -41,3 +41,4 @@ yearly_prize_accumulated_with_fees = "input_number.yearly_prize_accumulated_with
 kwh_price_with_compensation = "input_number.kwh_price_with_compensation"
 kwh_price_with_fees = "input_number.kwh_price_with_fees"
 energiledd = "input_number.energiledd"
+price_usage_now = "input_number.price_usage_now"

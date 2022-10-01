@@ -22,7 +22,7 @@ light:
   - platform: group
     name: Outside Lights
     entities:
-      - light.outside_glamping
+      - light.1f_outside_glamping
       - light.in_wall_dimmer_module
       - light.1f_house_outside_entrance_light
       - light.garage_inside_ceiling_light

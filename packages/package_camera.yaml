@@ -1,6 +1,7 @@
 #https://github.com/AlexxIT/WebRTC/wiki/PTZ-Config-Examples
 script:
-  camera_ptz:
+  # Reolink camera
+  reolink_ptz:
     sequence:
       - service: reolink_dev.ptz_control
         data:
@@ -21,3 +22,28 @@ script:
           entity_id: 'camera.eigeland360'
           command: TOPOS
           preset: "{{ position }}"
+
+  # TAPO Camera
+  tapo_ptz:
+    sequence:
+      choose:
+          # Pan
+        - conditions:
+          - condition: template
+            value_template: "{{ direction == 'LEFT' or direction == 'RIGHT' }}"
+          sequence:
+          - service: tapo_control.ptz
+            data:
+              entity_id: 'camera.stue_hd'
+              pan: "{{ direction }}"
+              distance: 0.1
+        # TILT
+        - conditions:
+          - condition: template
+            value_template: "{{ direction == 'UP' or direction == 'DOWN' }}"
+          sequence:
+          - service: tapo_control.ptz
+            data:
+              entity_id: 'camera.stue_hd'
+              tilt: "{{ direction }}"
+              distance: 0.1
