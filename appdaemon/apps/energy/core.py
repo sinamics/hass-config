@@ -89,8 +89,8 @@ class Core(hass.Hass):
 
       # self.kwh_consumption_today = 12.95
       
-      #self.kwh_consumption = 3615.07
-      self.store_class.set_total_accumulated_kwh(self.kwh_consumption)
+      # self.kwh_consumption = 3727.0
+      self.store_class.set_total_accumulated_kwh(int(self.kwh_consumption))
       self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
       self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
       
@@ -115,6 +115,9 @@ class Core(hass.Hass):
     # self.cost_daily = 17.72
     # self.cost_yearly = 17743.0
     # set state with updated prize
+    
+    self.store_class.set_kwh_price(round(self.kwh_prize, 2))
+
     self.store_class.set_daily_prize_accumulated_with_fees(round(self.cost_daily, 2))
     self.store_class.set_monthly_prize_accumulated_with_fees(round(self.cost_monthly, 2))
     self.store_class.set_yearly_prize_accumulated_with_fees(round(self.cost_yearly, 2))

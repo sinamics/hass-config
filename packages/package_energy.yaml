@@ -163,6 +163,23 @@ sensor:
 
   - platform: template
     sensors:
+      kwh_price:
+        unique_id: kwh_price
+        unit_of_measurement: "NOK"
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.kwh_price') }}
+# average
+  - platform: average
+    unique_id: average_kwh_usage_lasthour
+    name: 'Average kwh usage last hour'
+    start: '{{ now().replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+    entities:
+      - sensor.kwh_active_usage
+
+  - platform: template
+    sensors:
       cost_lastday:
         unique_id: cost_lastday
         icon_template: mdi:currency-usd
@@ -495,6 +512,15 @@ input_number:
     name: Daglig kostnad inkludert komensasjon
     max: 999999999
     min: -10
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:counter
+    
+  kwh_price:
+    name: kwh kostand
+    max: 999999999
+    min: 0
     step: 0.1
     mode: box
     unit_of_measurement: "NOK"

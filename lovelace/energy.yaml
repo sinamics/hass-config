@@ -237,9 +237,9 @@ cards:
                     name: Forbruk i år
                     icon: mdi:fire
                   - type: divider
-                  - entity: sensor.time_of_max_hour_consumption_eigeland_50
-                    name: Max strømtrekk dato
-                  - entity: sensor.monthly_peak_hour_consumption_eigeland_50
+                  # - entity: sensor.time_of_max_hour_consumption_eigeland_50
+                  #   name: Max strømtrekk dato
+                  - entity: sensor.average_kwh_usage_last_hour
                     name: Måndlig Strøm Peak ( Pr. Time )
                   - entity: sensor.monthly_power_peak_prize
                     name: Fastledd denne mnd
@@ -403,9 +403,9 @@ cards:
       - type: custom:mini-graph-card
         hours_to_show: 48
         entities:
-          - entity: sensor.kwh_price_with_fees
+          - entity: sensor.kwh_price
             index: 0
-            name: Strøm Pris Inkl Mva
+            name: Strøm Pris
             hour24: true
         color_thresholds:
           - color: "#0FA300"

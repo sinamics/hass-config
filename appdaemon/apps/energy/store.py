@@ -15,6 +15,9 @@ class Store(hass.Hass):
         self.listen_state(self.notify_high_prize, sensors.kwh_price_with_fees)
 
     """  SETTERS  """
+    def set_kwh_price(self, price):
+        self.set_value(sensors.kwh_price, round(price, 4))
+
     def set_price_usage_now(self, price):
         self.set_value(sensors.price_usage_now, round(price, 4))
 
@@ -68,6 +71,9 @@ class Store(hass.Hass):
 
 
     """  GETTERS  """
+    def get_kwh_price(self):
+        return float(self.get_state(sensors.kwh_price, default=0))
+
     def get_price_usage_now(self):
         return float(self.get_state(sensors.price_usage_now, default=0))
 
