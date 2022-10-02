@@ -1,4 +1,4 @@
-
+ 
 ###### Global Sensors #######
 
 # Electricity price without VAT
@@ -6,10 +6,6 @@ sensor_electricity_price = "sensor.nordpool_kwh_krsand_nok_3_095_0"
 
 # Power in watt usage ( polled every 10 sec mqtt) 
 sensor_watt_consumption = "sensor.kamstrup_active_power_import"
-
-
-# These sensors should be created in home assistant beforhand.
-monthly_net_consumption_eigeland_50 = "sensor.monthly_net_consumption_eigeland_50"
 
 # forbruk
 kwh_consumption_total = "input_number.kwh_consumption_total"

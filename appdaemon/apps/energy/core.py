@@ -112,7 +112,7 @@ class Core(hass.Hass):
     self.cost_daily += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     self.cost_monthly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     self.cost_yearly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
-    # self.cost_daily = 16.37
+    # self.cost_daily = 17.72
     # self.cost_yearly = 17743.0
     # set state with updated prize
     self.store_class.set_daily_prize_accumulated_with_fees(round(self.cost_daily, 2))
@@ -120,7 +120,7 @@ class Core(hass.Hass):
     self.store_class.set_yearly_prize_accumulated_with_fees(round(self.cost_yearly, 2))
     self.store_class.set_energiledd(round(energiledd.energy_factor(self), 2))
     self.store_class.set_kwh_price_with_fees(round(kwh_prize_with_energyfactory, 2))
- 
+
     # create new sensor with energy price and compensation substracted
     self.store_class.set_daily_accumulated_kwh_price_with_compensation(round(self.cost_daily - self.compensation_api_class.daily_compensation, 2))
 
@@ -145,7 +145,7 @@ class Core(hass.Hass):
     # run cleanup functions and shift numbers for new hour / min / day 
     self.log("cleanup function run_every_day " + str(datetime.now()))
     self.store_class.set_kwh_consumption_lastday(round(self.kwh_consumption_today, 2))
-    self.store_class.cost_lastday(round(self.cost_daily, 2))
+    self.store_class.set_cost_lastday(round(self.cost_daily, 2))
     self.cost_daily = 0
     self.kwh_consumption_today = 0
 

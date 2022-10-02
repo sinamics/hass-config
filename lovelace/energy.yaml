@@ -68,9 +68,9 @@ cards:
             cards:
               - type: entities
                 entities:
-                  - entity: sensor.avg_electricity_price_eigeland_50
-                    name: avg price today
-                    icon: mdi:currency-usd
+#                  - entity: sensor.avg_electricity_price_eigeland_50
+#                    name: avg price today
+#                    icon: mdi:currency-usd
                   - entity: sensor.monthly_avg_kwh_price
                     icon: mdi:currency-usd
                     name: avg price this month
@@ -403,7 +403,7 @@ cards:
       - type: custom:mini-graph-card
         hours_to_show: 48
         entities:
-          - entity: sensor.electricity_price_eigeland_50
+          - entity: sensor.kwh_price_with_fees
             index: 0
             name: Strøm Pris Inkl Mva
             hour24: true

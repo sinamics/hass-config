@@ -62,8 +62,9 @@ class Compensation(hass.Hass):
     def daily(self):
         if self.avg_price_today > constants.COMPENSATION_THRESHOLD:
             self.daily_compensation = self.calculate_compensation_amount(self.avg_price_today, self.daily_consumption)
-            # self.daily_consumption = 18.2
-            # self.daily_compensation = 36.2
+            
+            # self.daily_consumption = 10.0
+            # self.daily_compensation = 10
         self.set_state(sensors.energy_compensation_daily, state = round(self.daily_compensation, 2), attributes = {"compensation": round(self.daily_compensation,2), "unit_of_measurement": "NOK"})
 
     def monthly(self):
