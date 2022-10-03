@@ -21,6 +21,9 @@ class Store(hass.Hass):
     def set_price_usage_now(self, price):
         self.set_value(sensors.price_usage_now, round(price, 4))
 
+    def set_cost_lastmonth(self, price):
+        self.set_value(sensors.cost_lastmonth, round(price, 4))
+
     def set_cost_lastday(self, price):
         self.set_value(sensors.cost_lastday, round(price, 4))
 
@@ -76,6 +79,9 @@ class Store(hass.Hass):
 
     def get_price_usage_now(self):
         return float(self.get_state(sensors.price_usage_now, default=0))
+
+    def get_cost_lastmonth(self):
+        return float(self.get_state(sensors.cost_lastmonth, default=0))
 
     def get_cost_lastday(self):
         return float(self.get_state(sensors.cost_lastday, default=0))

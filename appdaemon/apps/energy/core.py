@@ -115,7 +115,7 @@ class Core(hass.Hass):
     # self.cost_daily = 17.72
     # self.cost_yearly = 17743.0
     # set state with updated prize
-    
+
     self.store_class.set_kwh_price(round(self.kwh_prize, 2))
 
     self.store_class.set_daily_prize_accumulated_with_fees(round(self.cost_daily, 2))
@@ -157,6 +157,7 @@ class Core(hass.Hass):
     # run cleanup functions and shift numbers for new hour / min / day
     self.log("cleanup function run_every_month " + str(datetime.now()))
     self.store_class.set_kwh_consumption_lastmonth(round(self.kwh_consumption_this_month, 2))
-
+    self.store_class.set_cost_lastmonth(round(self.cost_monthly, 2))
+    
     self.cost_monthly = 0
     self.kwh_consumption_this_month = 0
