@@ -247,9 +247,12 @@
       {% for entity, group, left, top, scaleX, scaleY, deg in lights %}
         {% if ((loop.index0 == 0) or ((loop.previtem is defined) and (entity != loop.previtem))) %}
       - type: conditional
+        condition: or
         conditions:
           - entity: light.{{ entity }}
-            state: 'unavailable'
+            state_not: 'on'
+          - entity: light.{{ entity }}
+            state_not: 'off'
         elements:
           - type: icon
             icon: mdi:alert-outline
@@ -424,6 +427,7 @@ cards:
       - entity: light.{{ entity }}
         state_image:
           'unavailable': /local/images/floorplan_v2/transparent_square.png
+          'unknown': /local/images/floorplan_v2/transparent_square.png
           'off': /local/images/floorplan_v2/transparent_square.png
           'on': /local/images/floorplan_v2/lights/{{ entity }}.png
         style:

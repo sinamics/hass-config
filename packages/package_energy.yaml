@@ -28,6 +28,7 @@ sensor:
   - platform: template
     sensors:
       kwh_consumption_lastday:
+        unique_id: kwh_consumption_lastday
         icon_template: mdi:fire
         unit_of_measurement: "kWh"
         value_template: >
@@ -36,6 +37,7 @@ sensor:
   - platform: template
     sensors:
       kwh_consumption_thismonth:
+        unique_id: kwh_consumption_thismonth
         icon_template: mdi:fire
         unit_of_measurement: "kWh"
         value_template: >
@@ -44,6 +46,7 @@ sensor:
   - platform: template
     sensors:
       kwh_consumption_lastmonth:
+        unique_id: kwh_consumption_lastmonth
         icon_template: mdi:fire
         unit_of_measurement: "kWh"
         value_template: >
@@ -52,6 +55,7 @@ sensor:
   - platform: template
     sensors:
       kwh_consumption_thisyear:
+        unique_id: kwh_consumption_thisyear
         icon_template: mdi:fire
         unit_of_measurement: "kWh"
         value_template: >
@@ -60,6 +64,8 @@ sensor:
   - platform: template
     sensors:
       kwh_active_usage:
+        unique_id: kwh_active_usage
+        device_class: energy
         icon_template: mdi:fire
         unit_of_measurement: "kWh"
         value_template: >
