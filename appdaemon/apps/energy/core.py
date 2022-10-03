@@ -105,7 +105,7 @@ class Core(hass.Hass):
     kwh_prize_with_energyfactory = (float(self.kwh_prize) * constants.VAT) + energiledd.energy_factor(self)
 
     # spred watts to each seconds and multiply by the api call time diffrence.
-    # spread to 10sec interval as this is the api call time from tibber.
+    # spread to 10sec interval. AMS publish new data every 10sec
     self.watt_pr_sec_prize = kwh_prize_with_energyfactory / 60 / 60 * 10
 
     # calcualte cost based on 10min prize and watt usage. Divide watt usage by 1k to get kwh value

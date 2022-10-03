@@ -1,5 +1,5 @@
 # ha-energy
-This is an AppDaemon automation of my Tibber energy monitoring in Home Assistant. 
+This is an AppDaemon automation of my AMS energy monitoring in Home Assistant. 
 
 # why
 It provides additional information such as:

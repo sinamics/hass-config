@@ -17,8 +17,7 @@ import constants
 class Compensation(hass.Hass):
     def initialize(self):
         self.avg_price_today = 0
-        self.tibber_attributes = 0
-
+        
         # Power Consumption
         self.daily_consumption = 0
         self.monthly_consumption = 0

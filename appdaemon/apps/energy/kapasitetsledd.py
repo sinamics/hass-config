@@ -14,7 +14,7 @@ class kapasitetsledd(hass.Hass):
         # run on initial load
         self.peak_calculation()
         
-        # update whenever new peak is updated from Tibber 
+        # update whenever new peak is registered
         self.listen_state(self.peak_handler, sensors.monthly_kwh_peak_hour, immediate=True)
 
         # history = self.get_history("sensor.kwh_active_usage")
