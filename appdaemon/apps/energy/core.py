@@ -18,16 +18,21 @@ class Core(hass.Hass):
     self.cost_daily = self.store_class.get_daily_prize_accumulated_with_fees()
     self.cost_monthly = self.store_class.get_monthly_prize_accumulated_with_fees()
     self.cost_yearly = self.store_class.get_yearly_prize_accumulated_with_fees()
+
     self.kwh_consumption = self.store_class.get_total_accumulated_kwh()
     self.kwh_consumption_today = self.store_class.get_total_accumulated_kwh_today()
     self.kwh_consumption_this_month = self.store_class.get_total_accumulated_kwh_month()
+    self.kwh_consumption_this_year = self.store_class.get_kwh_consumption_thisyear()
 
+    self.kwh_consumption_startofday = self.store_class.get_kwh_consumption_startofday()
+    
     # # kwh usage
     self.kwh_power = 0
     self.kwh_power_min = self.store_class.get_kwh_min()
     self.kwh_power_max = self.store_class.get_kwh_max()
     self.kwh_prize = 0
     self.watt_usage = 0
+    self.total_kwh_usage = 0
 
     # # Run task every hour
     self.run_hourly(self.run_every_hour, time(0, 0, 0))
@@ -41,6 +46,11 @@ class Core(hass.Hass):
     runt_date = first_day.strftime("%Y-%m-%d %H:%M:%S")
     self.run_at(self.run_every_month, runt_date)
     
+    # run every year
+    first_d = today.replace(day=1, month=1) + relativedelta(years=1)
+    runt_yearly = first_d.strftime("%Y-%m-%d %H:%M:%S")
+    self.run_at(self.run_every_year, runt_yearly)
+
     self.listen_state(self.watt_consumption_handler, sensors.sensor_watt_consumption, immediate=True)
     self.listen_state(self.kwh_price_handler, sensors.sensor_electricity_price, immediate=True)
     
@@ -81,18 +91,32 @@ class Core(hass.Hass):
       
       self.store_class.set_kwh_active_usage(round(kwh_usage, 2))
       # kwh usage now
-        
-      # convert to kwh usage
-      self.kwh_consumption +=  self.watt_usage / 3600 * 10 / 1000
-      self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
-      self.kwh_consumption_this_month +=  self.watt_usage / 3600 * 10 / 1000
-
-      # self.kwh_consumption_today = 12.95
       
+      # accumulate kwh usage
+      self.kwh_consumption_startofday = self.store_class.get_kwh_consumption_startofday()
+      self.kwh_consumption_startofmonth = self.store_class.get_kwh_consumption_startofmonth()
+      self.kwh_consumption_startofyear = self.store_class.get_kwh_consumption_startofyear()
+
+      self.total_kwh_usage = self.store_class.get_kamstrup_power_import_total()
+      self.kwh_consumption = self.total_kwh_usage
+
+      self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
+      self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
+      self.kwh_consumption_this_year = self.total_kwh_usage - self.kwh_consumption_startofyear
+
+      ############## using total measurement from ams instead ###############
+      # self.kwh_consumption +=  self.watt_usage / 3600 * 10 / 1000
+      # self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
+      # self.kwh_consumption_this_month +=  self.watt_usage / 3600 * 10 / 1000
+      
+      # self.kwh_consumption_today = 12.95
+      # self.kwh_consumption_this_month = 3668.59
       # self.kwh_consumption = 3727.0
       self.store_class.set_total_accumulated_kwh(int(self.kwh_consumption))
       self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
       self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
+
+      self.store_class.set_kwh_consumption_thisyear(round(self.kwh_consumption_this_year, 2))
       
 
   def prize_calculation(self):
@@ -161,3 +185,8 @@ class Core(hass.Hass):
     
     self.cost_monthly = 0
     self.kwh_consumption_this_month = 0
+
+  def run_every_year(self, kwargs):
+    self.log("function run_every_year " + str(datetime.now()))
+    self.store_class.set_kwh_consumption_startofyear(self.total_kwh_usage)
+    self.kwh_consumption_this_year = 0

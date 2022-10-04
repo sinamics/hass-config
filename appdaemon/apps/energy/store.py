@@ -15,6 +15,18 @@ class Store(hass.Hass):
         self.listen_state(self.notify_high_prize, sensors.kwh_price_with_fees)
 
     """  SETTERS  """
+    def set_kamstrup_power_import_total(self, price):
+        self.set_value(sensors.kamstrup_power_import_total, round(price, 4))
+
+    def set_kwh_consumption_startofday(self, price):
+        self.set_value(sensors.kwh_consumption_startofday, round(price, 4))
+
+    def set_kwh_consumption_startofmonth(self, price):
+        self.set_value(sensors.kwh_consumption_startofmonth, round(price, 4))
+
+    def set_kwh_consumption_startofyear(self, price):
+        self.set_value(sensors.kwh_consumption_startofyear, round(price, 4))
+
     def set_kwh_price(self, price):
         self.set_value(sensors.kwh_price, round(price, 4))
 
@@ -41,6 +53,9 @@ class Store(hass.Hass):
 
     def set_kwh_consumption_lastmonth(self, price):
         self.set_value(sensors.kwh_consumption_lastmonth, round(price, 4))
+
+    def set_kwh_consumption_thisyear(self, price):
+        self.set_value(sensors.kwh_consumption_thisyear, round(price, 4))
 
     def set_total_accumulated_kwh_month(self, price):
         self.set_value(sensors.kwh_consumption_thismonth, round(price, 4))
@@ -74,6 +89,18 @@ class Store(hass.Hass):
 
 
     """  GETTERS  """
+    def get_kamstrup_power_import_total(self):
+        return float(self.get_state(sensors.kamstrup_power_import_total, default=0))
+
+    def get_kwh_consumption_startofday(self):
+        return float(self.get_state(sensors.kwh_consumption_startofday, default=0))
+
+    def get_kwh_consumption_startofmonth(self):
+        return float(self.get_state(sensors.kwh_consumption_startofmonth, default=0))
+
+    def get_kwh_consumption_startofyear(self):
+        return float(self.get_state(sensors.kwh_consumption_startofyear, default=0))
+
     def get_kwh_price(self):
         return float(self.get_state(sensors.kwh_price, default=0))
 
@@ -97,6 +124,9 @@ class Store(hass.Hass):
 
     def get_kwh_consumption_lastmonth(self):
         return float(self.get_state(sensors.kwh_consumption_lastmonth, default=0))
+
+    def get_kwh_consumption_thisyear(self):
+        return float(self.get_state(sensors.kwh_consumption_thisyear, default=0))
 
     def get_total_accumulated_kwh_month(self):
         return float(self.get_state(sensors.kwh_consumption_thismonth, default=0))

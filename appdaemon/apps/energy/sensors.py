@@ -1,4 +1,3 @@
- 
 ###### Global Sensors #######
 
 # Electricity price without VAT
@@ -7,12 +6,19 @@ sensor_electricity_price = "sensor.nordpool_kwh_krsand_nok_3_095_0"
 # Power in watt usage ( polled every 10 sec mqtt) 
 sensor_watt_consumption = "sensor.kamstrup_active_power_import"
 
+# Total ams 
+kamstrup_power_import_total = "sensor.kamstrup_active_power_import_total"
+
 # forbruk
 kwh_consumption_total = "input_number.kwh_consumption_total"
 kwh_consumption_today = "input_number.kwh_consumption_today"
 kwh_consumption_lastday = "input_number.kwh_consumption_lastday"
-kwh_consumption_thismonth= "input_number.kwh_consumption_thismonth"
+kwh_consumption_thismonth = "input_number.kwh_consumption_thismonth"
+kwh_consumption_thisyear = "input_number.kwh_consumption_thisyear"
 kwh_consumption_lastmonth = "input_number.kwh_consumption_lastmonth"
+kwh_consumption_startofday = "input_number.kwh_consumption_startofday"
+kwh_consumption_startofmonth = "input_number.kwh_consumption_startofmonth"
+kwh_consumption_startofyear = "input_number.kwh_consumption_startofyear"
 kwh_active_usage = "input_number.kwh_active_usage"
 kwh_max = "input_number.kwh_max"
 kwh_min = "input_number.kwh_min"

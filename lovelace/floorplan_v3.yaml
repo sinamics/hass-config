@@ -1,0 +1,82 @@
+# lovelace_gen
+{# button_card_templates:
+  !include_dir_merge_named button_card_templates #}
+
+
+
+#--------------------------------------------------------------------------------------------------
+# General
+{% set debug = false %}
+
+#--------------------------------------------------------------------------------------------------
+# Lights
+#  - List all active areas.
+#    If more than one exists with the same name - must be consecutive
+#  - List groups for group buttons
+#--------------------------------------------------------------------------------------------------
+#                 entity                                                                ,    group       , left , top, scaleX, scaleY, deg)
+{% set lights = [("smart_led_strip"                                                     , "downstairs"   ,  41  , 64  , 2.2   , 2.2  ,  0   ),
+                ("1f_house_inside_entrance_light"                                       , "downstairs"   ,  51  , 52  , 2.8   , 1.8  ,  0   ),              
+                ("1f_house_inside_ceiling_laundryroom_light"                            , "downstairs"   ,  58  , 49  , 1.8   , 2.5  ,  0   ),   
+                ("1f_house_inside_livingroom_corner_light"                              , "downstairs"   ,  44  , 82  , 4.5   , 2.2  ,  0   ),
+                ("2f_house_inside_ceiling_vilde_light"                                  , "upstairs"     ,  73  , 80  , 2.8   , 2.8  , -4   ),
+                ("2f_house_inside_ceiling_adrian_light"                                 , "upstairs"     ,  89  , 80  , 3     , 3    , -6   ),
+                ("2f_house_inside_ceiling_sturla_light"                                 , "upstairs"     ,  80  , 49  , 3.1   , 3.1  , -5   ),
+                ("2f_house_inside_ceiling_hall_light"                                   , "upstairs"     ,  84  , 64  , 5.5   , 1.8  ,  0   ),
+                ("1f_house_outside_entrance_light"                                      , "outside"      ,  46  , 42  , 1.5   , 1.5  ,  0   ),
+
+                ("1f_outside_glamping"                                                  , "outside"      ,  4   , 75  , 2.5     , 2.5    ,  0   ),
+
+                ("garage_inside_ceiling_light"                                          , "outside"      ,  12  , 49  , 6.4   , 5.1  ,  0   ),
+                ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 55  , 5     ,  6   ,  0   )] %}
+
+
+
+type: custom:grid-layout
+title: Floor v3
+
+layout:
+  margin: 0
+  height: 94vh
+  grid-gap: 0.0vw
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr
+  grid-template-rows: 35% 65%
+  grid-template-areas: |
+    "weather misc . . . ."
+    "floorplan_garage floorplan_garage floorplan_1f floorplan_1f floorplan_2f floorplan_2f"
+  mediaquery:
+    "(max-width: 600px)":
+      grid-template-columns: 1fr
+      grid-template-rows: 1fr
+      grid-template-areas: |
+        "floorplan_1f"
+        "floorplan_2f"
+        "floorplan_garage"
+    "(max-width: 800px)":
+      grid-template-columns: 1fr
+      grid-template-rows: 1fr
+      grid-template-areas: |
+        "floorplan_1f"
+        "floorplan_2f"
+        "floorplan_garage"
+cards:
+
+  - type: weather-forecast
+    entity: weather.home
+    view_layout:
+      grid-area: weather
+  - type: picture
+    image: /local/images/floorplan_v3/base_1f.png
+    view_layout:
+      grid-area: floorplan_1f
+
+  - type: picture
+    image: /local/images/floorplan_v3/base_2f.png
+    view_layout:
+      grid-area: floorplan_2f
+
+  - type: picture
+    image: /local/images/floorplan_v3/base_garage.png
+    view_layout:
+      grid-area: floorplan_garage
+
