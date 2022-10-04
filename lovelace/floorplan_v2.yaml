@@ -260,8 +260,8 @@
             state_color: false
             style:
               color: rgb(226, 190, 57)
-              left: {{ left + 2 }}%
-              top: {{ top }}%
+              left: {{ left +1 }}%
+              top: {{ top +1 }}%
               padding: 2px
               border: 0.1em dotted red
               border-radius: {{ border_radius }}%

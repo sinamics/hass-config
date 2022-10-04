@@ -55,39 +55,3 @@ sensor_electricity_price_db:
   device_class: power
   attribute_templates:
     update_now: "{{ (now().minute / 5) | round(0) }}"
-
-#####################################################################
-#Map new names for telldus stick
-template_waterpump_kwh:
-  value_template: "{{ states('sensor.sensors_switch_waterpump_1') }}"
-  unit_of_measurement: kWh
-  friendly_name: "kWh"
-template_waterpump_amps:
-  value_template: "{{ states('sensor.sensors_switch_waterpump_2') }}"
-  unit_of_measurement: A
-  friendly_name: "Amps"
-template_waterpump_watt:
-  value_template: "{{ states('sensor.sensors_switch_waterpump_3') }}"
-  unit_of_measurement: W
-  friendly_name: "Watt"
-template_waterpump_volt:
-  value_template: "{{ states('sensor.sensors_switch_waterpump_4') }}"
-  unit_of_measurement: V
-  friendly_name: "Voltage"
-
-template_switch_lr_kwh:
-  value_template: "{{ states('sensor.switch_lr_1') }}"
-  unit_of_measurement: kWh
-  friendly_name: "kWh"
-template_switch_lr_amps:
-  value_template: "{{ states('sensor.switch_lr_2') }}"
-  unit_of_measurement: A
-  friendly_name: "Amps"
-template_switch_lr_watt:
-  value_template: "{{ states('sensor.switch_lr_3') }}"
-  unit_of_measurement: W
-  friendly_name: "Watt"
-template_switch_lr_volt:
-  value_template: "{{ states('sensor.switch_lr_4') }}"
-  unit_of_measurement: V
-  friendly_name: "Voltage"
