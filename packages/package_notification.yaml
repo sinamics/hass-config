@@ -48,3 +48,43 @@ automation:
             round(2)) }} kr kWh
           title: Høy Strømpris!!
     mode: single
+    # BMW
+  - alias: BMW X5 notifikasjon
+    description: ""
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.bs83711
+        from: "False"
+        to: "True"
+    condition: []
+    action:
+      - service: notify.mobile_app_berntchristian_s22
+        data:
+          message: BMW X5 observert i tunet
+          title: X5 hjemme på Eigeland
+      - service: notify.bmw_connected_drive_x5_xdrive30d
+        data:
+          message: BMW X5 er gjenkjent på kamera Eigeland
+          title: BMW X5 observert i tunet
+    # egolf
+  - alias: egolf notifikasjon
+    description: ""
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.ek46936
+        from: "False"
+        to: "True"
+    condition: []
+    action:
+      - service: notify.mobile_app_berntchristian_s22
+        data:
+          message: egolf observert i tunet
+          title: egolf hjemme på Eigeland
+      - service: notify.bmw_connected_drive_x5_xdrive30d
+        data:
+          message: egolf er gjenkjent på kamera Eigeland
+          title: egolf observert i tunet

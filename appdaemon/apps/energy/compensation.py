@@ -21,6 +21,7 @@ class Compensation(hass.Hass):
         # Power Consumption
         self.daily_consumption = 0
         self.monthly_consumption = 0
+        self.month_avg = 0 
 
         # NOK compensation
         self.daily_compensation = 0
@@ -58,14 +59,15 @@ class Compensation(hass.Hass):
         
     """ ------------ Methods -------------- """
     def kwh_compensation(self):
-        return self.calculate_compensation_amount(self.avg_price_today, 1)
+        return self.calculate_compensation_amount(self.month_avg, 1)
     
     def daily(self):
-        if self.avg_price_today > constants.COMPENSATION_THRESHOLD:
-            self.daily_compensation = self.calculate_compensation_amount(self.avg_price_today, self.daily_consumption)
+        if self.month_avg > constants.COMPENSATION_THRESHOLD:
+            self.daily_compensation = self.calculate_compensation_amount(self.month_avg, self.daily_consumption)
 
             # self.daily_consumption = 10.0
             # self.daily_compensation = 10
+        self.log(self.daily_compensation)
         self.set_state(sensors.energy_compensation_daily, state = round(self.daily_compensation, 2), attributes = {"compensation": round(self.daily_compensation,2), "unit_of_measurement": "NOK"})
 
     def monthly(self):
@@ -83,16 +85,16 @@ class Compensation(hass.Hass):
         avg_monthly_history["day{}".format(date.today().day)] = self.avg_price_today
 
         # calculate this month avg prize
-        month_avg = 0
+        self.month_avg = 0
         for item in avg_monthly_history:
-            month_avg += avg_monthly_history[item]
+            self.month_avg += avg_monthly_history[item]
 
         if days > 1:
-            month_avg = month_avg / days # len has 1 index
+            self.month_avg = self.month_avg / days # len has 1 index
  
-        # # calculate compensation level so far this month.
-        if month_avg > constants.COMPENSATION_THRESHOLD:
-            self.monthly_compensation = self.calculate_compensation_amount(month_avg, self.monthly_consumption)
+        # # calculate compensation level so far this month / day.
+        if self.month_avg > constants.COMPENSATION_THRESHOLD:
+            self.monthly_compensation = self.calculate_compensation_amount(self.month_avg, self.monthly_consumption)
 
         with open(constants.JSON_AVG_PRICE_FILE, "w") as outfile:
             outfile.write(json.dumps(avg_monthly_history))
@@ -100,9 +102,12 @@ class Compensation(hass.Hass):
         # update state
         self.set_state(sensors.energy_compensation_this_month, state = round(self.monthly_compensation, 2), attributes = {"compensation": round(self.monthly_compensation,2), "unit_of_measurement": "NOK"})
         # set avg price so far this month
-        self.set_value(sensors.monthly_avg_kwh_price, round(month_avg,3))
+        self.set_value(sensors.monthly_avg_kwh_price, round(self.month_avg,3))
         
     def calculate_compensation_amount(self, avg_price, kwh_consumption):
+        if avg_price <= constants.COMPENSATION_THRESHOLD:
+            return 0
+
         rest = avg_price - constants.COMPENSATION_THRESHOLD
         compensation_amount = constants.COMPENSATION_LEVEL * rest / 100
         return compensation_amount * float(kwh_consumption)

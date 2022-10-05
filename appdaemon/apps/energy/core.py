@@ -110,8 +110,10 @@ class Core(hass.Hass):
       # self.kwh_consumption_this_month +=  self.watt_usage / 3600 * 10 / 1000
       
       # self.kwh_consumption_today = 12.95
-      # self.kwh_consumption_this_month = 3668.59
+      # self.kwh_consumption_this_month = 3668.59 start of month
       # self.kwh_consumption = 3727.0
+
+      # 3858.64
       self.store_class.set_total_accumulated_kwh(int(self.kwh_consumption))
       self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
       self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
@@ -153,7 +155,6 @@ class Core(hass.Hass):
     # calculate current kwh price with compensation
     kwh_vat = float(self.kwh_prize) / 100 * 25
     kwh_price_with_compensation = (float(self.kwh_prize) - self.compensation_api_class.kwh_compensation()) + (float(self.kwh_prize) / 100 * 25) + energiledd.energy_factor(self)
-
 
     # self.log((self.kwh_prize * 1.25) + energiledd.energy_factor(self))
     # Price based on current kwh usage

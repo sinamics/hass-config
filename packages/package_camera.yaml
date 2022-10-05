@@ -1,3 +1,63 @@
+
+image_processing:
+  - platform: platerecognizer
+    api_token: !secret image_proccessing_api_key
+    regions:
+      - 'no'
+    watched_plates:
+      - bs83711
+    save_file_folder: /config/www/images/platerecognizer/
+    save_timestamped_file: True
+    always_save_latest_file: True
+    mmc: True
+    detection_rule: strict
+    region: strict
+#    server: http://10.0.0.210:8080/v1/plate-reader/
+
+    source:
+      - entity_id: camera.eigeland
+
+###########################################
+############### S E N S O R ###############
+###########################################
+
+sensor:
+  - platform: template
+    sensors:
+      bs83711:
+        friendly_name: "Bernt`s BMW X5 er lokalisert i tunet på eigeland"
+        value_template: "{{ is_state('binary_sensor.eigeland_car_occupancy', 'on') and state_attr('image_processing.platerecognizer_eigeland', 'watched_plates').bs83711 }}"
+
+  - platform: template
+    sensors:
+      ek46936:
+        friendly_name: "Sigrun`s Egolf er lokalisert i tunet på eigeland"
+        value_template: "{{ is_state('binary_sensor.eigeland_car_occupancy', 'on') and state_attr('image_processing.platerecognizer_eigeland', 'watched_plates').ek46936 }}"
+
+###########################################
+########## A U T O M A T I O N S ##########
+###########################################
+automation:
+  alias: Process car images
+  description: "actives sensors based on which car is detected"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.eigeland_car_occupancy
+      from: "off"
+      to: "on"
+  condition: []
+  action:
+    - service: image_processing.scan
+      data: {}
+      target:
+        entity_id: image_processing.platerecognizer_eigeland
+
+###########################################
+############## S C R I P T ################
+###########################################
+
 #https://github.com/AlexxIT/WebRTC/wiki/PTZ-Config-Examples
 script:
   # Reolink camera

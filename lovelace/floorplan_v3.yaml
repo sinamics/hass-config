@@ -39,32 +39,32 @@ layout:
   margin: 0
   height: 94vh
   grid-gap: 0.0vw
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr
+  grid-template-columns: repeat(6, 1fr)
   grid-template-rows: 35% 65%
   grid-template-areas: |
     "weather misc . . . ."
     "floorplan_garage floorplan_garage floorplan_1f floorplan_1f floorplan_2f floorplan_2f"
   mediaquery:
     "(max-width: 600px)":
-      grid-template-columns: 1fr
+      grid-template-columns: 100%
       grid-template-rows: 1fr
       grid-template-areas: |
         "floorplan_1f"
         "floorplan_2f"
         "floorplan_garage"
     "(max-width: 800px)":
-      grid-template-columns: 1fr
+      grid-template-columns: 100%
       grid-template-rows: 1fr
       grid-template-areas: |
         "floorplan_1f"
         "floorplan_2f"
         "floorplan_garage"
 cards:
-
   - type: weather-forecast
     entity: weather.home
     view_layout:
       grid-area: weather
+
   - type: picture
     image: /local/images/floorplan_v3/base_1f.png
     view_layout:

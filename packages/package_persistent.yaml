@@ -1,0 +1,49 @@
+################################################################
+## Packages / Persistent States
+################################################################
+
+################################################################
+## Add `persistent: true` in the customize section to enable
+##   persistence on an entity.
+##
+## This currently supports: automation, input_boolean,
+##   input_select, input_number, input_text, light, and switch.
+##
+## Example Configuration:
+##
+## homeassistant:
+##   customize:
+##     automation.good_morning_lights:
+##       persistent: true
+##
+##     input_boolean.notify_arrival:
+##       persistent: true
+##
+##     input_select.light_color_1:
+##       persistent: true
+##
+##     input_number.bedroom_brightness:
+##       persistent: true
+##
+##     input_text.device_status:
+##       persistent: true
+##
+##     light.bedroom:
+##       persistent: true
+##
+##     switch.bedroom_fan:
+##       persistent: true
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    input_number.kwh_consumption_startofday:
+      persistent: true
+    input_number.kwh_consumption_startofmonth:
+      persistent: true
+    input_number.kwh_consumption_startofyear:
+      persistent: true

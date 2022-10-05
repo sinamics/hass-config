@@ -22,14 +22,8 @@ ui-lovelace.yaml
 !www
 www/community
 www/js
-# !www/images
-# !www/images/floorplan_v2/
-# !www/images/floorplan_v2/lights
-# !www/images/floorplan_v2/navigation
-# !www/images/floorplan_v2/shutters
+www/images/platerecognizer
 
-
-# Ignore folders.
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
