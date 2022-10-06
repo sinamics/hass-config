@@ -103,7 +103,7 @@ class Core(hass.Hass):
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
       self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
       self.kwh_consumption_this_year = self.total_kwh_usage - self.kwh_consumption_startofyear
-  
+
       ############## using total measurement from ams instead ###############
       # self.kwh_consumption +=  self.watt_usage / 3600 * 10 / 1000
       # self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
@@ -113,11 +113,10 @@ class Core(hass.Hass):
       # self.kwh_consumption_this_month = 3668.59 start of month
       # self.kwh_consumption = 3727.0
 
-      # 3858.64
       self.store_class.set_total_accumulated_kwh(int(self.kwh_consumption))
       self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
       self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
-   
+
       self.store_class.set_kwh_consumption_thisyear(round(self.kwh_consumption_this_year, 2))
       
 
@@ -172,6 +171,7 @@ class Core(hass.Hass):
   def run_every_day(self, kwargs):
     # run cleanup functions and shift numbers for new hour / min / day 
     self.log("cleanup function run_every_day " + str(datetime.now()))
+    self.store_class.set_kwh_consumption_startofday(round(self.total_kwh_usage,2))
     self.store_class.set_kwh_consumption_lastday(round(self.kwh_consumption_today, 2))
     self.store_class.set_cost_lastday(round(self.cost_daily, 2))
     self.cost_daily = 0
