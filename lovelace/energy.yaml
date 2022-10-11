@@ -191,9 +191,6 @@ cards:
                   - entity: sensor.daily_prize_accumulated_with_compensation
                     name: Kostnad idag med kompensasjon
                     icon: mdi:currency-usd
-                  - entity: sensor.cost_lastday
-                    name: Kostnad i går
-                    icon: mdi:currency-usd
                   - type: divider
                   - entity: sensor.energy_compensation_daily
                     name: Kompensasjon i dag
@@ -370,6 +367,38 @@ cards:
             show:
               extremas: true
       - type: custom:mini-graph-card
+        hours_to_show: 48
+        entities:
+          - entity: sensor.kwh_price_with_compensation
+            index: 0
+            name: Strøm Pris inkl avgifter med kompensasjon
+            hour24: true
+        color_thresholds:
+          - color: "#0FA300"
+            value: 0
+          - color: "#18FF00"
+            value: 0.6
+          - color: "#F4F700"
+            value: 1.1
+          - color: "#FCBD00"
+            value: 1.35
+          - color: "#FD9A00"
+            value: 1.5
+          - color: "#FD0000"
+            value: 1.8
+        decimals: 2
+        line_width: 2
+        icon: mdi:currency-usd
+        show:
+          fill: fade
+          icon: true
+          extrema: true
+          graph: line
+          average: true
+        smoothing: true
+        font_size: 120
+        points_per_hour: 4
+      - type: custom:mini-graph-card
         color_thresholds:
           - color: "#0FA300"
             value: 0
@@ -406,38 +435,6 @@ cards:
           - entity: sensor.kwh_price
             index: 0
             name: Strøm Pris
-            hour24: true
-        color_thresholds:
-          - color: "#0FA300"
-            value: 0
-          - color: "#18FF00"
-            value: 0.6
-          - color: "#F4F700"
-            value: 1.1
-          - color: "#FCBD00"
-            value: 1.35
-          - color: "#FD9A00"
-            value: 1.5
-          - color: "#FD0000"
-            value: 1.8
-        decimals: 2
-        line_width: 2
-        icon: mdi:currency-usd
-        show:
-          fill: fade
-          icon: true
-          extrema: true
-          graph: line
-          average: true
-        smoothing: true
-        font_size: 120
-        points_per_hour: 4
-      - type: custom:mini-graph-card
-        hours_to_show: 48
-        entities:
-          - entity: sensor.kwh_price_with_compensation
-            index: 0
-            name: Strøm Pris med kompensasjon
             hour24: true
         color_thresholds:
           - color: "#0FA300"

@@ -44,7 +44,10 @@ influxdb:
   include:
     entity_globs:
       - binary_sensor.*_db
-      - sensor.*_db
+      - sensor.kamstrup_*
+      - sensor.kwh*
+      - sensor.cost*
+      - sensor.energy*
   component_config_glob:
     sensor.*humidity*:
       override_measurement: humidity

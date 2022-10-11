@@ -88,3 +88,25 @@ automation:
         data:
           message: egolf er gjenkjent på kamera Eigeland
           title: egolf observert i tunet
+    
+  - alias: Volt monitoring
+    description: "Volt monitoring"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kamstrup_voltage_l1
+        below: "215"
+      - platform: numeric_state
+        entity_id: sensor.kamstrup_voltage_l2
+        below: "215"
+      - platform: numeric_state
+        entity_id: sensor.kamstrup_voltage_l3
+        below: "215"
+    condition: []
+    action:
+      - service: notify.mobile_app_berntchristian_s22
+        data:
+          message: Strøm Problemer
+          title: >-
+            "Spenning er under 215v, for øyeblikket er phase spenning  v1 {{ float(states('sensor.kamstrup_voltage_l1') | round(2))  }} 
+            - v2 {{ float(states('sensor.kamstrup_voltage_l2') | round(2)) }} - v3 {{ float(states('sensor.kamstrup_voltage_l3') | round(2)) }}"
+    mode: single
