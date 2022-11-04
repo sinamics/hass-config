@@ -9,7 +9,7 @@ class Main(hass.Hass):
         self.is_auto = False
 
         self.low_temp = 17
-        self.high_temp = 22
+        self.high_temp = 23
 
         ## Run task every hour
         self.run_hourly(self.run_every_hour, time(0, 0, 0))

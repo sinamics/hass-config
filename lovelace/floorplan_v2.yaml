@@ -122,11 +122,10 @@
 {% set settings_scaleX, settings_scaleY = 0.8, 0.8 %}
 #                             entity                                              , column, section, label                 , type slider, entity
 {% set settings_entities = [("input_boolean.ui_hide_room_temperatures"                 , "2", "y", "Hide Elements"         , "entity"),
-                            ("input_boolean.ui_hide_water_boiler_temperatures"         , "2", "n", ""                      , "entity"),
                             ("input_boolean.ui_hide_weather          "                 , "2", "n", ""                      , "entity"),
                             ("input_boolean.ui_hide_calendar         "                 , "2", "n", ""                      , "entity"),
                             ("input_boolean.ui_hide_navigation"                        , "2", "n", ""                      , "entity"),
-                            ("sensor.memory_free         "                             , "1", "y", ""                      , "gauge")] %}
+                            ("sensor.memory_free"                                      , "1", "y", "System"                , "entity")] %}
 
 #--------------------------------------------------------------------------------------------------
 # Actions
@@ -554,7 +553,7 @@ cards:
               {%- endif %}
               left: 22% #-3% 0%
               top: 0%  #-3% 0%
-              width: 23%
+              {# width: 23% #}
               width: 20.5%
               transform: 'translate(0%, 0%) scale(1, 1)'
               mix-blend-mode: lighten
@@ -608,10 +607,11 @@ cards:
       - entity: sensor.kamstrup_active_power_import
         image: /local/images/floorplan_v2/transparent_square.png
         style:
-          opacity: 0
           {% if (debug == true) %}
           border: 1px solid red
           opacity: 1
+          {%- else %}
+          opacity: 0
           {%- endif %}
           left: 25%
           top: 76%
@@ -625,8 +625,6 @@ cards:
                 title: Strømoversikt
                 show_header_toggle: false
                 type: grid
-                columns: 1
-                square: false
                 card_mod:
                 style: |
                   :host .content {
@@ -813,10 +811,11 @@ cards:
       - entity: light.{{ entity }}
         image: /local/images/floorplan_v2/transparent_square.png
         style:
-          opacity: 0
           {% if (debug == true) %}
           border: 1px solid red
           opacity: 1
+          {%- else %}
+          opacity: 0
           {%- endif %}
           left: {{ left }}%
           top: {{ top }}%
@@ -881,11 +880,12 @@ cards:
       {% if ((loop.index0 == 0) or ((loop.previtem is defined) and (entity != loop.previtem))) %}
       - entity: media_player.{{ entity }}
         image: /local/images/floorplan_v2/transparent_square.png
-        style:
-          opacity: 0
+        style: 
           {% if (debug == true) %}
           border: 1px solid red
           opacity: 1
+          {% else %}
+          opacity: 0
           {%- endif %}
           left: {{ left }}%
           top: {{ top }}%
@@ -1088,9 +1088,9 @@ cards:
               --paper-item-icon-color: red
               left: {{ left - 0.55 }}%
               top: {{ top - 1 }}%
- #             animation: blink 2s ease infinite
+
+#animation: blink 2s ease infinite
             
-   
       {% endif %}
       {% endfor %}
 
@@ -1204,8 +1204,6 @@ cards:
       # --------------------------------------------
 
       {% for entity, left, top in hvacs %}
-
-      {{ create_warning_background("hvac_" ~ entity ~ "_problem", "climate.hvac_" ~ entity, left, top) }}
 
       - type: state-icon
         entity: climate.hvac_{{ entity }}
@@ -1607,7 +1605,12 @@ cards:
                   {% for current_column in ['1', '2'] %}
                   - type: entities
                     show_header_toggle: false
-
+                    {# title: 
+                      {% if current_column == '2' %}
+                        Hide Elements
+                      {% elif current_column == '1' %}
+                        System
+                      {% endif %} #}
                     entities:
                       {% for entity, column, section, label, type in settings_entities %}
                         {% if column == current_column %}
@@ -1618,7 +1621,7 @@ cards:
                           {%if type == "slider" %}
                       - type: 'custom:slider-entity-row'
                         entity: {{ entity }}
-                        hide_state: false
+                        hide_state: true
                           {# {% elif type == "gauge" %}
                       - type: 'custom:gauge-card'
                         entity: {{ entity }}         #}
@@ -1668,6 +1671,8 @@ cards:
         tap_action:
           action: none
         type: state-label
+        double_tap_action:
+          action: none
 
 ##     ## ##    ## ########     ###    #### ########  
 ##     ## ###   ## ##     ##   ## ##    ##  ##     ## 
@@ -1747,10 +1752,7 @@ cards:
               type: iframe
               url: https://proxmox.lan.eigeland.net
               aspect: 100% #}
-        double_tap_action:
-          action: none
-        hold_action:
-          action: none 
+
 
    ###     ######  ######## ####  #######  ##    ##  ######  
   ## ##   ##    ##    ##     ##  ##     ## ###   ## ##    ## 
