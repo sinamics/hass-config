@@ -13,23 +13,22 @@ import constants
 class Core(hass.Hass):
   def initialize(self):
     self.compensation_api_class = self.get_app("compensation")
-    self.store_class = self.get_app("store")
 
-    self.cost_daily = self.store_class.get_daily_prize_accumulated_with_fees()
-    self.cost_monthly = self.store_class.get_monthly_prize_accumulated_with_fees()
-    self.cost_yearly = self.store_class.get_yearly_prize_accumulated_with_fees()
+    self.cost_daily = float(self.get_state(sensors.daily_prize_accumulated_with_fees, default=0))
+    self.cost_monthly = float(self.get_state(sensors.monthly_prize_accumulated_with_fees, default=0))
+    self.cost_yearly = float(self.get_state(sensors.yearly_prize_accumulated_with_fees, default=0))
 
-    self.kwh_consumption = self.store_class.get_total_accumulated_kwh()
-    self.kwh_consumption_today = self.store_class.get_total_accumulated_kwh_today()
-    self.kwh_consumption_this_month = self.store_class.get_total_accumulated_kwh_month()
-    self.kwh_consumption_this_year = self.store_class.get_kwh_consumption_thisyear()
+    self.kwh_consumption = float(self.get_state(sensors.kwh_consumption_total, default=0))
+    self.kwh_consumption_today = float(self.get_state(sensors.kwh_consumption_today, default=0))
+    self.kwh_consumption_this_month = float(self.get_state(sensors.kwh_consumption_thismonth, default=0))
+    self.kwh_consumption_this_year = float(self.get_state(sensors.kwh_consumption_thisyear, default=0))
 
-    self.kwh_consumption_startofday = self.store_class.get_kwh_consumption_startofday()
+    self.kwh_consumption_startofday = float(self.get_state(sensors.kwh_consumption_startofday, default=0))
     
     # # kwh usage
     self.kwh_power = 0
-    self.kwh_power_min = self.store_class.get_kwh_min()
-    self.kwh_power_max = self.store_class.get_kwh_max()
+    self.kwh_power_min = float(self.get_state(sensors.kwh_min, default=0))
+    self.kwh_power_max = float(self.get_state(sensors.kwh_max, default=0))
     self.kwh_prize = 0
     self.watt_usage = 0
     self.total_kwh_usage = 0
@@ -86,18 +85,18 @@ class Core(hass.Hass):
       if kwh_usage > self.kwh_power_max:
         self.kwh_power_max = kwh_usage
       
-      self.store_class.set_kwh_min(round(self.kwh_power_min, 2))
-      self.store_class.set_kwh_max(round(self.kwh_power_max, 2))
-      
-      self.store_class.set_kwh_active_usage(round(kwh_usage, 2))
+      self.set_value(sensors.kwh_min, round(self.kwh_power_min, 2))
+      self.set_value(sensors.kwh_max, round(self.kwh_power_max, 2))
+
+      self.set_value(sensors.kwh_active_usage, round(kwh_usage, 2))
       # kwh usage now
       
       # accumulate kwh usage
-      self.kwh_consumption_startofday = self.store_class.get_kwh_consumption_startofday()
-      self.kwh_consumption_startofmonth = self.store_class.get_kwh_consumption_startofmonth()
-      self.kwh_consumption_startofyear = self.store_class.get_kwh_consumption_startofyear()
+      self.kwh_consumption_startofday = float(self.get_state(sensors.kwh_consumption_startofday, default=0))
+      self.kwh_consumption_startofmonth = float(self.get_state(sensors.kwh_consumption_startofmonth, default=0))
+      self.kwh_consumption_startofyear = float(self.get_state(sensors.kwh_consumption_startofyear, default=0))
 
-      self.total_kwh_usage = self.store_class.get_kamstrup_power_import_total()
+      self.total_kwh_usage = float(self.get_state(sensors.kamstrup_power_import_total, default=0))
       self.kwh_consumption = self.total_kwh_usage
 
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
@@ -113,18 +112,16 @@ class Core(hass.Hass):
       # self.kwh_consumption_this_month = 3668.59 start of month
       # self.kwh_consumption = 3727.0
 
-      self.store_class.set_total_accumulated_kwh(int(self.kwh_consumption))
-      self.store_class.set_total_accumulated_kwh_today(round(self.kwh_consumption_today, 2))
-      self.store_class.set_total_accumulated_kwh_month(round(self.kwh_consumption_this_month, 2))
-
-      self.store_class.set_kwh_consumption_thisyear(round(self.kwh_consumption_this_year, 2))
+      self.set_value(sensors.kwh_consumption_total, round(int(self.kwh_consumption), 4))
+      self.set_value(sensors.kwh_consumption_today, round(self.kwh_consumption_today, 2))
+      self.set_value(sensors.kwh_consumption_thismonth, round(self.kwh_consumption_this_month, 2))
+      self.set_value(sensors.kwh_consumption_thisyear, round(self.kwh_consumption_this_year, 2))
       
 
   def prize_calculation(self):
     """Event handler: watt consumption changed"""
     if self.kwh_prize == 0:
       return
-
     # prize with energy factor based on time of day
     # Add VAT to the kwh price and add energiledd that already has VAT from agder energi.
     kwh_prize_with_energyfactory = (float(self.kwh_prize) * constants.VAT) + energiledd.energy_factor(self)
@@ -140,16 +137,17 @@ class Core(hass.Hass):
     # self.cost_daily = 17.72
     # self.cost_yearly = 17743.0
     # set state with updated prize
-    self.store_class.set_kwh_price(round(self.kwh_prize, 2))
+    self.set_value(sensors.kwh_price, round(self.kwh_prize, 2))
 
-    self.store_class.set_daily_prize_accumulated_with_fees(round(self.cost_daily, 2))
-    self.store_class.set_monthly_prize_accumulated_with_fees(round(self.cost_monthly, 2))
-    self.store_class.set_yearly_prize_accumulated_with_fees(round(self.cost_yearly, 2))
-    self.store_class.set_energiledd(round(energiledd.energy_factor(self), 2))
-    self.store_class.set_kwh_price_with_fees(round(kwh_prize_with_energyfactory, 2))
+    self.set_value(sensors.daily_prize_accumulated_with_fees, round(self.cost_daily, 2))
+
+    self.set_value(sensors.monthly_prize_accumulated_with_fees, round(self.cost_monthly, 2))
+    self.set_value(sensors.yearly_prize_accumulated_with_fees, round(self.cost_yearly, 2))
+    self.set_value(sensors.energiledd, round(energiledd.energy_factor(self), 2))
+    self.set_value(sensors.kwh_price_with_fees, round(kwh_prize_with_energyfactory, 2))
 
     # create new sensor with energy price and compensation substracted
-    self.store_class.set_daily_accumulated_kwh_price_with_compensation(round(self.cost_daily - self.compensation_api_class.daily_compensation, 2))
+    self.set_value(sensors.daily_prize_accumulated_with_compensation, round(self.cost_daily - self.compensation_api_class.daily_compensation, 2))
 
     # calculate current kwh price with compensation
     kwh_vat = float(self.kwh_prize) / 100 * 25
@@ -157,10 +155,10 @@ class Core(hass.Hass):
 
     # self.log((self.kwh_prize * 1.25) + energiledd.energy_factor(self))
     # Price based on current kwh usage
-    self.store_class.set_price_usage_now(round((self.watt_usage / 1000) * ((self.kwh_prize * 1.25) + energiledd.energy_factor(self)), 2))
+    self.set_value(sensors.price_usage_now, round((self.watt_usage / 1000) * ((self.kwh_prize * 1.25) + energiledd.energy_factor(self)), 2))
 
     # set_kwh_price_with_compensation
-    self.store_class.set_kwh_price_with_compensation(round(kwh_price_with_compensation, 2))
+    self.set_value(sensors.kwh_price_with_compensation, round(kwh_price_with_compensation, 2))
 
   """ -----------  Interval ------------- """
   def run_every_hour(self, kwargs):
@@ -171,9 +169,10 @@ class Core(hass.Hass):
   def run_every_day(self, kwargs):
     # run cleanup functions and shift numbers for new hour / min / day 
     self.log("cleanup function run_every_day " + str(datetime.now()))
-    self.store_class.set_kwh_consumption_startofday(round(self.total_kwh_usage,2))
-    self.store_class.set_kwh_consumption_lastday(round(self.kwh_consumption_today, 2))
-    self.store_class.set_cost_lastday(round(self.cost_daily, 2))
+    self.set_value(sensors.kwh_consumption_startofday, round(self.total_kwh_usage, 2))
+
+    self.set_value(sensors.kwh_consumption_lastday, round(self.kwh_consumption_today, 2))
+    self.set_value(sensors.cost_lastday, round(self.cost_daily, 2))
     self.cost_daily = 0
     self.kwh_consumption_today = 0
 
@@ -181,13 +180,13 @@ class Core(hass.Hass):
   def run_every_month(self, kwargs):
     # run cleanup functions and shift numbers for new hour / min / day
     self.log("cleanup function run_every_month " + str(datetime.now()))
-    self.store_class.set_kwh_consumption_lastmonth(round(self.kwh_consumption_this_month, 2))
-    self.store_class.set_cost_lastmonth(round(self.cost_monthly, 2))
-    
+    self.set_value(sensors.kwh_consumption_lastmonth, round(self.kwh_consumption_this_month, 2))
+    self.set_value(sensors.cost_lastmonth, round(self.cost_monthly, 2))
+
     self.cost_monthly = 0
     self.kwh_consumption_this_month = 0
 
   def run_every_year(self, kwargs):
     self.log("function run_every_year " + str(datetime.now()))
-    self.store_class.set_kwh_consumption_startofyear(self.total_kwh_usage)
+    self.set_value(sensors.kwh_consumption_startofyear, round(self.total_kwh_usage, 4))
     self.kwh_consumption_this_year = 0

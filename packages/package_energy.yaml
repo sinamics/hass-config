@@ -26,15 +26,6 @@ sensor:
 
   - platform: template
     sensors:
-      kwh_consumption_startofday:
-        unique_id: kwh_consumption_startofday
-        icon_template: mdi:fire
-        unit_of_measurement: "kWh"
-        value_template: >
-          {{ states('input_number.kwh_consumption_startofday') }}    
-
-  - platform: template
-    sensors:
       kwh_consumption_startofmonth:
         unique_id: kwh_consumption_startofmonth
         icon_template: mdi:fire
@@ -442,15 +433,6 @@ input_number:
 
   price_usage_now:
     name: pris basert på nåværende forbruk
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "kWh"
-    icon: mdi:counter
-
-  kwh_consumption_startofday:
-    name: Forbruk ved start av dagen
     max: 999999999
     min: 0
     step: 0.1

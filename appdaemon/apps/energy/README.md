@@ -42,11 +42,9 @@ compensation:
     - sensors
     - constants
 
-store:
-  module: store
-  class: Store
-  global_dependencies:
-    - sensors
+notification:
+  module: notification
+  class: Notification
 
 core:
   module: core
