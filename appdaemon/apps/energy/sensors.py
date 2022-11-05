@@ -24,6 +24,7 @@ kwh_max = "input_number.kwh_max"
 kwh_min = "input_number.kwh_min"
 
 energy_compensation_this_month = "sensor.energy_compensation_this_month"
+energy_compensation_lastmonth = "sensor.energy_compensation_lastmonth"
 energy_compensation_daily = "sensor.energy_compensation_daily"
 
 monthly_kwh_peak_hour = "input_number.monthly_kwh_peak_hour"

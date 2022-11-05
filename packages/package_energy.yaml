@@ -176,6 +176,15 @@ sensor:
 
   - platform: template
     sensors:
+      energy_compensation_lastmonth:
+        unique_id: energy_compensation_lastmonth
+        unit_of_measurement: "NOK"
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.energy_compensation_lastmonth') }}
+
+  - platform: template
+    sensors:
       kwh_price_with_compensation:
         unique_id: kwh_price_with_compensation
         unit_of_measurement: "NOK"
@@ -586,6 +595,15 @@ input_number:
 
   energy_compensation_daily:
     name: Compensation today
+    max: 999999999
+    min: 0
+    step: 0.1
+    mode: box
+    unit_of_measurement: "NOK/kWh"
+    icon: mdi:counter
+
+  energy_compensation_lastmonth:
+    name: Compensation last month
     max: 999999999
     min: 0
     step: 0.1

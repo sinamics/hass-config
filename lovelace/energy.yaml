@@ -198,6 +198,9 @@ cards:
                   - entity: sensor.energy_compensation_this_month
                     name: Kompensasjon denne måneden
                     icon: mdi:currency-usd
+                  - entity: sensor.energy_compensation_lastmonth
+                    name: Kompensasjon forrige måneden
+                    icon: mdi:currency-usd
                   - type: divider
                   - entity: sensor.cost_lastday
                     name: Kostnad i går

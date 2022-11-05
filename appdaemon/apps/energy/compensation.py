@@ -118,3 +118,4 @@ class Compensation(hass.Hass):
     def run_every_month(self, kwargs):
         # run cleanup functions and shift numbers for new hour / min / day
         self.log("compensation cleanup function run_every_month " + str(datetime.now()))
+        self.set_state(sensors.energy_compensation_lastmonth, state = round(self.monthly_compensation, 2), attributes = {"compensation": round(self.monthly_compensation,2), "unit_of_measurement": "NOK"})
