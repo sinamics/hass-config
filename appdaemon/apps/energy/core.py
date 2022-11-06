@@ -99,6 +99,8 @@ class Core(hass.Hass):
       self.total_kwh_usage = float(self.get_state(sensors.kamstrup_power_import_total, default=0))
       self.kwh_consumption = self.total_kwh_usage
 
+      # self.kwh_consumption_startofday = 5883.66
+
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
       self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
       self.kwh_consumption_this_year = self.total_kwh_usage - self.kwh_consumption_startofyear
@@ -107,7 +109,6 @@ class Core(hass.Hass):
       # self.kwh_consumption +=  self.watt_usage / 3600 * 10 / 1000
       # self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
       # self.kwh_consumption_this_month +=  self.watt_usage / 3600 * 10 / 1000
-      
       # self.kwh_consumption_today = 12.95
       # self.kwh_consumption_this_month = 3668.59 start of month
       # self.kwh_consumption = 3727.0
@@ -145,7 +146,7 @@ class Core(hass.Hass):
     self.set_value(sensors.yearly_prize_accumulated_with_fees, round(self.cost_yearly, 2))
     self.set_value(sensors.energiledd, round(energiledd.energy_factor(self), 2))
     self.set_value(sensors.kwh_price_with_fees, round(kwh_prize_with_energyfactory, 2))
-
+ 
     # create new sensor with energy price and compensation substracted
     self.set_value(sensors.daily_prize_accumulated_with_compensation, round(self.cost_daily - self.compensation_api_class.daily_compensation, 2))
 

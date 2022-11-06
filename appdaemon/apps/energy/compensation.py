@@ -60,7 +60,7 @@ class Compensation(hass.Hass):
     """ ------------ Methods -------------- """
     def kwh_compensation(self):
         return self.calculate_compensation_amount(self.month_avg, 1)
-    
+        
     def daily(self):
         if self.month_avg > constants.COMPENSATION_THRESHOLD:
             self.daily_compensation = self.calculate_compensation_amount(self.month_avg, self.daily_consumption)
