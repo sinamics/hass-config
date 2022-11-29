@@ -23,10 +23,12 @@ kwh_active_usage = "input_number.kwh_active_usage"
 kwh_max = "input_number.kwh_max"
 kwh_min = "input_number.kwh_min"
 
+# Norwegian goverment compensation 
 energy_compensation_this_month = "sensor.energy_compensation_this_month"
 energy_compensation_lastmonth = "sensor.energy_compensation_lastmonth"
 energy_compensation_daily = "sensor.energy_compensation_daily"
 
+# kwh peak calculation sensors
 monthly_kwh_peak_hour = "input_number.monthly_kwh_peak_hour"
 monthly_power_peak_prize = "input_number.monthly_power_peak_prize"
 

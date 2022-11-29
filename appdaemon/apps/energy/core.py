@@ -183,7 +183,8 @@ class Core(hass.Hass):
     self.log("cleanup function run_every_month " + str(datetime.now()))
     self.set_value(sensors.kwh_consumption_lastmonth, round(self.kwh_consumption_this_month, 2))
     self.set_value(sensors.cost_lastmonth, round(self.cost_monthly, 2))
-
+    self.kwh_power_min = 0
+    self.kwh_power_max = 0
     self.cost_monthly = 0
     self.kwh_consumption_this_month = 0
 

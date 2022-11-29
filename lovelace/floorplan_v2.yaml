@@ -819,6 +819,7 @@ cards:
           {%- endif %}
           left: {{ left }}%
           top: {{ top }}%
+          width: 3%
           transform: rotate({{ deg }}deg) scale({{ scaleX }}, {{ scaleY }})
         tap_action:
           action: toggle

@@ -36,6 +36,10 @@ core:
     - compensation
     - energiledd
 
+hourly_mean_peak:
+  module: hourly_mean_peak
+  class: Hourly_peak
+
 #### VENTILATION ####
 
 ventilation:
