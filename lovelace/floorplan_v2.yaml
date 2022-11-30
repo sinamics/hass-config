@@ -849,6 +849,11 @@ cards:
         style:
           left: {{ left }}%
           top: {{ top }}%
+          width: 3%
+          opacity: 1
+          {% if (debug == true) %}
+          border: 1px solid red
+          {%- endif %}
         hold_action:
           action: none
         double_tap_action:
