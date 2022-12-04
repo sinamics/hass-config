@@ -100,7 +100,7 @@ class Core(hass.Hass):
       self.kwh_consumption = self.total_kwh_usage
 
       # self.kwh_consumption_startofday = 5883.66
-
+      # self.kwh_consumption_startofmonth = 7602.59
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
       self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
       self.kwh_consumption_this_year = self.total_kwh_usage - self.kwh_consumption_startofyear
@@ -110,8 +110,9 @@ class Core(hass.Hass):
       # self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
       # self.kwh_consumption_this_month +=  self.watt_usage / 3600 * 10 / 1000
       # self.kwh_consumption_today = 12.95
-      # self.kwh_consumption_this_month = 3668.59 start of month
-      # self.kwh_consumption = 3727.0
+      # self.kwh_consumption_this_month = 245.0 
+      # self.kwh_consumption = 7839
+      # 
 
       self.set_value(sensors.kwh_consumption_total, round(int(self.kwh_consumption), 4))
       self.set_value(sensors.kwh_consumption_today, round(self.kwh_consumption_today, 2))
