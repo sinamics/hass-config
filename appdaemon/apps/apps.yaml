@@ -35,11 +35,18 @@ core:
   dependencies:
     - compensation
     - energiledd
+    - topThreehours
 
 hourly_mean_peak:
   module: hourly_mean_peak
   class: Hourly_peak
 
+topThreehours:
+  module: topThreehours
+  class: TopThreeHours 
+  global_dependencies:
+    - sensors
+    - constants
 #### VENTILATION ####
 
 ventilation:

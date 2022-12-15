@@ -90,7 +90,7 @@ class Core(hass.Hass):
 
       self.set_value(sensors.kwh_active_usage, round(kwh_usage, 2))
       # kwh usage now
-      
+
       # accumulate kwh usage
       self.kwh_consumption_startofday = float(self.get_state(sensors.kwh_consumption_startofday, default=0))
       self.kwh_consumption_startofmonth = float(self.get_state(sensors.kwh_consumption_startofmonth, default=0))
@@ -178,7 +178,6 @@ class Core(hass.Hass):
     self.cost_daily = 0
     self.kwh_consumption_today = 0
 
-
   def run_every_month(self, kwargs):
     # run cleanup functions and shift numbers for new hour / min / day
     self.log("cleanup function run_every_month " + str(datetime.now()))
@@ -194,3 +193,30 @@ class Core(hass.Hass):
     self.log("function run_every_year " + str(datetime.now()))
     self.set_value(sensors.kwh_consumption_startofyear, round(self.total_kwh_usage, 4))
     self.kwh_consumption_this_year = 0
+
+    import appdaemon.plugins.hass.hassapi as hass
+
+# class EnergyConsumption(hass.Hass):
+#   def initialize(self):
+#     self.listen_state(self.calculate_values, "sensor.kamstrup_active_power_import")
+
+#   def calculate_values(self, entity, attribute, old, new, kwargs):
+#     # Calculate total consumption in kWh
+#     kwh_consumption_total = self.get_state("sensor.kamstrup_active_power_import_total")
+
+#     # Calculate consumption in the last day in kWh
+#     last_day = datetime.now() - timedelta(days=1)
+#     kwh_consumption_lastday = self.get_state("sensor.kamstrup_active_power_import", last_day)
+
+#     # Calculate consumption this month in kWh
+#     this_month_start = datetime.now().replace(day=1)
+#     kwh_consumption_thismonth = self.get_state("sensor.kamstrup_active_power_import", this_month_start)
+
+#     # Calculate consumption this year in kWh
+#     this_year_start = datetime.now().replace(month=1, day=1)
+#     kwh_consumption_thisyear = self.get_state("sensor.kamstrup_active_power_import", this_year_start)
+
+#     # Calculate consumption last month in kWh
+#     last_month_start = this_month_start - timedelta(days=1)
+#     last_month_end = this_month_start - timedelta(seconds=1)
+#     kwh_consumption_lastmonth = self.

@@ -126,15 +126,6 @@ sensor:
 
   - platform: template
     sensors:
-      monthly_power_peak_prize:
-        unique_id: monthly_power_peak_prize
-        icon_template: mdi:fire
-        unit_of_measurement: "kWh"
-        value_template: >
-          {{ states('input_number.monthly_power_peak_prize') }}
-
-  - platform: template
-    sensors:
       price_usage_now:
         unique_id: price_usage_now
         icon_template: mdi:fire
@@ -210,6 +201,15 @@ sensor:
         icon_template: mdi:currency-usd
         value_template: >
           {{ states('input_number.kwh_price') }}
+
+  - platform: template
+    sensors:
+      monthly_power_peak_prize:
+        unique_id: monthly_power_peak_prize
+        icon_template: mdi:fire
+        unit_of_measurement: "NOK"
+        value_template: >
+          {{ states('input_number.monthly_power_peak_prize') }}
 # average
   - platform: average
     unique_id: average_kwh_usage_lasthour

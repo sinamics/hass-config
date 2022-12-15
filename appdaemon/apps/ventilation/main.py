@@ -8,8 +8,8 @@ class Main(hass.Hass):
         self.target_temperature = 0
         self.is_auto = False
 
-        self.low_temp = 17
-        self.high_temp = 23
+        self.low_temp = 15
+        self.high_temp = 24
 
         ## Run task every hour
         self.run_hourly(self.run_every_hour, time(0, 0, 0))

@@ -240,9 +240,11 @@ cards:
                   # - entity: sensor.time_of_max_hour_consumption_eigeland_50
                   #   name: Max strømtrekk dato
                   - entity: sensor.average_kwh_usage_last_hour
-                    name: Måndlig Strøm Peak ( Pr. Time )
-                  - entity: sensor.monthly_power_peak_prize
-                    name: Fastledd denne mnd
+                    name: Strøm peak siste time
+                  - entity: sensor.monthly_kwh_peak_hour
+                    name: Average kWh (three hours) this month
+                  - entity: sensor.monthly_power_peak_prize_2
+                    name: Fastledd pris denne mnd
                   - entity: sensor.kwh_consumption_total
                     name: Målerstand
                     secondary_info: last-changed

@@ -24,10 +24,6 @@ class kapasitetsledd(hass.Hass):
         if new == "unavailable" or new == None:
             return
 
-        # send notification if peak is higher than old value
-        if old != None and new > old:
-            self.notify("Ny strøm peak registrert {}kWh".format(new))
-
         self.watt_peak = float(new)
         self.peak_calculation()
 

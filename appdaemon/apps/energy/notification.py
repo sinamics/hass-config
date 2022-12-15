@@ -5,8 +5,9 @@ import sensors
 # Declare Class 
 class Notification(hass.Hass):
     def initialize(self):    
-        self.listen_state(self.notify_high_prize, sensors.kwh_price_with_fees, immediate=True)
-        self.listen_state(self.notify_price_is_negative, sensors.kwh_price_with_compensation, immediate=True)
+        pass
+        # self.listen_state(self.notify_high_prize, sensors.kwh_price_with_fees, immediate=True)
+        # self.listen_state(self.notify_price_is_negative, sensors.kwh_price_with_compensation, immediate=True)
 
     """ -----------  Notification ------------- """
     def notify_high_prize(self, entity, attribute, old, new, kwargs):  
