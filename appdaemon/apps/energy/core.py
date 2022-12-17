@@ -98,9 +98,11 @@ class Core(hass.Hass):
 
       self.total_kwh_usage = float(self.get_state(sensors.kamstrup_power_import_total, default=0))
       self.kwh_consumption = self.total_kwh_usage
-
-      # self.kwh_consumption_startofday = 5883.66
+      # self.log(self.total_kwh_usage)
+      # self.kwh_consumption_startofday = 8863.66
+      # self.set_value(sensors.kwh_consumption_startofday, 8863.66)
       # self.kwh_consumption_startofmonth = 7602.59
+
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
       self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
       self.kwh_consumption_this_year = self.total_kwh_usage - self.kwh_consumption_startofyear

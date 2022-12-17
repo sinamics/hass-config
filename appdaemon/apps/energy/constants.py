@@ -13,8 +13,8 @@ COMPENSATION_LEVEL=90 # %
 
 # file to store every days average kwh price
 JSON_AVG_PRICE_FILE="/config/appdaemon/apps/energy/avg_day_price.json"
-TOP_THREE_KWH_HOURS_FILE="/config/appdaemon/apps/energy/topthreehours.txt"
-TOP_THREE_KWH_HOURS_RESET_FILE="/config/appdaemon/apps/energy/topthreehours_reset.txt"
+TOP_THREE_KWH_HOURS_FILE="/config/appdaemon/apps/energy/storage/topthreehours.txt"
+TOP_THREE_KWH_HOURS_RESET_FILE="/config/appdaemon/apps/energy/storage/topthreehours_reset.txt"
 
 # https://tibber.com/no/magazine/power-hacks/ny-nettleie-del-1?utm_source=googleadwords_int&utm_medium=cpc&utm_content=10309245966_102363939813_531418368653&utm_id=g_&keyword=&gclid=Cj0KCQjwjbyYBhCdARIsAArC6LLlu8b5-jYqS2Shveyf7S-GseiMPZ2IZER9OsEKiMzXxKiHJ2G3NqsaAq-HEALw_wcB
 FASTLEDD = [
