@@ -1,4 +1,3 @@
-
 import sensors
 import os
 from datetime import datetime, date
@@ -23,28 +22,25 @@ class TopThreeHours(hass.Hass):
 
     def update_top_hours(self, entity, attribute, old, new, kwargs):
         # Check if it's time to reset the top hours list
-        today = date.today()
-        if today > self.reset_date:
+        current_time = datetime.now()
+        if current_time.day == 1 and current_time.hour == 0 and current_time.minute == 0:
             self.reset_top_hours()
 
         # Update the top hours list with the new consumption value
         consumption = float(new)
-        # self.log(type(self.top_hours))
-        self.top_hours.append((consumption, datetime.now()))
+        self.top_hours.append((consumption, current_time))
         self.top_hours = sorted(self.top_hours, key=lambda x: x[0], reverse=True)[:3]
-
+        # self.log(self.top_hours)
         # Calculate and output the average of the top three hours
         average = sum([x[0] for x in self.top_hours]) / len(self.top_hours)
+
         self.set_value(sensors.monthly_kwh_peak_hour, round(average, 2)) 
         self.log("TopThreeHours: {}, Day: {}, Date: {}".format(average, self.top_hours[0][1].strftime("%A"), self.top_hours[0][1].strftime("%m/%d/%Y")))
 
     def reset_top_hours(self):
-        # Check if the last month has passed since the reset date
-        current_date = datetime.now().date()
-        if current_date.month != self.reset_date.month or current_date.year != self.reset_date.year:
-            # Reset the top hours list and update the reset date
-            self.top_hours = []
-            self.reset_date = current_date
+        # Reset the top hours list and update the reset date
+        self.top_hours = []
+        self.reset_date = datetime.now().date()
 
         # Save the new values to file
         self.save_to_file(constants.TOP_THREE_KWH_HOURS_FILE, self.top_hours)
@@ -62,9 +58,5 @@ class TopThreeHours(hass.Hass):
             return None
 
     def save_to_file(self, name, value):
-
         if len(value) == 0:
             return self.log(f"value is empty:: {value}")
-        else:
-            with open(name, "wb") as f:
-                pickle.dump(value, f, pickle.HIGHEST_PROTOCOL)
