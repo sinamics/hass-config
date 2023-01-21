@@ -89,6 +89,15 @@ sensor:
 
   - platform: template
     sensors:
+      kwh_consumption_lastyear:
+        unique_id: kwh_consumption_lastyear
+        icon_template: mdi:fire
+        unit_of_measurement: "kWh"
+        value_template: >
+          {{ states('input_number.kwh_consumption_lastyear') }}
+
+  - platform: template
+    sensors:
       kwh_active_usage:
         unique_id: kwh_active_usage
         device_class: energy
@@ -397,6 +406,15 @@ input_number:
 
   kwh_consumption_thisyear:
     name: Forbruk hittil i år
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter
+
+  kwh_consumption_lastyear:
+    name: Forbruk forrige år
     max: 999999999
     min: 0
     step: 0.001

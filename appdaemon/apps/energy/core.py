@@ -98,15 +98,15 @@ class Core(hass.Hass):
 
       self.total_kwh_usage = float(self.get_state(sensors.kamstrup_power_import_total, default=0))
       self.kwh_consumption = self.total_kwh_usage
-      # self.log(self.total_kwh_usage)
+      # self.log(self.kwh_consumption_startofday)
       # self.kwh_consumption_startofday = 8863.66
       # self.set_value(sensors.kwh_consumption_startofday, 8863.66)
-      # self.kwh_consumption_startofmonth = 7602.59
+      # self.kwh_consumption_startofmonth = 9957.59
 
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
       self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
       self.kwh_consumption_this_year = self.total_kwh_usage - self.kwh_consumption_startofyear
-
+     
       ############## using total measurement from ams instead ###############
       # self.kwh_consumption +=  self.watt_usage / 3600 * 10 / 1000
       # self.kwh_consumption_today +=  self.watt_usage / 3600 * 10 / 1000
@@ -141,8 +141,8 @@ class Core(hass.Hass):
     # self.cost_daily = 17.72
     # self.cost_yearly = 17743.0
     # set state with updated prize
-    self.set_value(sensors.kwh_price, round(self.kwh_prize, 2))
 
+    self.set_value(sensors.kwh_price, round(self.kwh_prize, 2))
     self.set_value(sensors.daily_prize_accumulated_with_fees, round(self.cost_daily, 2))
 
     self.set_value(sensors.monthly_prize_accumulated_with_fees, round(self.cost_monthly, 2))
@@ -184,6 +184,8 @@ class Core(hass.Hass):
     # run cleanup functions and shift numbers for new hour / min / day
     self.log("cleanup function run_every_month " + str(datetime.now()))
     self.set_value(sensors.kwh_consumption_lastmonth, round(self.kwh_consumption_this_month, 2))
+    self.set_value(sensors.kwh_consumption_startofmonth, round(self.self.total_kwh_usage, 2))
+
     self.set_value(sensors.cost_lastmonth, round(self.cost_monthly, 2))
     self.kwh_consumption_startofmonth = self.total_kwh_usage
     self.kwh_power_min = 0
@@ -194,6 +196,11 @@ class Core(hass.Hass):
   def run_every_year(self, kwargs):
     self.log("function run_every_year " + str(datetime.now()))
     self.set_value(sensors.kwh_consumption_startofyear, round(self.total_kwh_usage, 4))
+
+    self.set_value(sensors.cost_lastyear, round(self.cost_yearly, 4))
+    self.cost_yearly = 0
+
+    self.set_value(sensors.kwh_consumption_lastyear, round(self.kwh_consumption_this_year, 2))
     self.kwh_consumption_this_year = 0
 
     import appdaemon.plugins.hass.hassapi as hass

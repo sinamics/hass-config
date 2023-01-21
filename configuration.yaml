@@ -9,7 +9,7 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 nordpool:
-
+#amshan_ext:
 # Text to speech
 tts:
   - platform: google_translate

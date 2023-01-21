@@ -71,7 +71,7 @@
 # persons
 #--------------------------------------------------------------------------------------------------
 #                  entity                        , battery_level                     , charging                                   , left  , top)
-{% set persons = [("bernt"                       , "berntchristian_s22_battery_level", "berntchristian_s22_is_charging"           ,  85   ,  4),
+{% set persons = [("bernt"                       , "sm_s908b_battery_level", "sm_s908b_is_charging"           ,  85   ,  4),
                   ("adrian"                      , "adrian_samsung_s20_battery_level", "adrian_samsung_s20_is_charging"           ,  89.5 ,  4)] %}
 
 

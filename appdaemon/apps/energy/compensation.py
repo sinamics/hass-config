@@ -1,6 +1,7 @@
 import hassapi as hass
 from enum import Enum
 from datetime import datetime, time, timedelta, date
+import calendar
 from dateutil.relativedelta import relativedelta
 import json
 import sensors
@@ -32,11 +33,12 @@ class Compensation(hass.Hass):
         self.listen_state(self.montly_power_consumption_handler, sensors.kwh_consumption_thismonth, immediate=True)
         self.listen_state(self.daily_power_consumption_handler, sensors.kwh_consumption_today, immediate=True)
 
-        # Run every month at first day 00:00
+        # Run last day in month 23:59
         today = date.today()
-        first_day = today.replace(day=1) + relativedelta(months=1)
-        run_date = first_day.strftime("%Y-%m-%d %H:%M:%S")
+        last_day = today.replace(day=calendar.monthrange(today.year, today.month)[1])
+        run_date = datetime.combine(last_day, time(hour=23, minute=59)).strftime("%Y-%m-%d %H:%M:%S")
         self.run_at(self.run_every_month, run_date)
+
         # run daily
         self.run_daily(self.run_every_day, time(23, 59, 0))
 
@@ -88,7 +90,7 @@ class Compensation(hass.Hass):
 
         if days > 1:
             self.month_avg = self.month_avg / days # len has 1 index
- 
+
         # # calculate compensation level so far this month / day.
         if self.month_avg > constants.COMPENSATION_THRESHOLD:
             self.monthly_compensation = self.calculate_compensation_amount(self.month_avg, self.monthly_consumption)

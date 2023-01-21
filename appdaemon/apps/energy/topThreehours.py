@@ -35,7 +35,7 @@ class TopThreeHours(hass.Hass):
         average = sum([x[0] for x in self.top_hours]) / len(self.top_hours)
 
         self.set_value(sensors.monthly_kwh_peak_hour, round(average, 2)) 
-        self.log("TopThreeHours: {}, Day: {}, Date: {}".format(average, self.top_hours[0][1].strftime("%A"), self.top_hours[0][1].strftime("%m/%d/%Y")))
+        # self.log("TopThreeHours: {}, Day: {}, Date: {}".format(average, self.top_hours[0][1].strftime("%A"), self.top_hours[0][1].strftime("%m/%d/%Y")))
 
     def reset_top_hours(self):
         # Reset the top hours list and update the reset date

@@ -33,13 +33,13 @@ class Main(hass.Hass):
             return
 
         current_time = datetime.now()
-        if current_time.hour >= 5 and current_time.hour < 8:
+        if current_time.weekday() < 5 and current_time.hour >= 6 and current_time.hour < 8:
             # daytime   
             self.log("wakeup temperature")
             self.target_temperature = self.high_temp
 
         # mid day settings
-        elif current_time.hour >= 8 and current_time.hour < 15:
+        elif current_time.hour >= 6 and current_time.hour < 15:
             # daytime   
             self.log("daytime temperature")
             if self.anyone_home():

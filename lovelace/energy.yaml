@@ -235,6 +235,8 @@ cards:
                     icon: mdi:fire
                   - entity: sensor.kwh_consumption_thisyear
                     name: Forbruk i år
+                  - entity: sensor.kwh_consumption_lastyear
+                    name: Forbruk forrige år
                     icon: mdi:fire
                   - type: divider
                   # - entity: sensor.time_of_max_hour_consumption_eigeland_50
