@@ -33,3 +33,4 @@ views:
   - !include lovelace/kitchen.yaml
   - !include lovelace/kiosk.yaml
   - !include lovelace/garage.yaml
+  - !include lovelace/formula_one.yaml

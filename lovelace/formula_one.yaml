@@ -1,0 +1,51 @@
+theme: Backend-selected
+icon: mdi:car
+title: Formula
+path: formula
+badges: []
+type: panel
+cards:
+  - type: grid
+    columns: 2
+    cards:
+      - square: false
+        type: vertical-stack
+        cards:
+          - type: custom:formulaone-card
+            card_type: next_race
+            actions:
+            tap_action:
+                action: navigate
+                navigation_path: /lovelace/overview
+          - type: custom:formulaone-card
+            card_type: last_result
+            title: Last Result
+
+          - type: custom:formulaone-card
+            card_type: results
+            title: Result
+            standings:
+              show_flag: true
+              show_team: true
+              show_teamlogo: true
+      - square: false
+        type: vertical-stack
+        cards:
+          - type: custom:formulaone-card
+            card_type: driver_standings
+            title: Driver Standings
+            standings:
+              show_teamlogo: true
+              show_flag: true
+              show_team: true
+          - type: custom:formulaone-card
+            card_type: constructor_standings
+            title: Constructor Standings
+            standings:
+              show_teamlogo: true
+              show_flag: true
+              show_team: true
+          - type: custom:formulaone-card
+            card_type: schedule
+            title: Schedule
+            date_locale: nl

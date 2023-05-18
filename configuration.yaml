@@ -117,6 +117,8 @@ lovelace:
       type: module
     - url: /hacsfiles/simple-thermostat/simple-thermostat.js
       type: module
+    - url: /hacsfiles/formulaone-card/formulaone-card.js
+      type: module
   dashboards:
     lovelace-dashboard:
       mode: yaml
