@@ -148,6 +148,15 @@
                               ("2f_house_inside_hall_termometer_temperature"            , "room"   ,  80  ,   71  ,    75  ),
                               ("1f_house_outside_laundryroom_termometer_temperature"    , "room"   ,  32  ,   70  ,    120 )] %}
 
+#--------------------------------------------------------------------------------------------------
+# Min renovasjon Sensors
+#  - They include humidity and battery values as well
+#--------------------------------------------------------------------------------------------------
+#                              entity                   , category           , name              , left ,  top ,  font_size
+{% set renovasjon_sensors = [ ("papp_papir"             , "days_to_pickup"   , "Papp"            , 39   ,   96 ,    75  ),
+                              ("restavfall"             , "days_to_pickup"   , "Restavfall"      , 39   ,   98  ,    75  ),
+                              ("vatorganisk"            , "days_to_pickup"   , "Våtorganisk"     , 39   ,   100  ,    75  )] %}
+
 #                              entity                                                   , category , left ,   top
 {% set humidity_sensors = [("1f_house_inside_livingroom_termometer_humidity"            , "room"   , 36.5 ,   93  ),
                            ("1f_house_inside_entrance_termometer_humidity"              , "room"   , 45   ,   59  ),
@@ -1100,6 +1109,34 @@ cards:
             
       {% endif %}
       {% endfor %}
+########  ######## ##    ##  #######  ##     ##    ###     ######        ##  #######  ##    ## 
+##     ## ##       ###   ## ##     ## ##     ##   ## ##   ##    ##       ## ##     ## ###   ## 
+##     ## ##       ####  ## ##     ## ##     ##  ##   ##  ##             ## ##     ## ####  ## 
+########  ######   ## ## ## ##     ## ##     ## ##     ##  ######        ## ##     ## ## ## ## 
+##   ##   ##       ##  #### ##     ##  ##   ##  #########       ## ##    ## ##     ## ##  #### 
+##    ##  ##       ##   ### ##     ##   ## ##   ##     ## ##    ## ##    ## ##     ## ##   ### 
+##     ## ######## ##    ##  #######     ###    ##     ##  ######   ######   #######  ##    ## 
+
+
+# TEMPERATURE SENSORS
+
+      {% for entity, attribute, name, left, top, font_size in renovasjon_sensors %}
+      - type: state-label
+        entity: sensor.{{ entity }}
+        attribute: {{ attribute }}
+        prefix: "{{ name }} "
+        suffix: " dager"
+        style:
+          left: {{ left }}%
+          top: {{ top }}%
+          transform: translate(0, -50%)
+          font-size: {{ font_size }}%
+      {% endfor %}
+
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
 
 ######## ######## ##     ## ########  ######## ########     ###    ######## ##     ## ########  ########     ######  ######## ##    ##  ######   #######  ########   ######  
    ##    ##       ###   ### ##     ## ##       ##     ##   ## ##      ##    ##     ## ##     ## ##          ##    ## ##       ###   ## ##    ## ##     ## ##     ## ##    ## 
