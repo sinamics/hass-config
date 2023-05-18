@@ -24,7 +24,6 @@ utility_meter: !include utility_meter.yaml
 input_boolean: !include input_boolean.yaml
 input_text: !include input_text.yaml
 recorder: !include recorder.yaml
-
 http:
   use_x_forwarded_for: true
   trusted_proxies:
@@ -32,7 +31,7 @@ http:
     - 10.0.0.0/24
     - 192.168.0.0/24
 
-# Grafana config
+
 influxdb:
   host: a0d7b954-influxdb
   port: 8086

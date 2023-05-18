@@ -4,104 +4,127 @@ title: garage
 path: garage
 badges: []
 cards:
-  - type: picture-elements
-    image: local/images/weconnect/egolf.png
-    elements:
-      - type: image
-        entity: switch.egolf_electric_climatisation
-        image: /local/images/weconnect/blank.png
-        style:
-          top: 39.5%
-          left: 55%
-          width: 43%
-        state_image:
-          "on": /local/images/weconnect/passat_heat.png
-      - type: image
-        entity: binary_sensor.egolf_external_power
-        image: /local/images/weconnect/blank.png
-        style:
-          top: 62.8%
-          left: 21.2%
-          width: 43%
-        state_image:
-          "on": /local/images/weconnect/passatcharging.png
-      - type: image
-        entity: binary_sensor.egolf_parking_light
-        image: /local/images/weconnect/blank.png
-        style:
-          top: 65.3%
-          left: 42.9%
-          width: 37%
-        state_image:
-          "on": /local/images/weconnect/passat_light.png
-      - type: image
-        entity: binary_sensor.egolf_doors_locked
-        image: /local/images/weconnect/blank.png
-        style:
-          top: 42.3%
-          left: 57%
-          width: 2%
-        state_image:
-          locked: /local/images/weconnect/blink.gif
-      - type: state-icon
-        entity: binary_sensor.egolf_doors_locked
-        style:
-          top: 87%
-          left: 47%
-      - type: state-label
-        entity: sensor.egolf_odometer
-        style:
-          top: 96%
-          left: 12%
-      - type: state-icon
-        entity: switch.egolf_electric_climatisation
-        hold_action: toggle
-        style:
-          top: 87%
-          left: 58%
-      - type: state-icon
-        entity: switch.egolf_window_heater
-        hold_action: toggle
-        style:
-          top: 87%
-          left: 69%
-      - type: state-icon
-        entity: switch.egolf_charging
-        style:
-          top: 87%
-          left: 91%
-      - type: state-label
-        entity: sensor.egolf_battery_level
-        style:
-          top: 96%
-          left: 92%
-      - type: state-label
-        entity: sensor.egolf_charging_time_left
-        style:
-          top: 78%
-          left: 92%
-      - type: state-label
-        entity: sensor.egolf_electric_range
-        style:
-          top: 71%
-          left: 92%
-  - type: entities
-    entities:
-      - entity: switch.egolf_charging
-        name: Charging
-      - entity: switch.egolf_climatisation_from_battery
-        name: Climatisation from battery
-      - entity: lock.egolf_door_locked
-        name: Door locked
-      - entity: switch.egolf_electric_climatisation
-        name: Electric Climatisation
-      - entity: switch.egolf_force_data_refresh
-        name: Force data refresh
-      - entity: lock.egolf_trunk_locked
-        name: Trunk locked
-      - entity: switch.egolf_window_heater
-        name: Window Heater
-    title: Egolf
+  - type: grid
+    columns: 1
+    cards:
+      - type: vertical-stack
+        cards:
+        - type: picture-elements
+          image: local/images/weconnect/egolf.png
+          elements:
+            - type: image
+              entity: switch.egolf_electric_climatisation
+              image: /local/images/weconnect/blank.png
+              style:
+                top: 39.5%
+                left: 55%
+                width: 43%
+              state_image:
+                "on": /local/images/weconnect/passat_heat.png
+            - type: image
+              entity: binary_sensor.egolf_external_power
+              image: /local/images/weconnect/blank.png
+              style:
+                top: 62.8%
+                left: 21.2%
+                width: 43%
+              state_image:
+                "on": /local/images/weconnect/passatcharging.png
+            - type: image
+              entity: binary_sensor.egolf_parking_light
+              image: /local/images/weconnect/blank.png
+              style:
+                top: 65.3%
+                left: 42.9%
+                width: 37%
+              state_image:
+                "on": /local/images/weconnect/passat_light.png
+            - type: image
+              entity: binary_sensor.egolf_doors_locked
+              image: /local/images/weconnect/blank.png
+              style:
+                top: 42.3%
+                left: 57%
+                width: 2%
+              state_image:
+                locked: /local/images/weconnect/blink.gif
+            - type: state-icon
+              entity: binary_sensor.egolf_doors_locked
+              style:
+                top: 87%
+                left: 47%
+            - type: state-label
+              entity: sensor.egolf_odometer
+              style:
+                top: 96%
+                left: 12%
+            - type: state-icon
+              entity: switch.egolf_electric_climatisation
+              hold_action: toggle
+              style:
+                top: 87%
+                left: 58%
+            - type: state-icon
+              entity: switch.egolf_window_heater
+              hold_action: toggle
+              style:
+                top: 87%
+                left: 69%
+            - type: state-icon
+              entity: switch.egolf_charging
+              style:
+                top: 87%
+                left: 91%
+            - type: state-label
+              entity: sensor.egolf_battery_level
+              style:
+                top: 96%
+                left: 92%
+            - type: state-label
+              entity: sensor.egolf_charging_time_left
+              style:
+                top: 78%
+                left: 92%
+            - type: state-label
+              entity: sensor.egolf_electric_range
+              style:
+                top: 71%
+                left: 92%
+        - type: entities
+          title: Egolf
+          entities:
+            - entity: switch.egolf_charging
+              name: Charging
+            - entity: sensor.egolf_charging_time_left
+              name: Charging Time Left
+            - entity: switch.egolf_climatisation_from_battery
+              name: Climatisation from battery
+            - entity: binary_sensor.egolf_doors_locked
+              name: Door locked
+            - entity: switch.egolf_electric_climatisation
+              name: Electric Climatisation
+            - entity: switch.egolf_force_data_refresh
+              name: Force data refresh
+            - entity: binary_sensor.egolf_trunk_locked
+              name: Trunk locked
+            - entity: switch.egolf_window_heater
+              name: Window Heater
+            - entity: sensor.egolf_service_inspection_days
+              name: Inspection days
+            - entity: sensor.egolf_service_inspection_distance
+              name: Inspection distance
+        
+            - entity: switch.egolf_departure_schedule_1
+              icon: mdi:car-clock
+              name: Depature 1 Activated
+            - entity: switch.egolf_departure_schedule_2
+              icon: mdi:car-clock
+              name: Depature 2 Activated
+            - entity: switch.egolf_departure_schedule_3
+              icon: mdi:car-clock
+              name: Depature 3 Activated
+
+        
   - type: entities
     entities:
       - entity: button.x5_xdrive30d_activate_air_conditioning

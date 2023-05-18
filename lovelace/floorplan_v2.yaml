@@ -491,7 +491,7 @@ cards:
               top: -6%  #-3% 0%
               width: 30%
               transform: 'translate(0%, 0%) scale(0.7, 0.7)'
-              mix-blend-mode: lighten
+              {# mix-blend-mode: lighten #}
           {# - type: image
             image: /local/images/floorplan_v2/transparent_square.png
             entity: weather.darksky_hourly
@@ -554,9 +554,10 @@ cards:
               left: 22% #-3% 0%
               top: 0%  #-3% 0%
               {# width: 23% #}
-              width: 20.5%
+            
+              width: 20.7%
               transform: 'translate(0%, 0%) scale(1, 1)'
-              mix-blend-mode: lighten
+              {# mix-blend-mode: lighten #}
             now:
               show: true
               color: "#ff0000"
