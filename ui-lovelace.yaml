@@ -25,7 +25,7 @@ title: Home
 views:
 #  - !include lovelace/floorplan_v1.yaml
   - !include lovelace/floorplan_v2.yaml
-  - !include lovelace/floorplan_v3.yaml
+#  - !include lovelace/floorplan_v3.yaml
   - !include lovelace/home.yaml
   - !include lovelace/energy.yaml
   - !include lovelace/lights.yaml

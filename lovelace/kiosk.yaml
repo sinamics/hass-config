@@ -5,185 +5,258 @@ icon: mdi:cast-variant
 type: panel
 badges: []
 cards:
-  - square: true
-    columns: 2
-    type: grid
-    cards:
-      - type: grid
-        columns: 2
-        cards:
-          - square: false
-            type: vertical-stack
-            cards:
-              - type: entities
-                entities:
-                  - entity: switch.node_6
-                    name: Garasje Inne
-                    secondary_info: last-changed
-                    icon: mdi:lightbulb
-                  - entity: light.in_wall_dimmer_module
-                    name: Garasje Flomlys
-                    secondary_info: last-changed
-                  - entity: light.1f_house_outside_entrance_light
-                    name: Utelys Inngang
-                    secondary_info: last-changed
-                  - entity: light.1f_house_inside_entrance_light
-                    name: Gang
-                    secondary_info: last-changed
-                  - entity: light.2f_house_inside_ceiling_vilde_light
-                    name: Vilde Soverrom
-                    secondary_info: last-changed
-                  - entity: light.2f_house_inside_ceiling_adrian_light
-                    name: Adrian Soverrom
-                    secondary_info: last-changed
-                  - entity: light.smart_led_strip
-                    name: Kjøkken LED
-                    secondary_info: last-changed
-                  - entity: switch.1f_outside_glamping
-                    name: Glamping Telt
-                    secondary_info: last-changed
-                    icon: mdi:lightbulb
-                state_color: true
-              - type: custom:mini-graph-card
-                entities:
-                  - sensor.1f_house_inside_entrance_termometer_temperature
-                name: Gang Temperatur
-                line_width: 4
-                font_size: 95
-                color_thresholds:
-                  - value: 18
-                    color: blue
-                  - value: 20
-                    color: yellow
-                  - value: 23
-                    color: red
-                hours_to_show: 24
-                points_per_hour: 4
-                hour24: true
-                show:
-                  labels: false
-                  fill: fade
-                  icon: false
-                  extrema: true
-                  graph: line
-                  average: false
-              - type: custom:mini-graph-card
-                entities:
-                  - >-
-                    sensor.1f_house_outside_laundryroom_termometer_temperature
-                name: Ute Temperatur
-                line_width: 4
-                font_size: 95
-                color_thresholds:
-                  - value: 18
-                    color: blue
-                  - value: 20
-                    color: yellow
-                  - value: 23
-                    color: red
-                hours_to_show: 24
-                points_per_hour: 4
-                hour24: true
-                show:
-                  labels: false
-                  fill: fade
-                  icon: false
-                  extrema: true
-                  graph: line
-                  average: false
-          - type: vertical-stack
-            cards:
-              - type: grid
-                columns: 2
-                cards:
-                  - show_state: true
-                    show_name: false
-                    camera_view: auto
-                    type: picture-entity
-                    entity: person.bernt
-                    image: >-
-                      /api/image/serve/2251ac1226ee9d978f94c759b77b9cc9/512x512
-                    name: Bernt
-                    aspect_ratio: "1"
-                  - show_state: true
-                    show_name: false
-                    camera_view: auto
-                    type: picture-entity
-                    entity: device_tracker.adrian_samsung_s20
-                    image: >-
-                      /api/image/serve/1c357913e361c7736105aaf8b35eabdc/512x512
-                    aspect_ratio: "1"
-                    name: Adrian
-              - type: thermostat
-                entity: climate.hvac_eigeland
-                name: Varmepumpe
-              - type: custom:apexcharts-card
-                header:
-                  show: true
-                  title: Strømpris neste 48 timer
-                  show_states: true
-                graph_span: 2d
-                now:
-                  show: true
-                  color: "#ff0000"
-                  label: Now
-                span:
-                  start: day
-                series:
-                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
-                    name: Today
-                    unit: Kr
-                    color: yellow
-                    data_generator: >
-                      let thisdate = new Date();
-                      thisdate.setHours(24,0,0,0);
 
-                      const today = [...entity.attributes.raw_today,
-                      {start:thisdate.toISOString()}]; return
-                      today.map((entry,idx) => {
-                        if(idx > 23) return [new Date(entry.start), null];
-                        return [new Date(entry.start), entry.value];
-                      });
-                    type: column
-                    group_by:
-                      func: max
-                      duration: 60min
-                    show:
-                      legend_value: false
-                      in_header: false
-                      extremas: true
-                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
-                    name: Tomorrow
-                    unit: Kr
-                    data_generator: |
-                      return entity.attributes.raw_tomorrow.map((entry) => {
-                        return [new Date(entry.start), entry.value * 1.25];
-                      });
-                    type: column
-                    group_by:
-                      func: max
-                      duration: 60min
-                    show:
-                      legend_value: false
-                      in_header: false
-                      extremas: true
-      - type: custom:frigate-card
-        cameras:
-          - camera_entity: camera.eigeland
-        view:
-          default: clips
-          camera_select: clips
-          timeout_seconds: 30
-          update_seconds: 120
-          update_force: true
-          dark_mode: "on"
-        dimensions:
-          aspect_ratio_mode: dynamic
-        event_gallery:
-          controls:
-            thumbnails:
-              size: 130
-        live:
-          controls:
-            thumbnails:
-              mode: left
+  - type: grid
+    columns: 4
+    cards:
+      - square: false
+        type: vertical-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.1f_house_inside_entrance_termometer_temperature
+            name: Gang Temperatur
+            line_width: 4
+            font_size: 95
+            color_thresholds:
+              - value: 18
+                color: blue
+              - value: 20
+                color: yellow
+              - value: 23
+                color: red
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+          - type: custom:mini-graph-card
+            entities:
+              - >-
+                sensor.1f_house_outside_laundryroom_termometer_temperature
+            name: Ute Temperatur
+            line_width: 4
+            font_size: 95
+            color_thresholds:
+              - value: 18
+                color: blue
+              - value: 20
+                color: yellow
+              - value: 23
+                color: red
+            hours_to_show: 24
+            points_per_hour: 4
+            hour24: true
+            show:
+              labels: false
+              fill: fade
+              icon: false
+              extrema: true
+              graph: line
+              average: false
+      - square: false
+        type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+              - entity: switch.node_6
+                name: Garasje Inne
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+              - entity: light.in_wall_dimmer_module
+                name: Garasje Flomlys
+                secondary_info: last-changed
+              - entity: light.1f_house_outside_entrance_light
+                name: Utelys Inngang
+                secondary_info: last-changed
+              - entity: light.1f_house_inside_entrance_light
+                name: Gang
+                secondary_info: last-changed
+              - entity: light.2f_house_inside_ceiling_vilde_light
+                name: Vilde Soverom
+                secondary_info: last-changed
+              - entity: light.2f_house_inside_ceiling_adrian_light
+                name: Adrian Soverom
+                secondary_info: last-changed
+              - entity: light.smart_led_strip
+                name: Kjøkken LED
+                secondary_info: last-changed
+              - entity: switch.1f_outside_glamping
+                name: Glamping Telt
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+              - entity: light.2f_house_inside_ceiling_sturla_light
+                name: Sturla Soverom
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+    
+              - entity: light.1f_house_inside_livingroom_corner_light
+                name: Stue Hjørne Lys
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+    
+              - entity: light.2f_house_inside_ceiling_hall_light
+                name: 2 Etg Gang Lys
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+    
+              - entity: light.1f_house_inside_ceiling_laundryroom_light
+                name: Vaskerom lys
+                secondary_info: last-changed
+                icon: mdi:lightbulb
+            state_color: true
+
+      - type: vertical-stack
+        cards:
+          # - type: grid
+          #   columns: 2
+          #   cards:
+          #     - show_state: true
+          #       show_name: false
+          #       camera_view: auto
+          #       type: picture-entity
+          #       entity: person.bernt
+          #       image: >-
+          #         /api/image/serve/2251ac1226ee9d978f94c759b77b9cc9/512x512
+          #       name: Bernt
+          #       aspect_ratio: "1"
+          #     - show_state: true
+          #       show_name: false
+          #       camera_view: auto
+          #       type: picture-entity
+          #       entity: device_tracker.adrian_samsung_s20
+          #       image: >-
+          #         /api/image/serve/1c357913e361c7736105aaf8b35eabdc/512x512
+          #       aspect_ratio: "1"
+          #       name: Adrian
+          - type: thermostat
+            entity: climate.hvac_eigeland
+            name: Varmepumpe
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Strømpris neste 48 timer
+              show_states: true
+            graph_span: 2d
+            now:
+              show: true
+              color: "#ff0000"
+              label: Now
+            span:
+              start: day
+            series:
+              - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                name: Today
+                unit: Kr
+                color: yellow
+                data_generator: >
+                  let thisdate = new Date();
+                  thisdate.setHours(24,0,0,0);
+
+                  const today = [...entity.attributes.raw_today,
+                  {start:thisdate.toISOString()}]; return
+                  today.map((entry,idx) => {
+                    if(idx > 23) return [new Date(entry.start), null];
+                    return [new Date(entry.start), entry.value];
+                  });
+                type: column
+                group_by:
+                  func: max
+                  duration: 60min
+                show:
+                  legend_value: false
+                  in_header: false
+                  extremas: true
+              - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                name: Tomorrow
+                unit: Kr
+                data_generator: |
+                  return entity.attributes.raw_tomorrow.map((entry) => {
+                    return [new Date(entry.start), entry.value * 1.25];
+                  });
+                type: column
+                group_by:
+                  func: max
+                  duration: 60min
+                show:
+                  legend_value: false
+                  in_header: false
+                  extremas: true
+      - square: true
+        type: vertical-stack
+        cards:
+          - type: grid
+            columns: 1
+            cards:
+              - type: custom:frigate-card
+                cameras:
+                  - camera_entity: camera.eigeland
+                    live_provider: jsmpeg
+                    triggers:
+                      motion: true
+                    engine: auto
+                    go2rtc:
+                      modes:
+                        - webrtc
+                view:
+                  update_force: false
+                  actions: 
+                    media_viewer: snapshot
+                    event_gallery: snapshot
+                  default: clips
+                  camera_select: clips
+            #     timeout_seconds: 30
+            #     update_seconds: 120
+            #     update_force: true
+                  scan:
+                    enabled: true
+                    trigger_show_border: true
+                  dark_mode: "on"
+                media_gallery:
+                  controls:
+                    filter:
+                      mode: 'right'
+                    thumbnails:
+                      size: 100
+                      show_details: false
+                      show_download_control: true
+                      show_favorite_control: true
+                      show_timeline_control: true
+                media_viewer:
+                  controls:
+                    thumbnails:
+                      show_timeline_control: false
+                      show_download_control: false
+                      show_favorite_control: false
+                timeline:
+                  controls:
+                    thumbnails:
+                      show_timeline_control: false
+                      show_download_control: false
+                      show_favorite_control: false
+                live:
+                  controls:
+                    thumbnails:
+                      mode: below
+                      media: clips
+                      show_timeline_control: false
+                      show_download_control: false
+                      show_favorite_control: false
+                menu:
+                  buttons:
+                    frigate_ui:
+                      enabled: false
+
+                dimensions:
+                  aspect_ratio_mode: static
+                  aspect_ratio: '16:9'
+                  layout:
+                    fit: contain
+                  jsmpeg:
+                    options:
+                      disableGl: true

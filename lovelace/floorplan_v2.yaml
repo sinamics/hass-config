@@ -77,14 +77,14 @@
 
 #                       group       , left, top
 {% set light_groups = [("outside"   , 35, 38),
-                       ("downstairs", 53, 38),
-                       ("upstairs"  , 78, 38)] %}
+                       ("downstairs", 51, 38),
+                       ("upstairs"  , 80, 38)] %}
 
 #--------------------------------------------------------------------------------------------------
 # HVAC
 #--------------------------------------------------------------------------------------------------
 #                 entity     , left, top
-{% set hvacs = [("eigeland"  , 61  ,  38  )] %}
+{% set hvacs = [("eigeland"  , 63  ,  38  )] %}
 
 #--------------------------------------------------------------------------------------------------
 # Navigation
@@ -123,6 +123,7 @@
 #                             entity                                              , column, section, label                 , type slider, entity
 {% set settings_entities = [("input_boolean.ui_hide_room_temperatures"                 , "2", "y", "Hide Elements"         , "entity"),
                             ("input_boolean.ui_hide_weather          "                 , "2", "n", ""                      , "entity"),
+                            ("input_boolean.ui_hide_energy_price          "            , "2", "n", ""                      , "entity"),
                             ("input_boolean.ui_hide_calendar         "                 , "2", "n", ""                      , "entity"),
                             ("input_boolean.ui_hide_navigation"                        , "2", "n", ""                      , "entity"),
                             ("sensor.memory_free"                                      , "1", "y", "System"                , "entity")] %}
@@ -496,9 +497,9 @@ cards:
               {% if (debug == true) %}
               border: 1px solid red
               {%- endif %}
-              left: -4% #-3% 0%
-              top: -6%  #-3% 0%
-              width: 30%
+              left: 22% #-3% 0%
+              top: -5%  #-3% 0%
+              width: 35%
               transform: 'translate(0%, 0%) scale(0.7, 0.7)'
               {# mix-blend-mode: lighten #}
           {# - type: image
@@ -549,7 +550,11 @@ cards:
 ######## ##    ## ######## ##     ##  ######      ##  
 
 
-        {# elements: #}
+      - type: conditional
+        conditions:
+          - entity: input_boolean.ui_hide_energy_price
+            state_not: 'on'
+        elements:
           - type: custom:apexcharts-card
             header:
               show: true
@@ -560,11 +565,11 @@ cards:
               {% if (debug == true) %}
               border: 1px solid red
               {%- endif %}
-              left: 22% #-3% 0%
+              left: 1% #-3% 0%
               top: 0%  #-3% 0%
               {# width: 23% #}
             
-              width: 20.7%
+              width: 23.7%
               transform: 'translate(0%, 0%) scale(1, 1)'
               {# mix-blend-mode: lighten #}
             now:
@@ -776,24 +781,30 @@ cards:
             entities:
               - entity: calendar.family
                 name: calendar.family
+                blocklist: "Vilde og Sturla"
+
               - entity: calendar.cbegelan_gmail_com
                 name: calendar.cbegelan_gmail_com
+                blocklist: "Adrian"
+            compactMode: false
             maxDaysToShow: 2
             maxEventCount: 4
             showLocation: true
+            showPrivate: false
             showMonth: true
             showWeekDay: true
             showDate: false
-            showPrivate: false
             hideDeclined: true
+            hideFinishedEvents: true
+            hoursOnSameLine: true
             showDescription: false
-            showNoEventsForToday: true
+            showNoEventsForToday: false
             disableEventLink: true
             disableLocationLink: true
             defaultMode: Event
             refreshInterval: 60
             showHours: true
-            showRelativeTime: false
+            showRelativeTime: true
             europeanDate: false
             dateFormat: 'LL'
             hoursFormat: 'HH:mm'
@@ -1014,9 +1025,8 @@ cards:
                         style:
                           left: 10%
                           top: 82%
-                          width: 14%
                           height: 6.5%
-                        event_gallery:
+                        media_gallery:
                           controls:
                             thumbnails:
                               size: 75
@@ -1033,6 +1043,9 @@ cards:
                           actions: 
                             media_viewer: snapshot
                             event_gallery: snapshot
+
+                          scan:
+                            enabled: true
                         frigate:
                           camera_name: "{{ entity }}"
                         cameras:
@@ -1357,14 +1370,14 @@ cards:
             entity: climate.hvac_{{ entity }}
             attribute: "fan_mode"
             style:
-              left: {{ left + 4 }}%
+              left: {{ left + 5 }}%
               top: {{ top + 2.5 }}%
               transform: 'translate(0, -50%)'
           - type: state-label
             entity: climate.hvac_{{ entity }}
             attribute: "temperature"
             style:
-              left: {{ left + 5.9 }}%
+              left: {{ left + 8 }}%
               top: {{ top + 2.5 }}%
               transform: 'translate(0, -50%)'
 
@@ -1383,14 +1396,14 @@ cards:
       - type: custom:frigate-card
         camera_entity: camera.eigeland
         style:
-          left: 26%
-          top: 94%
-          width: 16%
-          height: 5.5%
-        event_gallery:
+          left: 36%
+          top: 16%
+          width: 19%
+          height: 33%
+        media_gallery:
           controls:
             thumbnails:
-              size: 55
+              size: 150
         view_layout:
           grid-area: main
         view:
@@ -1402,6 +1415,9 @@ cards:
           actions: 
             media_viewer: snapshot
             event_gallery: snapshot
+          scan:
+            enabled: true
+          dark_mode: "on"
         frigate:
           camera_name: eigeland
         menu:
@@ -1410,7 +1426,15 @@ cards:
         cameras:
           - camera_entity: camera.eigeland
             live_provider: auto
-
+        live:
+          controls:
+            thumbnails:
+              thumbnails:
+              mode: below
+              media: clips
+              show_timeline_control: false
+              show_download_control: false
+              show_favorite_control: false
 
 
 ########  ######## ########   ######   #######  ##    ##  ######  
