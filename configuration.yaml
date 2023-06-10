@@ -119,6 +119,8 @@ lovelace:
       type: module
     - url: /hacsfiles/formulaone-card/formulaone-card.js
       type: module
+    - url: /local/community/weather-radar-card/weather-radar-card.js
+      type: module
   dashboards:
     lovelace-dashboard:
       mode: yaml

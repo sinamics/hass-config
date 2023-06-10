@@ -1,0 +1,15 @@
+theme: Backend-selected
+icon: mdi:temperature-celsius
+cards:
+    - type: 'custom:weather-radar-card'
+      frame_count: 10
+      center_latitude: 58.283904
+      center_longitude: 8.294303
+      marker_latitude: 58.283904
+      marker_longitude: 8.294303
+      show_marker: true
+      show_range: true
+      show_zoom: true
+      show_recenter: true
+      show_playback: true
+      zoom_level: 7
