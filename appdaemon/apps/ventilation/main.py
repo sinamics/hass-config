@@ -16,6 +16,7 @@ class Main(hass.Hass):
         ## Listen for auto state
         self.listen_state(self.temp_listner, "input_boolean.ventilation_auto", immediate=True)
         self.listen_state(self.home_listner,"device_tracker.adrian_samsung_s20")
+        self.listen_state(self.outside_temperature,"sensor.1f_house_outside_laundryroom_termometer_temperature", immediate=True)
 
     def temp_listner(self, entity, attribute, old, new, kwargs):
         if new == "off":
@@ -23,6 +24,20 @@ class Main(hass.Hass):
             return
 
         self.is_auto = True
+        self.set_temperature()
+
+    def outside_temperature(self, entity, attribute, old, new, kwargs):
+        try:
+            new_float = float(new)
+        except ValueError:
+            self.log(f"Unable to convert {new} to float. Ignoring update.")
+            return
+
+        if new_float >= 15:
+            self.high_temp = 21
+        else:
+            self.high_temp = 24
+
         self.set_temperature()
 
     def home_listner(self, entity, attribute, old, new, kwargs):
@@ -61,7 +76,7 @@ class Main(hass.Hass):
 
         # call service: 
         self.call_service("climate/set_temperature", entity_id  = "climate.hvac_eigeland", temperature = self.target_temperature)
-        self.call_service("climate/set_hvac_mode", entity_id  = "climate.hvac_eigeland", hvac_mode = "heat")
+        self.call_service("climate/set_hvac_mode", entity_id  = "climate.hvac_eigeland", hvac_mode = "heat_cool")
         self.call_service("climate/set_fan_mode", entity_id  = "climate.hvac_eigeland", fan_mode = "auto")
         self.call_service("climate/set_swing_mode", entity_id  = "climate.hvac_eigeland", swing_mode = "auto")
 

@@ -1,8 +1,9 @@
 theme: Backend-selected
-icon: mdi:temperature-celsius
+icon: mdi:weather-rainy
 cards:
     - type: 'custom:weather-radar-card'
-      frame_count: 10
+      frame_count: 30
+      frame_delay: 200
       center_latitude: 58.283904
       center_longitude: 8.294303
       marker_latitude: 58.283904
