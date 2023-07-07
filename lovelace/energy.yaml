@@ -100,7 +100,12 @@ cards:
               - color: "#FD0000"
                 value: 8
             entities:
-              - sensor.kwh_active_usage
+              - entity: sensor.kwh_active_usage
+                show_indicator: false
+                show_line: true
+                show_legend: true
+                show_state: true
+                # y_axis: "secondary"
             height: 100
             hour24: true
             decimals: 2
@@ -111,6 +116,8 @@ cards:
             show:
               extrema: true
               icon: false
+              labels: true
+              labels_secondary: true
             font_size: 120
           - type: custom:mini-graph-card
             color_thresholds:

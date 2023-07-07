@@ -1,144 +1,258 @@
 theme: Backend-selected
-icon: mdi:garage-variant
+icon: mdi:car
 title: garage
 path: garage
 badges: []
 cards:
   - type: grid
     columns: 1
+    square: false
     cards:
-      - type: vertical-stack
-        cards:
-        - type: picture-elements
-          image: local/images/weconnect/egolf.png
-          elements:
-            - type: image
-              entity: switch.egolf_electric_climatisation
-              image: /local/images/weconnect/blank.png
-              style:
-                top: 39.5%
-                left: 55%
-                width: 43%
-              state_image:
-                "on": /local/images/weconnect/passat_heat.png
-            - type: image
-              entity: binary_sensor.egolf_external_power
-              image: /local/images/weconnect/blank.png
-              style:
-                top: 62.8%
-                left: 21.2%
-                width: 43%
-              state_image:
-                "on": /local/images/weconnect/passatcharging.png
-            - type: image
-              entity: binary_sensor.egolf_parking_light
-              image: /local/images/weconnect/blank.png
-              style:
-                top: 65.3%
-                left: 42.9%
-                width: 37%
-              state_image:
-                "on": /local/images/weconnect/passat_light.png
-            - type: image
-              entity: binary_sensor.egolf_doors_locked
-              image: /local/images/weconnect/blank.png
-              style:
-                top: 42.3%
-                left: 57%
-                width: 2%
-              state_image:
-                locked: /local/images/weconnect/blink.gif
-            - type: state-icon
-              entity: binary_sensor.egolf_doors_locked
-              style:
-                top: 87%
-                left: 47%
-            - type: state-label
-              entity: sensor.egolf_odometer
-              style:
-                top: 96%
-                left: 12%
-            - type: state-icon
-              entity: switch.egolf_electric_climatisation
-              hold_action: toggle
-              style:
-                top: 87%
-                left: 58%
-            - type: state-icon
-              entity: switch.egolf_window_heater
-              hold_action: toggle
-              style:
-                top: 87%
-                left: 69%
-            - type: state-icon
-              entity: switch.egolf_charging
-              style:
-                top: 87%
-                left: 91%
-            - type: state-label
-              entity: sensor.egolf_battery_level
-              style:
-                top: 96%
-                left: 92%
-            - type: state-label
-              entity: sensor.egolf_charging_time_left
-              style:
-                top: 78%
-                left: 92%
-            - type: state-label
-              entity: sensor.egolf_electric_range
-              style:
-                top: 71%
-                left: 92%
-        - type: entities
-          title: Egolf
+    - type: grid
+      title: eGolf
+      columns: 1
+      square: false
+      cards:
+        - type: custom:mini-graph-card
+          hours_to_show: 48
           entities:
-            - entity: switch.egolf_charging
-              name: Charging
-            - entity: sensor.egolf_charging_time_left
-              name: Charging Time Left
-            - entity: switch.egolf_climatisation_from_battery
-              name: Climatisation from battery
-            - entity: binary_sensor.egolf_doors_locked
-              name: Door locked
-            - entity: switch.egolf_electric_climatisation
-              name: Electric Climatisation
-            - entity: switch.egolf_force_data_refresh
-              name: Force data refresh
-            - entity: binary_sensor.egolf_trunk_locked
-              name: Trunk locked
-            - entity: switch.egolf_window_heater
-              name: Window Heater
-            - entity: sensor.egolf_service_inspection_days
-              name: Inspection days
-            - entity: sensor.egolf_service_inspection_distance
-              name: Inspection distance
-        
-            - entity: switch.egolf_departure_schedule_1
-              icon: mdi:car-clock
-              name: Depature 1 Activated
-            - entity: switch.egolf_departure_schedule_2
-              icon: mdi:car-clock
-              name: Depature 2 Activated
-            - entity: switch.egolf_departure_schedule_3
-              icon: mdi:car-clock
-              name: Depature 3 Activated
-
-        
-  - type: entities
-    entities:
-      - entity: button.x5_xdrive30d_activate_air_conditioning
-        name: Activate air conditioning
-      - entity: button.x5_xdrive30d_deactivate_air_conditioning
-        name: Deactivate air conditioning
-      - entity: button.x5_xdrive30d_find_vehicle
-        name: Find vehicle
-      - entity: button.x5_xdrive30d_flash_lights
-        name: Flash lights
-      - entity: lock.x5_xdrive30d_lock
-        name: Lock
-      - entity: button.x5_xdrive30d_refresh_from_cloud
-        name: Refresh from cloud
-      - entity: button.x5_xdrive30d_sound_horn
-        name: Sound horn
-    title: X5 xDrive30d
+            - entity: sensor.zaptec_charger_zap127274
+              attribute: total_charge_power
+              index: 0
+              name: Lade Effekt eGolf
+              hour24: true
+          color_thresholds:
+            - color: "#0FA300"
+              value: 0
+            - color: "#18FF00"
+              value: 1000
+            - color: "#F4F700"
+              value: 2000
+            - color: "#FCBD00"
+              value: 3000
+            - color: "#FD9A00"
+              value: 4000
+            - color: "#FD0000"
+              value: 5000
+          decimals: 2
+          line_width: 2
+          icon: mdi:transmission-tower-export
+          show:
+            fill: fade
+            icon: true
+            extrema: true
+            graph: line
+            average: true
+          smoothing: true
+          font_size: 80
+          points_per_hour: 10
+        - type: entities
+          title: eGolf Zaptec
+          entities:
+            - entity: sensor.zaptec_charger_zap127274
+              name: Status
+              icon: mdi:progress-star-four-points
+            - type: attribute
+              entity: sensor.zaptec_charger_zap127274
+              name: Operating Mode
+              attribute: operating_mode
+              icon: mdi:battery-charging
+            # - type: conditional
+            #   conditions:
+            #     - entity: sensor.zaptec_charger_zap127274
+            #       attribute: operating_mode
+            #       state_not: 5
+            #   row:
+            #     type: markdown
+            #     content: "Charging"
+            - type: attribute
+              entity: sensor.zaptec_charger_zap127274
+              name: Is Online
+              attribute: is_online
+              icon: mdi:account-badge
+        - type: grid
+          columns: 1
+          square: false
+          cards:
+            - type: picture-elements
+              image: local/images/weconnect/egolf.png
+              elements:
+                - type: image
+                  entity: switch.egolf_electric_climatisation
+                  image: /local/images/weconnect/blank.png
+                  style:
+                    top: 39.5%
+                    left: 55%
+                    width: 43%
+                  state_image:
+                    "on": /local/images/weconnect/passat_heat.png
+                - type: image
+                  entity: binary_sensor.egolf_external_power
+                  image: /local/images/weconnect/blank.png
+                  style:
+                    top: 62.8%
+                    left: 21.2%
+                    width: 43%
+                  state_image:
+                    "on": /local/images/weconnect/passatcharging.png
+                - type: image
+                  entity: binary_sensor.egolf_parking_light
+                  image: /local/images/weconnect/blank.png
+                  style:
+                    top: 65.3%
+                    left: 42.9%
+                    width: 37%
+                  state_image:
+                    "on": /local/images/weconnect/passat_light.png
+                - type: image
+                  entity: binary_sensor.egolf_doors_locked
+                  image: /local/images/weconnect/blank.png
+                  style:
+                    top: 42.3%
+                    left: 57%
+                    width: 2%
+                  state_image:
+                    locked: /local/images/weconnect/blink.gif
+                - type: state-icon
+                  entity: binary_sensor.egolf_doors_locked
+                  style:
+                    top: 87%
+                    left: 47%
+                - type: state-label
+                  entity: sensor.egolf_odometer
+                  style:
+                    top: 96%
+                    left: 12%
+                - type: state-icon
+                  entity: switch.egolf_electric_climatisation
+                  hold_action: toggle
+                  style:
+                    top: 87%
+                    left: 58%
+                - type: state-icon
+                  entity: switch.egolf_window_heater
+                  hold_action: toggle
+                  style:
+                    top: 87%
+                    left: 69%
+                - type: state-icon
+                  entity: switch.egolf_charging
+                  style:
+                    top: 87%
+                    left: 91%
+                - type: state-label
+                  entity: sensor.egolf_battery_level
+                  style:
+                    top: 96%
+                    left: 92%
+                - type: state-label
+                  entity: sensor.egolf_charging_time_left
+                  style:
+                    top: 78%
+                    left: 92%
+                - type: state-label
+                  entity: sensor.egolf_electric_range
+                  style:
+                    top: 71%
+                    left: 92%
+            - type: entities
+              title: Egolf
+              entities:
+                - entity: switch.egolf_charging
+                  name: Charging
+                - entity: sensor.egolf_charging_time_left
+                  name: Charging Time Left
+                - entity: switch.egolf_climatisation_from_battery
+                  name: Climatisation from battery
+                - entity: binary_sensor.egolf_doors_locked
+                  name: Door locked
+                - entity: switch.egolf_electric_climatisation
+                  name: Electric Climatisation
+                - entity: switch.egolf_force_data_refresh
+                  name: Force data refresh
+                - entity: binary_sensor.egolf_trunk_locked
+                  name: Trunk locked
+                - entity: switch.egolf_window_heater
+                  name: Window Heater
+                - entity: sensor.egolf_service_inspection_days
+                  name: Inspection days
+                - entity: sensor.egolf_service_inspection_distance
+                  name: Inspection distance
+            
+                - entity: switch.egolf_departure_schedule_1
+                  icon: mdi:car-clock
+                  name: Depature 1 Activated
+                - entity: switch.egolf_departure_schedule_2
+                  icon: mdi:car-clock
+                  name: Depature 2 Activated
+                - entity: switch.egolf_departure_schedule_3
+                  icon: mdi:car-clock
+                  name: Depature 3 Activated
+  - type: grid
+    columns: 1
+    square: false
+    cards:
+      - type: grid
+        columns: 1
+        square: false    
+        cards:
+          - type: vertical-stack
+            title: BMW
+            cards:
+            - type: custom:mini-graph-card
+              hours_to_show: 48
+              entities:
+                - entity: sensor.zaptec_charger_zap128929
+                  attribute: total_charge_power
+                  index: 0
+                  name: Lade Effekt BMW
+                  hour24: true
+              color_thresholds:
+                - color: "#0FA300"
+                  value: 0
+                - color: "#18FF00"
+                  value: 1000
+                - color: "#F4F700"
+                  value: 2000
+                - color: "#FCBD00"
+                  value: 3000
+                - color: "#FD9A00"
+                  value: 4000
+                - color: "#FD0000"
+                  value: 5000
+              decimals: 2
+              line_width: 2
+              icon: mdi:transmission-tower-export
+              show:
+                fill: fade
+                icon: true
+                extrema: true
+                graph: line
+                average: true
+              smoothing: true
+              font_size: 80
+              points_per_hour: 10
+            - type: entities
+              title: BMW Zaptec
+              entities:
+                - entity: sensor.zaptec_charger_zap128929
+                  name: Status
+                  icon: mdi:progress-star-four-points
+                - type: attribute
+                  entity: sensor.zaptec_charger_zap128929
+                  name: Operating Mode
+                  attribute: operating_mode
+                  icon: mdi:battery-charging
+                # - type: conditional
+                #   conditions:
+                #     - entity: sensor.zaptec_charger_zap128929
+                #       attribute: operating_mode
+                #       state_not: 5
+                #   row:
+                #     type: markdown
+                #     content: "Charging"
+                - type: attribute
+                  entity: sensor.zaptec_charger_zap128929
+                  name: Is Online
+                  attribute: is_online
+                  icon: mdi:account-badge
