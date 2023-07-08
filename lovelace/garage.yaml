@@ -49,27 +49,51 @@ cards:
         - type: entities
           title: eGolf Zaptec
           entities:
-            - entity: sensor.zaptec_charger_zap127274
-              name: Status
+            - type: custom:template-entity-row
+              name: Charge Status
               icon: mdi:progress-star-four-points
-            - type: attribute
-              entity: sensor.zaptec_charger_zap127274
+              state: >
+                {% if is_state('sensor.zaptec_charger_zap127274', 'charge_done') %}
+                  Charging Completed
+                {% elif is_state('sensor.zaptec_charger_zap127274', 'disconnected') %}
+                  Car Disconnected
+                {% elif is_state('sensor.zaptec_charger_zap127274', 'charging') %}
+                  Car Charging
+                {% endif %}
+            - type: custom:template-entity-row
               name: Operating Mode
-              attribute: operating_mode
-              icon: mdi:battery-charging
-            # - type: conditional
-            #   conditions:
-            #     - entity: sensor.zaptec_charger_zap127274
-            #       attribute: operating_mode
-            #       state_not: 5
-            #   row:
-            #     type: markdown
-            #     content: "Charging"
-            - type: attribute
-              entity: sensor.zaptec_charger_zap127274
+              icon: mdi:auto-mode
+              state: >
+                {% if is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode',   0) %}
+                  Unknown
+                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 1) %}
+                  Disconnected
+                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 2) %}
+                  Connected
+                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 3) %}
+                  Ready
+                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 5) %}
+                  Completed
+                {% endif %}
+            - type: custom:template-entity-row
+              name: Firmware Update Available
+              icon: mdi:blender-software
+              state: >
+                {% if is_state_attr('sensor.zaptec_charger_zap127274', 'firmware_update_to_date', true) %}
+                  No
+                {% else %}
+                  UPDATE AVAILABLE
+                {% endif %}
+                
+            - type: custom:template-entity-row
               name: Is Online
-              attribute: is_online
               icon: mdi:account-badge
+              state: >
+                {% if is_state_attr('sensor.zaptec_charger_zap127274', 'is_online', '1') %}
+                  Yes
+                {% else %}
+                  No
+                {% endif %}
         - type: grid
           columns: 1
           square: false
@@ -235,24 +259,48 @@ cards:
             - type: entities
               title: BMW Zaptec
               entities:
-                - entity: sensor.zaptec_charger_zap128929
-                  name: Status
+                - type: custom:template-entity-row
+                  name: Charge Status
                   icon: mdi:progress-star-four-points
-                - type: attribute
-                  entity: sensor.zaptec_charger_zap128929
+                  state: >
+                    {% if is_state('sensor.zaptec_charger_zap128929', 'charge_done') %}
+                      Charging Completed
+                    {% elif is_state('sensor.zaptec_charger_zap128929', 'disconnected') %}
+                      Car Disconnected
+                    {% elif is_state('sensor.zaptec_charger_zap128929', 'charging') %}
+                      Car Charging
+                    {% endif %}
+                - type: custom:template-entity-row
                   name: Operating Mode
-                  attribute: operating_mode
-                  icon: mdi:battery-charging
-                # - type: conditional
-                #   conditions:
-                #     - entity: sensor.zaptec_charger_zap128929
-                #       attribute: operating_mode
-                #       state_not: 5
-                #   row:
-                #     type: markdown
-                #     content: "Charging"
-                - type: attribute
-                  entity: sensor.zaptec_charger_zap128929
+                  icon: mdi:auto-mode
+                  state: >
+                    {% if is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode',   0) %}
+                      Unknown
+                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 1) %}
+                      Disconnected
+                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 2) %}
+                      Connected
+                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 3) %}
+                      Ready
+                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 5) %}
+                      Completed
+                    {% endif %}
+                - type: custom:template-entity-row
+                  name: Firmware Update Available
+                  icon: mdi:blender-software
+                  state: >
+                    {% if is_state_attr('sensor.zaptec_charger_zap128929', 'firmware_update_to_date', true) %}
+                      No
+                    {% else %}
+                      UPDATE AVAILABLE
+                    {% endif %}
+                    
+                - type: custom:template-entity-row
                   name: Is Online
-                  attribute: is_online
                   icon: mdi:account-badge
+                  state: >
+                    {% if is_state_attr('sensor.zaptec_charger_zap128929', 'is_online', '1') %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}

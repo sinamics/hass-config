@@ -76,7 +76,7 @@ class Main(hass.Hass):
 
         # call service: 
         self.call_service("climate/set_temperature", entity_id  = "climate.hvac_eigeland", temperature = self.target_temperature)
-        self.call_service("climate/set_hvac_mode", entity_id  = "climate.hvac_eigeland", hvac_mode = "heat_cool")
+        # self.call_service("climate/set_hvac_mode", entity_id  = "climate.hvac_eigeland", hvac_mode = "heat_cool")
         self.call_service("climate/set_fan_mode", entity_id  = "climate.hvac_eigeland", fan_mode = "auto")
         self.call_service("climate/set_swing_mode", entity_id  = "climate.hvac_eigeland", swing_mode = "auto")
 

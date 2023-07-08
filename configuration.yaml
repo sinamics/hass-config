@@ -121,6 +121,8 @@ lovelace:
       type: module
     - url: /local/community/weather-radar-card/weather-radar-card.js
       type: module
+    - url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
+      type: module
   dashboards:
     lovelace-dashboard:
       mode: yaml

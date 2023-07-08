@@ -188,7 +188,7 @@ class Core(hass.Hass):
     # run cleanup functions and shift numbers for new hour / min / day
     self.log("cleanup function run_every_month " + str(datetime.now()))
     self.set_value(sensors.kwh_consumption_lastmonth, round(self.kwh_consumption_this_month, 2))
-    self.set_value(sensors.kwh_consumption_startofmonth, round(self.self.total_kwh_usage, 2))
+    self.set_value(sensors.kwh_consumption_startofmonth, round(self.total_kwh_usage, 2))
 
     self.set_value(sensors.cost_lastmonth, round(self.cost_monthly, 2))
     self.kwh_consumption_startofmonth = self.total_kwh_usage
@@ -207,7 +207,8 @@ class Core(hass.Hass):
     self.set_value(sensors.kwh_consumption_lastyear, round(self.kwh_consumption_this_year, 2))
     self.kwh_consumption_this_year = 0
 
-    import appdaemon.plugins.hass.hassapi as hass
+    # import appdaemon.plugins.hass.hassapi as hass
+
 
 # class EnergyConsumption(hass.Hass):
 #   def initialize(self):
