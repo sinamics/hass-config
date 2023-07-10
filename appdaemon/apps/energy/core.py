@@ -103,7 +103,7 @@ class Core(hass.Hass):
       # self.set_value(sensors.kwh_consumption_startofday, 8863.66)
 
       # manipulate consumption
-      # self.set_value(sensors.kwh_consumption_startofmonth, round(12478.66, 2))
+      # self.set_value(sensors.kwh_consumption_startofmonth, round(24885.0, 2))
 
       self.kwh_consumption_today = self.total_kwh_usage - self.kwh_consumption_startofday
       self.kwh_consumption_this_month = self.total_kwh_usage - self.kwh_consumption_startofmonth
@@ -139,13 +139,13 @@ class Core(hass.Hass):
     # calcualte cost based on 10min prize and watt usage. Divide watt usage by 1k to get kwh value
     self.cost_daily += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     self.cost_monthly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
-    # self.cost_monthly = 326.98
+    # self.cost_monthly = 893.56
     self.cost_yearly += self.watt_pr_sec_prize * (self.watt_usage / 1000)
     # self.cost_daily = 17.72
     # self.cost_yearly = 17743.0
     # set state with updated prize
     # self.set_value(sensors.cost_lastmonth, round(3738.54, 2))
-
+    
     self.set_value(sensors.kwh_price, round(self.kwh_prize, 2))
     self.set_value(sensors.daily_prize_accumulated_with_fees, round(self.cost_daily, 2))
  
