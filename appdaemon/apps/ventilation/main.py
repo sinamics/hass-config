@@ -14,16 +14,37 @@ class Main(hass.Hass):
         ## Run task every hour
         self.run_hourly(self.run_every_hour, time(0, 0, 0))
         ## Listen for auto state
-        self.listen_state(self.temp_listner, "input_boolean.ventilation_auto", immediate=True)
+        self.listen_state(self.dryer_button_handler, "input_boolean.dryer", immediate=True)
+        self.listen_state(self.auto_button_handler, "input_boolean.ventilation_auto", immediate=True)
         self.listen_state(self.home_listner,"device_tracker.adrian_samsung_s20")
         self.listen_state(self.outside_temperature,"sensor.1f_house_outside_laundryroom_termometer_temperature", immediate=True)
 
-    def temp_listner(self, entity, attribute, old, new, kwargs):
+    def dryer_button_handler(self, entity, attribute, old, new, kwargs):
+        if new == "on":
+            self.is_auto = False
+            self.is_dryer = True
+            self.enable_dryer_mode()  # Activate dryer mode settings
+            self.set_state("input_boolean.ventilation_auto", state="off")  # Set the ventilation_auto to off
+
+        else:
+            self.is_dryer = False
+            self.is_auto = True
+            self.set_temperature()
+
+    def enable_dryer_mode(self):
+        # Set your desired dryer mode settings here
+        self.call_service("climate/set_temperature", entity_id="climate.hvac_eigeland", temperature=31)  # Assuming max heat = 30
+        self.call_service("climate/set_fan_mode", entity_id="climate.hvac_eigeland", fan_mode="5")
+        self.call_service("climate/set_swing_mode", entity_id="climate.hvac_eigeland", swing_mode="2")
+        
+
+    def auto_button_handler(self, entity, attribute, old, new, kwargs):
         if new == "off":
             self.is_auto = False
             return
 
         self.is_auto = True
+        self.set_state("input_boolean.dryer", state="off")  # Set the ventilation_auto to off
         self.set_temperature()
 
     def outside_temperature(self, entity, attribute, old, new, kwargs):
@@ -44,7 +65,7 @@ class Main(hass.Hass):
         self.set_temperature()
 
     def set_temperature(self):
-        if self.is_auto == False:
+        if not self.is_auto or self.is_dryer:  # Make sure we do not override dryer mode settings
             return
 
         current_time = datetime.now()

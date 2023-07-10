@@ -14,7 +14,7 @@ cards:
       square: false
       cards:
         - type: custom:mini-graph-card
-          hours_to_show: 48
+          hours_to_show: 72
           entities:
             - entity: sensor.zaptec_charger_zap127274
               attribute: total_charge_power
@@ -224,7 +224,7 @@ cards:
             title: BMW
             cards:
             - type: custom:mini-graph-card
-              hours_to_show: 48
+              hours_to_show: 72
               entities:
                 - entity: sensor.zaptec_charger_zap128929
                   attribute: total_charge_power

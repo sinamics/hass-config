@@ -154,9 +154,9 @@
 #  - They include humidity and battery values as well
 #--------------------------------------------------------------------------------------------------
 #                              entity                   , category           , name              , left ,  top ,  font_size
-{% set renovasjon_sensors = [ ("papp_papir"             , "days_to_pickup"   , "Papp"            , 39   ,   96 ,    75  ),
-                              ("restavfall"             , "days_to_pickup"   , "Restavfall"      , 39   ,   98  ,    75  ),
-                              ("vatorganisk"            , "days_to_pickup"   , "Våtorganisk"     , 39   ,   100  ,    75  )] %}
+{% set renovasjon_sensors = [ ("papp_papir"             , "days_to_pickup"   , ""                , 42.2 , 47.8 ,    75  ),
+                              ("restavfall"             , "days_to_pickup"   , ""                , 40.5 , 47.8 ,    75  ),
+                              ("vatorganisk"            , "days_to_pickup"   , ""                , 38.5 , 47.8 ,    75  )] %}
 
 #                              entity                                                   , category , left ,   top
 {% set humidity_sensors = [("1f_house_inside_livingroom_termometer_humidity"            , "room"   , 36.5 ,   93  ),
@@ -409,7 +409,7 @@ path: floorplan
 title: FloorPlan
 cards:
   - type: picture-elements
-    image: /local/images/floorplan_v2/base_t_night.png
+    image: /local/images/floorplan_v2/base_t_night_v2.png
     style: |
       ha-card {
         border-style: none;
@@ -1138,7 +1138,7 @@ cards:
         entity: sensor.{{ entity }}
         attribute: {{ attribute }}
         prefix: "{{ name }} "
-        suffix: " dager"
+        #suffix: " dager"
         style:
           left: {{ left }}%
           top: {{ top }}%
@@ -1326,7 +1326,18 @@ cards:
                     icon: |-
                       [[[ if (entity.state == "on") return "mdi:toggle-switch";
                           if (entity.state == "off") return "mdi:toggle-switch-off" ]]]
-
+                  - type: custom:button-card
+                    show_name: true
+                    show_icon: true
+                    tap_action:
+                      action: toggle
+                    entity: input_boolean.dryer
+                    name: Set Dryer Mode
+                    show_state: true
+                    size: 50px
+                    icon: |-
+                      [[[ if (entity.state == "on") return "mdi:toggle-switch";
+                          if (entity.state == "off") return "mdi:toggle-switch-off" ]]]
 
             double_tap_action:
               action: more-info
