@@ -55,10 +55,20 @@
                 ("in_wall_dimmer_module"                                                , "outside"      ,  30  , 55  , 5     ,  6   ,  0   )] %}
 
 #--------------------------------------------------------------------------------------------------
+# dishwasher
+#  - List active dishwasher.
+#--------------------------------------------------------------------------------------------------
+#                 entity                                             ,    group       , left , top, scaleX, scaleY, deg)
+{% set dishwasher = [("binary_sensor.oppvaskmaskin_door"             , "kitchen"      ,  41  , 64  , 2.2   , 2.2  ,  0   ),
+                    ("sensor.oppvaskmaskin_operation_state"          , "kitchen"      ,  51  , 52  , 2.8   , 1.8  ,  0   )] %}
+
+
+#--------------------------------------------------------------------------------------------------
 # Media
 #--------------------------------------------------------------------------------------------------
 #                 entity                                                                ,   group        , left , top, scaleX, scaleY, deg)
 {% set media = [("samsung_q8_series_65"                                                 , "downstairs"   ,  45.7  , 76.3  , 0    ,0  ,  0   )] %}
+
 
 #--------------------------------------------------------------------------------------------------
 # Camera
@@ -139,6 +149,16 @@
 #                             entity
 {% set actions_entities = [] %}
 
+
+#--------------------------------------------------------------------------------------------------
+# Zaptec chargers
+#  - They include humidity and battery values as well
+#--------------------------------------------------------------------------------------------------
+#                              entity                                                  , category   ,   name         , left  ,  top ,  font_size
+{% set car_chargers =        [("zaptec_charger_zap127274"                              , "garage"   ,"Bernt eGolf"   ,  12   ,  46.6  ,    75  ),
+                              ("zaptec_charger_zap128929"                              , "garage"   ,"Sigrun BMW"    ,  10   ,  59  ,    75  )] %}
+
+
 #--------------------------------------------------------------------------------------------------
 # Temperature Sensors
 #  - They include humidity and battery values as well
@@ -154,9 +174,9 @@
 #  - They include humidity and battery values as well
 #--------------------------------------------------------------------------------------------------
 #                              entity                   , category           , name              , left ,  top ,  font_size
-{% set renovasjon_sensors = [ ("papp_papir"             , "days_to_pickup"   , ""                , 42.2 , 47.8 ,    75  ),
-                              ("restavfall"             , "days_to_pickup"   , ""                , 40.5 , 47.8 ,    75  ),
-                              ("vatorganisk"            , "days_to_pickup"   , ""                , 38.5 , 47.8 ,    75  )] %}
+{% set renovasjon_sensors = [ ("papp_papir"             , "days_to_pickup"   , ""                , 43.7 , 47.8 ,    75  ),
+                              ("restavfall"             , "days_to_pickup"   , ""                , 41.8 , 47.8 ,    75  ),
+                              ("vatorganisk"            , "days_to_pickup"   , ""                , 39.8 , 47.8 ,    75  )] %}
 
 #                              entity                                                   , category , left ,   top
 {% set humidity_sensors = [("1f_house_inside_livingroom_termometer_humidity"            , "room"   , 36.5 ,   93  ),
@@ -418,6 +438,41 @@ cards:
         background: transparent;
       }
     elements:
+
+########  ####  ######  ##     ## ##      ##    ###     ######  ##     ## ######## ########  
+##     ##  ##  ##    ## ##     ## ##  ##  ##   ## ##   ##    ## ##     ## ##       ##     ## 
+##     ##  ##  ##       ##     ## ##  ##  ##  ##   ##  ##       ##     ## ##       ##     ## 
+##     ##  ##   ######  ######### ##  ##  ## ##     ##  ######  ######### ######   ########  
+##     ##  ##        ## ##     ## ##  ##  ## #########       ## ##     ## ##       ##   ##   
+##     ##  ##  ##    ## ##     ## ##  ##  ## ##     ## ##    ## ##     ## ##       ##    ##  
+########  ####  ######  ##     ##  ###  ###  ##     ##  ######  ##     ## ######## ##     ## 
+# KITCHEN DISHWASER
+
+      {% for entity, group, left, top, scaleX, scaleY, deg in dishwasher %}
+      {% if ((loop.index0 == 0) or ((loop.previtem is defined) and (entity != loop.previtem))) %}
+      - entity: {{ entity }}
+        state_image:
+          'unavailable': /local/images/floorplan_v2/transparent_square.png
+          'unknown': /local/images/floorplan_v2/transparent_square.png
+          'off': /local/images/floorplan_v2/transparent_square.png
+          'on': /local/images/floorplan_v2/dishwasher/{{ entity }}.png
+          'Ready': /local/images/floorplan_v2/dishwasher/{{ entity }}.png
+          'Run': /local/images/floorplan_v2/dishwasher/{{ entity }}.png
+          'Inactive': /local/images/floorplan_v2/dishwasher/{{ entity }}.png
+        style:
+          left: 50%
+          top: 50%
+          width: 100%
+          mix-blend-mode: lighten
+        tap_action:
+          action: none
+        double_tap_action:
+          action: none
+        hold_action:
+          action: none
+        type: image
+      {% endif %}
+      {% endfor %}
 
 ########  ####  ######  ##     ## ######## ######## ########   ######  
 ##     ##  ##  ##    ## ##     ##    ##    ##       ##     ## ##    ## 
@@ -993,7 +1048,7 @@ cards:
           top: {{ top }}%
           width: 50px
           opacity: 0.4
-          z-index: 20
+          z-index: 1
         hold_action:
           action: none
         double_tap_action:
@@ -1244,6 +1299,55 @@ cards:
           action: none
         hold_action:
           action: none
+
+ ######     ###    ########      ######  ##     ##    ###    ########   ######   ######## ########  
+##    ##   ## ##   ##     ##    ##    ## ##     ##   ## ##   ##     ## ##    ##  ##       ##     ## 
+##        ##   ##  ##     ##    ##       ##     ##  ##   ##  ##     ## ##        ##       ##     ## 
+##       ##     ## ########     ##       ######### ##     ## ########  ##   #### ######   ########  
+##       ######### ##   ##      ##       ##     ## ######### ##   ##   ##    ##  ##       ##   ##   
+##    ## ##     ## ##    ##     ##    ## ##     ## ##     ## ##    ##  ##    ##  ##       ##    ##  
+ ######  ##     ## ##     ##     ######  ##     ## ##     ## ##     ##  ######   ######## ##     ## 
+
+      {% for entity, category, name, left, top, font_size in car_chargers %}
+      - type: conditional
+        conditions:
+          - entity: sensor.{{ entity }}
+            state_not: 'disconnected'
+        elements:
+        - type: state-label
+          entity: sensor.{{ entity }}
+          style:
+            left: {{ left }}%
+            top: {{ top }}%
+            transform: translate(0, -50%)
+            font-size: {{ font_size }}%
+        - type: state-label
+          entity: sensor.{{ entity }}
+          attribute: total_charge_power
+          suffix: " kWh"
+          style:
+            left: {{ left+0.4 }}%
+            top: {{ top+1.3 }}%
+            transform: translate(0, -50%)
+            font-size: {{ font_size }}%
+      - type: conditional
+        conditions:
+          - entity: sensor.{{ entity }}
+            state: "charging"
+        elements:
+          - type: state-icon
+            entity: sensor.{{ entity }}
+            icon: mdi:flash
+            state_color: false
+            style:
+              --mdc-icon-size: 20px
+              --paper-item-icon-color: rgb(255, 204, 102)
+              color: green
+              left: {{ left + 6 }}%
+              top: {{ top +0.5 }}%
+      {% endfor %}
+
+
 
 ##     ## ##     ##    ###     ######  
 ##     ## ##     ##   ## ##   ##    ## 

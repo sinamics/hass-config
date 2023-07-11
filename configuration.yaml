@@ -47,25 +47,28 @@ influxdb:
       - sensor.kwh*
       - sensor.cost*
       - sensor.energy*
-  component_config_glob:
-    sensor.*humidity*:
-      override_measurement: humidity
-    sensor.*temperature*:
-      override_measurement: temperature
-    sensor.*valve*:
-      override_measurement: valve
-    sensor.*battery*:
-      override_measurement: battery
-    sensor.*light*:
-      override_measurement: light
-    sensor.*voltage*:
-      override_measurement: voltage
-    sensor.*amps*:
-      override_measurement: power
-    sensor.*kwh*:
-      override_measurement: power
-    sensor.*percent*:
-      override_measurement: percent
+      - sensor.*temperature*
+      - sensor.*charger*
+
+  # component_config_glob:
+  #   sensor.*humidity*:
+  #     override_measurement: humidity
+  #   sensor.*temperature*:
+  #     override_measurement: temperature
+  #   sensor.*valve*:
+  #     override_measurement: valve
+  #   sensor.*battery*:
+  #     override_measurement: battery
+  #   sensor.*light*:
+  #     override_measurement: light
+  #   sensor.*voltage*:
+  #     override_measurement: voltage
+  #   sensor.*amps*:
+  #     override_measurement: power
+  #   sensor.*kwh*:
+  #     override_measurement: power
+  #   sensor.*percent*:
+  #     override_measurement: percent
 # Run scripts
 shell_command:
   do_ddns_updater: "/config/scripts/digitalocean.sh"
