@@ -156,7 +156,7 @@
 #--------------------------------------------------------------------------------------------------
 #                              entity                                                  , category   ,   name         , left  ,  top ,  font_size
 {% set car_chargers =        [("zaptec_charger_zap127274"                              , "garage"   ,"Bernt eGolf"   ,  12   ,  46.6  ,    75  ),
-                              ("zaptec_charger_zap128929"                              , "garage"   ,"Sigrun BMW"    ,  10   ,  59  ,    75  )] %}
+                              ("zaptec_charger_zap128929"                              , "garage"   ,"Sigrun BMW"    ,  10   ,  59    ,    75  )] %}
 
 
 #--------------------------------------------------------------------------------------------------
@@ -463,7 +463,7 @@ cards:
           left: 50%
           top: 50%
           width: 100%
-          mix-blend-mode: lighten
+         # mix-blend-mode: lighten
         tap_action:
           action: none
         double_tap_action:
@@ -1326,7 +1326,7 @@ cards:
           attribute: total_charge_power
           suffix: " kWh"
           style:
-            left: {{ left+0.4 }}%
+            left: {{ left+0.0 }}%
             top: {{ top+1.3 }}%
             transform: translate(0, -50%)
             font-size: {{ font_size }}%

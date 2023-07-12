@@ -31,15 +31,9 @@ http:
     - 10.0.0.0/24
     - 192.168.0.0/24
 
-
-influxdb:
-  host: a0d7b954-influxdb
-  port: 8086
-  database: homeassistant
-  username: !secret influxdb_username
-  password: !secret influxdb_password
-  max_retries: 3
-  default_measurement: state
+ltss:
+  db_url: postgresql://postgres:homeassistant@77b2833f-timescaledb/homeassistant
+  chunk_time_interval: 2592000000000
   include:
     entity_globs:
       - binary_sensor.*_db
@@ -50,20 +44,45 @@ influxdb:
       - sensor.*temperature*
       - sensor.*humidity*
       - sensor.*charger*
+      - sensor.*prize*
+      - sensor.*price*
+#        domains:
+#        - sensor
 
-  component_config_glob:
-    sensor.*humidity*:
-      override_measurement: humidity
-    sensor.*temperature*:
-      override_measurement: temperature
+# influxdb:
+#   host: a0d7b954-influxdb
+#   port: 8086
+#   database: homeassistant
+#   username: !secret influxdb_username
+#   password: !secret influxdb_password
+#   max_retries: 3
+#   default_measurement: state
+#   include:
+#     entity_globs:
+#       - binary_sensor.*_db
+#       - sensor.kamstrup_*
+#       - sensor.kwh*
+#       - sensor.cost*
+#       - sensor.energy*
+#       - sensor.*temperature*
+#       - sensor.*humidity*
+#       - sensor.*charger*
+#       - sensor.*prize*
+#       - sensor.*price*
+
+  # component_config_glob:
+  #   sensor.*humidity*:
+  #     override_measurement: humidity
+  #   sensor.*temperature*:
+  #     override_measurement: temperature
   #   sensor.*battery*:
   #     override_measurement: battery
   #   sensor.*light*:
   #     override_measurement: light
-    sensor.*voltage*:
-      override_measurement: voltage
-    sensor.*kwh*:
-      override_measurement: power
+    # sensor.*voltage*:
+    #   override_measurement: voltage
+    # sensor.*kwh*:
+    #   override_measurement: power
   #   sensor.*percent*:
   #     override_measurement: percent
 
