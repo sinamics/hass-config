@@ -1,0 +1,9 @@
+#sensor:
+#  - platform: sql
+#    db_url: postgresql://postgres:homeassistant@77b2833f-timescaledb/homeassistant
+#    queries:
+#      - name: postgres_db_size
+#        #query: "SELECT pg_size_pretty(pg_database_size('homeassistant')) as postgres_db_size;"
+#        query: "SELECT (pg_database_size('dsmrreader')/1024/1024) as db_size;"
+#        column: "db_size"
+#        unit_of_measurement: MB

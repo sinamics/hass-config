@@ -19,7 +19,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 switch: !include switch.yaml
 sensor: !include sensor.yaml
-
+sql: !include sql_sensor.yaml
 utility_meter: !include utility_meter.yaml
 input_boolean: !include input_boolean.yaml
 input_text: !include input_text.yaml
@@ -33,7 +33,8 @@ http:
 
 ltss:
   db_url: postgresql://postgres:homeassistant@77b2833f-timescaledb/homeassistant
-  chunk_time_interval: 2592000000000
+  # chunk_time_interval: 2592000000000 (30 days)
+  chunk_time_interval: 86400000000
   include:
     entity_globs:
       - binary_sensor.*_db
@@ -46,6 +47,7 @@ ltss:
       - sensor.*charger*
       - sensor.*prize*
       - sensor.*price*
+      - sensor.*postgres*
 #        domains:
 #        - sensor
 
