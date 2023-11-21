@@ -34,6 +34,8 @@ http:
 ltss:
   db_url: postgresql://postgres:homeassistant@77b2833f-timescaledb/homeassistant
   # chunk_time_interval: 2592000000000 (30 days)
+  # compress LTSS 
+  # https://github.com/freol35241/ltss/issues/119#issuecomment-1676299107
   chunk_time_interval: 86400000000
   include:
     entity_globs:

@@ -135,7 +135,7 @@ cards:
           #       aspect_ratio: "1"
           #       name: Adrian
           - type: thermostat
-            entity: climate.hvac_eigeland
+            entity: climate.eigeland
             name: Varmepumpe
           - type: custom:apexcharts-card
             header:

@@ -1367,7 +1367,7 @@ cards:
       {% for entity, left, top in hvacs %}
 
       - type: state-icon
-        entity: climate.hvac_{{ entity }}
+        entity: climate.{{ entity }}
         icon: 'mdi:air-conditioner'
         style:
           background-color: {{ background_color }}
@@ -1393,7 +1393,7 @@ cards:
                   - type: thermostat
                     show_header_toggle: false
                     {# type: custom:simple-thermostat #}
-                    entity: climate.hvac_{{ entity }}
+                    entity: climate.{{ entity }}
                     header: false
                     setpoints:
                     layout:
@@ -1472,24 +1472,24 @@ cards:
       # Show airconditioner state (if ON)
       - type: conditional
         conditions:
-          - entity: climate.hvac_{{ entity }}
+          - entity: climate.{{ entity }}
             state_not: 'off'
         elements:
           - type: state-label
-            entity: climate.hvac_{{ entity }}
+            entity: climate.{{ entity }}
             style:
               left: {{ left + 2 }}%
               top: {{ top + 2.5 }}%
               transform: 'translate(0, -50%)'
           - type: state-label
-            entity: climate.hvac_{{ entity }}
+            entity: climate.{{ entity }}
             attribute: "fan_mode"
             style:
               left: {{ left + 5 }}%
               top: {{ top + 2.5 }}%
               transform: 'translate(0, -50%)'
           - type: state-label
-            entity: climate.hvac_{{ entity }}
+            entity: climate.{{ entity }}
             attribute: "temperature"
             style:
               left: {{ left + 8 }}%

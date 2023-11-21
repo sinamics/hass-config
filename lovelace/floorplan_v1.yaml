@@ -778,7 +778,7 @@ cards:
               type: image
 
               ### Ventilation ###
-            - entity: climate.hvac_eigeland
+            - entity: climate.eigeland
               tap_action:
                 action: fire-dom-event
                 browser_mod:
@@ -786,7 +786,7 @@ cards:
                   data:
                     content:
                       type: thermostat
-                      entity: climate.hvac_eigeland
+                      entity: climate.eigeland
 
                     deviceID:
                       - this
@@ -810,7 +810,7 @@ cards:
               #   action: call-service
               #   service: homeassistant.toggle
               #   service_data:
-              #     entity_id: climate.hvac_eigeland
+              #     entity_id: climate.eigeland
               type: image
               #########################    INDIVIDUAL LIGHT ICONS    #########################
 
@@ -885,7 +885,7 @@ cards:
                 z-index: 10
               template:
                 - light
-            - entity: climate.hvac_eigeland
+            - entity: climate.eigeland
               type: custom:button-card
               style:
                 left: 64.5%

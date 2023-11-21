@@ -21,7 +21,7 @@ cards:
                 padding: 0;
                 }
           - type: thermostat
-            entity: climate.hvac_eigeland
+            entity: climate.eigeland
             name: Ventilation
           - type: custom:button-card
             show_name: true
