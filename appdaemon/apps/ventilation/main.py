@@ -33,9 +33,9 @@ class Main(hass.Hass):
 
     def enable_dryer_mode(self):
         # Set your desired dryer mode settings here
-        self.call_service("climate/set_temperature", entity_id="climate.hvac_eigeland", temperature=31)  # Assuming max heat = 30
-        self.call_service("climate/set_fan_mode", entity_id="climate.hvac_eigeland", fan_mode="5")
-        self.call_service("climate/set_swing_mode", entity_id="climate.hvac_eigeland", swing_mode="2")
+        self.call_service("climate/set_temperature", entity_id="climate.eigeland", temperature=31)  # Assuming max heat = 30
+        self.call_service("climate/set_fan_mode", entity_id="climate.eigeland", fan_mode="5")
+        self.call_service("climate/set_swing_mode", entity_id="climate.eigeland", swing_mode="2")
         
 
     def auto_button_handler(self, entity, attribute, old, new, kwargs):
@@ -57,7 +57,7 @@ class Main(hass.Hass):
         if new_float >= 15:
             self.high_temp = 21
         else:
-            self.high_temp = 24
+            self.high_temp = 22
 
         self.set_temperature()
 
@@ -96,10 +96,10 @@ class Main(hass.Hass):
         # hvac_modes: off, heat, dry, cool, fan_only, heat_cool
 
         # call service: 
-        self.call_service("climate/set_temperature", entity_id  = "climate.hvac_eigeland", temperature = self.target_temperature)
-        # self.call_service("climate/set_hvac_mode", entity_id  = "climate.hvac_eigeland", hvac_mode = "heat_cool")
-        self.call_service("climate/set_fan_mode", entity_id  = "climate.hvac_eigeland", fan_mode = "auto")
-        self.call_service("climate/set_swing_mode", entity_id  = "climate.hvac_eigeland", swing_mode = "auto")
+        self.call_service("climate/set_temperature", entity_id  = "climate.eigeland", temperature = self.target_temperature)
+        # self.call_service("climate/set_hvac_mode", entity_id  = "climate.eigeland", hvac_mode = "heat_cool")
+        self.call_service("climate/set_fan_mode", entity_id  = "climate.eigeland", fan_mode = "auto")
+        self.call_service("climate/set_swing_mode", entity_id  = "climate.eigeland", swing_mode = "auto")
 
     """ -----------  Interval ------------- """
     def run_every_hour(self, kwargs):
