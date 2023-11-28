@@ -2,7 +2,6 @@
 ########## A U T O M A T I O N S ##########
 ###########################################
 
-
 automation:
   - alias: Update work location
     description: ""

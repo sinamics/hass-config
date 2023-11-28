@@ -1,0 +1,30 @@
+###########################################
+########## C O U N T E R S ################
+###########################################
+
+counter:
+  mouse_trap_activations:
+    name: Mouse Trap Activations
+    initial: 0
+    step: 1
+    
+###########################################
+########## A U T O M A T I O N S ##########
+###########################################
+automation:
+  - alias: "Count Mouse Trap Activations"
+    description: "Increments a counter each time the mousetrap sensor turns on and sends a notification."
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.2f_house_inside_mousetrap_contact
+        to: 'on'
+    action:
+      - service: counter.increment
+        target:
+          entity_id: counter.mouse_trap_activations
+      - service: notify.mobile_app_berntchristian  # Adjust if needed
+        data:
+          title: "Mouse Alert"
+          message: >
+            Mouse trap activated. Total activations: {{ states('counter.mouse_trap_activations') }}
+    mode: single
