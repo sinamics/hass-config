@@ -155,8 +155,8 @@
 #  - They include humidity and battery values as well
 #--------------------------------------------------------------------------------------------------
 #                              entity                                                  , category   ,   name         , left  ,  top ,  font_size
-{% set car_chargers =        [("zaptec_charger_zap127274"                              , "garage"   ,"Bernt eGolf"   ,  12   ,  46.6  ,    75  ),
-                              ("zaptec_charger_zap128929"                              , "garage"   ,"Sigrun BMW"    ,  10   ,  59    ,    75  )] %}
+{% set car_chargers =        [("bernt_chr_egolf_charger"                              , "garage"   ,"Bernt eGolf"   ,  12   ,  46.6  ,    75  ),
+                              ("sigrun_bmw_charger"                              , "garage"   ,"Sigrun BMW"    ,  10   ,  59    ,    75  )] %}
 
 
 #--------------------------------------------------------------------------------------------------
@@ -1311,18 +1311,19 @@ cards:
       {% for entity, category, name, left, top, font_size in car_chargers %}
       - type: conditional
         conditions:
-          - entity: sensor.{{ entity }}
+          - entity: binary_sensor.{{ entity }}
             state_not: 'disconnected'
         elements:
         - type: state-label
-          entity: sensor.{{ entity }}
+          entity: binary_sensor.{{ entity }}
+          attribute: operating_mode
           style:
             left: {{ left }}%
             top: {{ top }}%
             transform: translate(0, -50%)
             font-size: {{ font_size }}%
         - type: state-label
-          entity: sensor.{{ entity }}
+          entity: binary_sensor.{{ entity }}
           attribute: total_charge_power
           suffix: " kWh"
           style:
@@ -1332,7 +1333,7 @@ cards:
             font-size: {{ font_size }}%
       - type: conditional
         conditions:
-          - entity: sensor.{{ entity }}
+          - entity: binary_sensor.{{ entity }}
             state: "charging"
         elements:
           - type: state-icon

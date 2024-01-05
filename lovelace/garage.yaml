@@ -8,210 +8,99 @@ cards:
     columns: 1
     square: false
     cards:
-    - type: grid
-      title: eGolf
-      columns: 1
-      square: false
-      cards:
-        - type: custom:mini-graph-card
-          hours_to_show: 72
-          entities:
-            - entity: sensor.zaptec_charger_zap127274
-              attribute: total_charge_power
-              index: 0
-              name: Lade Effekt eGolf
-              hour24: true
-          color_thresholds:
-            - color: "#0FA300"
-              value: 0
-            - color: "#18FF00"
-              value: 1000
-            - color: "#F4F700"
-              value: 2000
-            - color: "#FCBD00"
-              value: 3000
-            - color: "#FD9A00"
-              value: 4000
-            - color: "#FD0000"
-              value: 5000
-          decimals: 2
-          line_width: 2
-          icon: mdi:transmission-tower-export
-          show:
-            fill: fade
-            icon: true
-            extrema: true
-            graph: line
-            average: true
-          smoothing: true
-          font_size: 80
-          points_per_hour: 10
-        - type: entities
-          title: eGolf Zaptec
-          entities:
-            - type: custom:template-entity-row
-              name: Charge Status
-              icon: mdi:progress-star-four-points
-              state: >
-                {% if is_state('sensor.zaptec_charger_zap127274', 'charge_done') %}
-                  Charging Completed
-                {% elif is_state('sensor.zaptec_charger_zap127274', 'disconnected') %}
-                  Car Disconnected
-                {% elif is_state('sensor.zaptec_charger_zap127274', 'charging') %}
-                  Car Charging
-                {% endif %}
-            - type: custom:template-entity-row
-              name: Operating Mode
-              icon: mdi:auto-mode
-              state: >
-                {% if is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode',   0) %}
-                  Unknown
-                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 1) %}
-                  Disconnected
-                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 2) %}
-                  Connected
-                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 3) %}
-                  Ready
-                {% elif is_state_attr('sensor.zaptec_charger_zap127274', 'operating_mode', 5) %}
-                  Completed
-                {% endif %}
-            - type: custom:template-entity-row
-              name: Firmware Update Available
-              icon: mdi:blender-software
-              state: >
-                {% if is_state_attr('sensor.zaptec_charger_zap127274', 'firmware_update_to_date', true) %}
-                  No
-                {% else %}
-                  UPDATE AVAILABLE
-                {% endif %}
-                
-            - type: custom:template-entity-row
-              name: Is Online
-              icon: mdi:account-badge
-              state: >
-                {% if is_state_attr('sensor.zaptec_charger_zap127274', 'is_online', '1') %}
-                  Yes
-                {% else %}
-                  No
-                {% endif %}
-        - type: grid
-          columns: 1
-          square: false
-          cards:
-            - type: picture-elements
-              image: local/images/weconnect/egolf.png
-              elements:
-                - type: image
-                  entity: switch.egolf_electric_climatisation
-                  image: /local/images/weconnect/blank.png
-                  style:
-                    top: 39.5%
-                    left: 55%
-                    width: 43%
-                  state_image:
-                    "on": /local/images/weconnect/passat_heat.png
-                - type: image
-                  entity: binary_sensor.egolf_external_power
-                  image: /local/images/weconnect/blank.png
-                  style:
-                    top: 62.8%
-                    left: 21.2%
-                    width: 43%
-                  state_image:
-                    "on": /local/images/weconnect/passatcharging.png
-                - type: image
-                  entity: binary_sensor.egolf_parking_light
-                  image: /local/images/weconnect/blank.png
-                  style:
-                    top: 65.3%
-                    left: 42.9%
-                    width: 37%
-                  state_image:
-                    "on": /local/images/weconnect/passat_light.png
-                - type: image
-                  entity: binary_sensor.egolf_doors_locked
-                  image: /local/images/weconnect/blank.png
-                  style:
-                    top: 42.3%
-                    left: 57%
-                    width: 2%
-                  state_image:
-                    locked: /local/images/weconnect/blink.gif
-                - type: state-icon
-                  entity: binary_sensor.egolf_doors_locked
-                  style:
-                    top: 87%
-                    left: 47%
-                - type: state-label
-                  entity: sensor.egolf_odometer
-                  style:
-                    top: 96%
-                    left: 12%
-                - type: state-icon
-                  entity: switch.egolf_electric_climatisation
-                  hold_action: toggle
-                  style:
-                    top: 87%
-                    left: 58%
-                - type: state-icon
-                  entity: switch.egolf_window_heater
-                  hold_action: toggle
-                  style:
-                    top: 87%
-                    left: 69%
-                - type: state-icon
-                  entity: switch.egolf_charging
-                  style:
-                    top: 87%
-                    left: 91%
-                - type: state-label
-                  entity: sensor.egolf_battery_level
-                  style:
-                    top: 96%
-                    left: 92%
-                - type: state-label
-                  entity: sensor.egolf_charging_time_left
-                  style:
-                    top: 78%
-                    left: 92%
-                - type: state-label
-                  entity: sensor.egolf_electric_range
-                  style:
-                    top: 71%
-                    left: 92%
-            - type: entities
-              title: Egolf
+      - type: grid
+        columns: 1
+        square: false    
+        cards:
+          - type: vertical-stack
+            title: Egolf
+            cards:
+            - type: custom:mini-graph-card
+              hours_to_show: 72
               entities:
-                - entity: switch.egolf_charging
-                  name: Charging
-                - entity: sensor.egolf_charging_time_left
-                  name: Charging Time Left
-                - entity: switch.egolf_climatisation_from_battery
-                  name: Climatisation from battery
-                - entity: binary_sensor.egolf_doors_locked
-                  name: Door locked
-                - entity: switch.egolf_electric_climatisation
-                  name: Electric Climatisation
-                - entity: switch.egolf_force_data_refresh
-                  name: Force data refresh
-                - entity: binary_sensor.egolf_trunk_locked
-                  name: Trunk locked
-                - entity: switch.egolf_window_heater
-                  name: Window Heater
-                - entity: sensor.egolf_service_inspection_days
-                  name: Inspection days
-                - entity: sensor.egolf_service_inspection_distance
-                  name: Inspection distance
-            
-                - entity: switch.egolf_departure_schedule_1
-                  icon: mdi:car-clock
-                  name: Depature 1 Activated
-                - entity: switch.egolf_departure_schedule_2
-                  icon: mdi:car-clock
-                  name: Depature 2 Activated
-                - entity: switch.egolf_departure_schedule_3
-                  icon: mdi:car-clock
-                  name: Depature 3 Activated
+                - entity: sensor.bernt_chr_egolf_charge_power
+                  index: 0
+                  name: Lade Effekt Egolf
+                  hour24: true
+              color_thresholds:
+                - color: "#0FA300"
+                  value: 0
+                - color: "#18FF00"
+                  value: 1000
+                - color: "#F4F700"
+                  value: 2000
+                - color: "#FCBD00"
+                  value: 3000
+                - color: "#FD9A00"
+                  value: 4000
+                - color: "#FD0000"
+                  value: 5000
+              decimals: 2
+              line_width: 2
+              icon: mdi:transmission-tower-export
+              show:
+                fill: fade
+                icon: true
+                extrema: true
+                graph: line
+                average: true
+              smoothing: true
+              font_size: 80
+              points_per_hour: 10
+            - type: entities
+              title: Egolf Zaptec
+              entities:
+                - type: custom:template-entity-row
+                  name: Charge Status
+                  icon: mdi:progress-star-four-points
+                  state: >
+                    {{ states('sensor.bernt_chr_egolf_charger_mode') }}
+                - type: custom:template-entity-row
+                  name: Operating Mode
+                  icon: mdi:auto-mode
+                  state: >
+                    {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode',   0) %}
+                      Unknown
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', 1) %}
+                      Disconnected
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Finished") %}
+                      Connected and finished
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', 3) %}
+                      Ready
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', 5) %}
+                      Completed
+                    {% endif %}
+                - type: custom:template-entity-row
+                  name: Current Firmware
+                  icon: mdi:blender-software
+                  state: >
+                    {{ state_attr('update.bernt_chr_egolf_firmware_update', 'installed_version') }}
+
+                - type: custom:template-entity-row
+                  name: Latest Firmware
+                  icon: mdi:blender-software
+                  state: >
+                    {{ state_attr('update.bernt_chr_egolf_firmware_update', 'latest_version') }}
+
+                - type: button
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    service_data:
+                      entity_id: button.bernt_chr_egolf_upgrade_firmware
+                  name: Update Firmware
+                  icon: mdi:blender-software
+
+                - type: custom:template-entity-row
+                  name: Is Online
+                  icon: mdi:account-badge
+                  state: >
+                    {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'is_online', true) %}
+                      Yes
+                    {% else %}
+                      No
+                    {% endif %}
+
   - type: grid
     columns: 1
     square: false
@@ -226,11 +115,10 @@ cards:
             - type: custom:mini-graph-card
               hours_to_show: 72
               entities:
-                - entity: sensor.zaptec_charger_zap128929
-                  attribute: total_charge_power
+                - entity: sensor.sigrun_bmw_charge_power
                   index: 0
                   name: Lade Effekt BMW
-                  hour24: true
+              hour24: true
               color_thresholds:
                 - color: "#0FA300"
                   value: 0
@@ -263,43 +151,48 @@ cards:
                   name: Charge Status
                   icon: mdi:progress-star-four-points
                   state: >
-                    {% if is_state('sensor.zaptec_charger_zap128929', 'charge_done') %}
-                      Charging Completed
-                    {% elif is_state('sensor.zaptec_charger_zap128929', 'disconnected') %}
-                      Car Disconnected
-                    {% elif is_state('sensor.zaptec_charger_zap128929', 'charging') %}
-                      Car Charging
-                    {% endif %}
+                    {{ states('sensor.sigrun_bmw_charger_mode') }}
                 - type: custom:template-entity-row
                   name: Operating Mode
                   icon: mdi:auto-mode
                   state: >
-                    {% if is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode',   0) %}
+                    {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode',   0) %}
                       Unknown
-                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 1) %}
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', 1) %}
                       Disconnected
-                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 2) %}
-                      Connected
-                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 3) %}
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Finished") %}
+                      Connected and finished
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', 3) %}
                       Ready
-                    {% elif is_state_attr('sensor.zaptec_charger_zap128929', 'operating_mode', 5) %}
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', 5) %}
                       Completed
                     {% endif %}
                 - type: custom:template-entity-row
-                  name: Firmware Update Available
+                  name: Current Firmware
                   icon: mdi:blender-software
                   state: >
-                    {% if is_state_attr('sensor.zaptec_charger_zap128929', 'firmware_update_to_date', true) %}
-                      No
-                    {% else %}
-                      UPDATE AVAILABLE
-                    {% endif %}
-                    
+                    {{ state_attr('update.sigrun_bmw_firmware_update', 'installed_version') }}
+
+                - type: custom:template-entity-row
+                  name: Latest Firmware
+                  icon: mdi:blender-software
+                  state: >
+                    {{ state_attr('update.sigrun_bmw_firmware_update', 'latest_version') }}
+
+                - type: button
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    service_data:
+                      entity_id: button.sigrun_bmw_upgrade_firmware
+                  name: Update Firmware
+                  icon: mdi:blender-software     
+                        
                 - type: custom:template-entity-row
                   name: Is Online
                   icon: mdi:account-badge
                   state: >
-                    {% if is_state_attr('sensor.zaptec_charger_zap128929', 'is_online', '1') %}
+                    {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'is_online', true) %}
                       Yes
                     {% else %}
                       No
