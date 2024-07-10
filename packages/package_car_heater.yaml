@@ -1,0 +1,19 @@
+
+automation:
+  - alias: "Turn on garage adapter at 05:50"
+    trigger:
+      - platform: time
+        at: "05:50:00"
+    action:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.wall_adapter_garage
+
+  - alias: "Turn off garage adapter at 07:00"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    action:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.wall_adapter_garage

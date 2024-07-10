@@ -9,10 +9,11 @@ class Main(hass.Hass):
         self.is_auto = False
 
         self.low_temp = 15
-        self.high_temp = 24
+        self.high_temp = 26
 
         ## Run task every hour
         self.run_hourly(self.run_every_hour, time(0, 0, 0))
+        self.self.set_temperature()
         ## Listen for auto state
         self.listen_state(self.dryer_button_handler, "input_boolean.dryer", immediate=True)
         self.listen_state(self.auto_button_handler, "input_boolean.ventilation_auto", immediate=True)

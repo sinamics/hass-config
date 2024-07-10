@@ -22,7 +22,7 @@ automation:
       - service: counter.increment
         target:
           entity_id: counter.mouse_trap_activations
-      - service: notify.mobile_app_berntchristian  # Adjust if needed
+      - service: notify.mobile_app_bernt_christian  # Adjust if needed
         data:
           title: "Mouse Alert"
           message: >

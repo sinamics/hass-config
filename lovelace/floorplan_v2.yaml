@@ -81,7 +81,7 @@
 # persons
 #--------------------------------------------------------------------------------------------------
 #                  entity                        , battery_level                     , charging                                   , left  , top)
-{% set persons = [("bernt"                       , "sm_s908b_battery_level", "sm_s908b_is_charging"           ,  85   ,  4),
+{% set persons = [("bernt"                       , "bernt_christian_battery_level", "bernt_christian_battery_state"           ,  85   ,  4),
                   ("adrian"                      , "adrian_samsung_s20_battery_level", "adrian_samsung_s20_is_charging"           ,  89.5 ,  4)] %}
 
 
@@ -167,7 +167,9 @@
 {% set temperature_sensors = [("1f_house_inside_livingroom_termometer_temperature"      , "room"   ,  47  ,   85  ,    75  ),
                               ("1f_house_inside_entrance_termometer_temperature"        , "room"   ,  53  ,   71  ,    75  ),
                               ("2f_house_inside_hall_termometer_temperature"            , "room"   ,  80  ,   71  ,    75  ),
-                              ("1f_house_outside_laundryroom_termometer_temperature"    , "room"   ,  32  ,   70  ,    120 )] %}
+                              ("outside_temperature_sensor"                             , "room"   ,  32  ,   70  ,    120 ),
+                              ("bedrom_temperature"                                     , "room"   ,  54.5  ,   86  ,    75 )] 
+                              %}
 
 #--------------------------------------------------------------------------------------------------
 # Min renovasjon Sensors
@@ -1312,7 +1314,7 @@ cards:
       - type: conditional
         conditions:
           - entity: binary_sensor.{{ entity }}
-            state_not: 'disconnected'
+            state_not: 'Disconnected'
         elements:
         - type: state-label
           entity: binary_sensor.{{ entity }}
@@ -1588,11 +1590,11 @@ cards:
 
       - type: conditional
         conditions:
-          - entity: "binary_sensor.{{ charging }}"
-            state_not: "off"
+          - entity: "sensor.{{ charging }}"
+            state_not: "discharging"
         elements:
           - type: state-icon
-            entity: "binary_sensor.{{ charging }}"
+            entity: "sensor.{{ charging }}"
             icon: mdi:flash
             state_color: false
             style:

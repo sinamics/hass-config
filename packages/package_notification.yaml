@@ -41,7 +41,7 @@ automation:
           milliseconds: 0
     condition: []
     action:
-      - service: notify.mobile_app_berntchristian_s22
+      - service: notify.mobile_app_bernt_christian
         data:
           message: >-
             Prisen er {{ float(states('sensor.kwh_cost_inlcuded_net_rental') |
@@ -60,7 +60,7 @@ automation:
         to: "True"
     condition: []
     action:
-      - service: notify.mobile_app_berntchristian_s22
+      - service: notify.mobile_app_bernt_christian
         data:
           message: BMW X5 observert i tunet
           title: X5 hjemme på Eigeland
@@ -80,7 +80,7 @@ automation:
         to: "True"
     condition: []
     action:
-      - service: notify.mobile_app_berntchristian_s22
+      - service: notify.mobile_app_bernt_christian
         data:
           message: egolf observert i tunet
           title: egolf hjemme på Eigeland
@@ -103,7 +103,7 @@ automation:
         below: "215"
     condition: []
     action:
-      - service: notify.mobile_app_berntchristian_s22
+      - service: notify.mobile_app_bernt_christian
         data:
           message: Strøm Problemer
           title: >-

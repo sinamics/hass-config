@@ -53,3 +53,7 @@ cards:
             name: Vaskerom lys
             secondary_info: last-changed
             icon: mdi:lightbulb
+          - entity: switch.wall_adapter_garage
+            name: Stikk Garasje
+            secondary_info: last-changed
+            icon: mdi:lightbulb
