@@ -53,7 +53,20 @@ cards:
             name: Vaskerom lys
             secondary_info: last-changed
             icon: mdi:lightbulb
+
           - entity: switch.wall_adapter_garage
-            name: Stikk Garasje
+            name: Stikk Septikk Pumpe
             secondary_info: last-changed
             icon: mdi:lightbulb
+
+          - entity: switch.1f_garage_car_heater
+            name: Stikk Varme Ovn Garasje
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+      # Optional: Add a power graph card
+      - type: sensor
+        entity: sensor.1f_garage_car_heater_power
+        graph: line
+        detail: 1
+        hours_to_show: 24
+        name: Strømforbruk Varme Ovn Garasje (24t)

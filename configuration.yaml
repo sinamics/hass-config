@@ -50,6 +50,7 @@ ltss:
       - sensor.*prize*
       - sensor.*price*
       - sensor.*postgres*
+      - climate.eigeland
 #        domains:
 #        - sensor
 

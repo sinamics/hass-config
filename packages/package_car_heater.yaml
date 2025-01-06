@@ -7,7 +7,7 @@ automation:
     action:
       - service: switch.turn_on
         target:
-          entity_id: switch.wall_adapter_garage
+          entity_id: switch.1f_garage_car_heater
 
   - alias: "Turn off garage adapter at 07:00"
     trigger:
@@ -16,4 +16,4 @@ automation:
     action:
       - service: switch.turn_off
         target:
-          entity_id: switch.wall_adapter_garage
+          entity_id: switch.1f_garage_car_heater

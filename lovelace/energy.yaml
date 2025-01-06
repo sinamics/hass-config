@@ -24,7 +24,7 @@ cards:
                 span:
                   start: day
                 series:
-                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                  - entity: sensor.nordpool_kwh_no2_nok_3_095_0
                     name: Today
                     unit: Kr
                     color: yellow
@@ -47,7 +47,7 @@ cards:
                       in_header: false
                       extremas: true
                     extend_to: end
-                  - entity: sensor.nordpool_kwh_krsand_nok_3_095_0
+                  - entity: sensor.nordpool_kwh_no2_nok_3_095_0
                     name: Tomorrow
                     unit: Kr
                     data_generator: |

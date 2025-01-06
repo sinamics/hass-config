@@ -59,16 +59,16 @@ cards:
                   name: Operating Mode
                   icon: mdi:auto-mode
                   state: >
-                    {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode',   0) %}
+                    {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode',   "Unknown") %}
                       Unknown
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', 1) %}
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Disconnected") %}
                       Disconnected
                     {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Finished") %}
                       Connected and finished
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', 3) %}
-                      Ready
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', 5) %}
-                      Completed
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Requesting") %}
+                      Connected Requesting
+                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Charging") %}
+                      Connected and Charging
                     {% endif %}
                 - type: custom:template-entity-row
                   name: Current Firmware
@@ -89,6 +89,24 @@ cards:
                     service_data:
                       entity_id: button.bernt_chr_egolf_upgrade_firmware
                   name: Update Firmware
+                  icon: mdi:blender-software
+
+                - type: button
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    service_data:
+                      entity_id: button.bernt_chr_egolf_stop_charging
+                  name: Stop Charging
+                  icon: mdi:blender-software
+
+                - type: button
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    service_data:
+                      entity_id: button.bernt_chr_egolf_resume_charging
+                  name: Resume Charging
                   icon: mdi:blender-software
 
                 - type: custom:template-entity-row
@@ -156,16 +174,16 @@ cards:
                   name: Operating Mode
                   icon: mdi:auto-mode
                   state: >
-                    {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode',   0) %}
+                    {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode',   "Unknown") %}
                       Unknown
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', 1) %}
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Disconnected") %}
                       Disconnected
                     {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Finished") %}
                       Connected and finished
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', 3) %}
-                      Ready
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', 5) %}
-                      Completed
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Requesting") %}
+                      Connected Requesting
+                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Charging") %}
+                      Connected and Charging
                     {% endif %}
                 - type: custom:template-entity-row
                   name: Current Firmware
@@ -187,7 +205,25 @@ cards:
                       entity_id: button.sigrun_bmw_upgrade_firmware
                   name: Update Firmware
                   icon: mdi:blender-software     
-                        
+
+                - type: button
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    service_data:
+                      entity_id: button.sigrun_bmw_stop_charging
+                  name: Stop Charging
+                  icon: mdi:blender-software
+
+                - type: button
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    service_data:
+                      entity_id: button.sigrun_bmw_resume_charging
+                  name: Resume Charging
+                  icon: mdi:blender-software
+
                 - type: custom:template-entity-row
                   name: Is Online
                   icon: mdi:account-badge
