@@ -49,6 +49,11 @@ cards:
             secondary_info: last-changed
             icon: mdi:lightbulb
 
+          - entity: switch.bereder
+            name: Varmtvanns Bereder
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+
           - entity: light.1f_house_inside_ceiling_laundryroom_light
             name: Vaskerom lys
             secondary_info: last-changed

@@ -44,6 +44,7 @@ ltss:
       - sensor.kwh*
       - sensor.cost*
       - sensor.energy*
+      - sensor.bereder_*
       - sensor.*temperature*
       - sensor.*humidity*
       - sensor.*charger*
@@ -51,6 +52,7 @@ ltss:
       - sensor.*price*
       - sensor.*postgres*
       - climate.eigeland
+      - sensor.*car_heater*
 #        domains:
 #        - sensor
 

@@ -32,6 +32,7 @@
                ("friday"   , "6", "Fri", "שישי"),
                ("saturday" , "7", "Sat", "שבת")] %}
 
+
 #--------------------------------------------------------------------------------------------------
 # Lights
 #  - List all active areas.
@@ -157,6 +158,13 @@
 #                              entity                                                  , category   ,   name         , left  ,  top ,  font_size
 {% set car_chargers =        [("bernt_chr_egolf_charger"                              , "garage"   ,"Bernt eGolf"   ,  12   ,  46.6  ,    75  ),
                               ("sigrun_bmw_charger"                              , "garage"   ,"Sigrun BMW"    ,  10   ,  59    ,    75  )] %}
+
+#--------------------------------------------------------------------------------------------------
+# Hot water boiler
+#  - kWh and temperature
+#--------------------------------------------------------------------------------------------------
+#                              entity                                                  , category   ,   name         , left  ,  top ,  font_size
+{% set hot_water =            [("bereder_electric_consumption_w"                       , "garage"   ,"Bernt eGolf"   ,  56   ,  42.6  ,    75  )] %}
 
 
 #--------------------------------------------------------------------------------------------------
@@ -431,7 +439,7 @@ path: floorplan
 title: FloorPlan
 cards:
   - type: picture-elements
-    image: /local/images/floorplan_v2/base_t_night_v2.png
+    image: /local/images/floorplan_v2/base_t_night_v3.png
     style: |
       ha-card {
         border-style: none;
@@ -1078,7 +1086,7 @@ cards:
                     square: false
                     cards:
                       - type: custom:frigate-card
-                        camera_entity: camera.{{ entity }}
+                        camera_entity: camera.eigeland
                         style:
                           left: 10%
                           top: 82%
@@ -1087,8 +1095,6 @@ cards:
                           controls:
                             thumbnails:
                               size: 75
-                        media_viewer:
-                          auto_play: all
                         view_layout:
                           grid-area: main
                         dimensions:
@@ -1097,66 +1103,17 @@ cards:
                           show_recordings: true
                         view:
                           update_force: false
-                          actions: 
+                          actions:
                             media_viewer: snapshot
                             event_gallery: snapshot
-
                           scan:
                             enabled: true
                         frigate:
-                          camera_name: "{{ entity }}"
+                          camera_name: eigeland
                         cameras:
-                          - camera_entity: camera.{{ entity }}
+                          - camera_entity: camera.eigeland
                             live_provider: auto
-                        elements:
-                        - type: custom:frigate-card-conditional
-                          conditions:
-                            mediaLoaded: true
-                            view:
-                              - live
-                              - image
-                          elements:
-                          - type: custom:frigate-card-ptz
-                            orientation: horizontal
-                            style:
-                              transform: none
-                              right: 20px
-                              top: 180px
-                            service: "{{ ptz_script }}"
-                            data_left:
-                              direction: LEFT
-                            data_right:
-                              direction: RIGHT
-                            data_up:
-                              direction: UP
-                            data_down:
-                              direction: DOWN
 
-                          - type: custom:frigate-card-menu-submenu
-                            icon: mdi:menu
-                            items:
-                              - title: Vei inn
-                                icon: mdi:lightbulb
-                                tap_action:
-                                  action: call-service
-                                  service: script.camera_preset
-                                  service_data:
-                                    position: 1
-                              - title: Tuna
-                                icon: mdi:lightbulb
-                                tap_action:
-                                  action: call-service
-                                  service: script.camera_preset
-                                  service_data:
-                                    position: 3
-                              - title: Ned
-                                icon: mdi:lightbulb
-                                tap_action:
-                                  action: call-service
-                                  service: script.camera_preset
-                                  service_data:
-                                    position: 8
-                                    
             deviceID:
               - this
 
@@ -1350,7 +1307,29 @@ cards:
               top: {{ top +0.5 }}%
       {% endfor %}
 
-
+##     ##  #######  ########    ##      ##    ###    ######## ######## ########  
+##     ## ##     ##    ##       ##  ##  ##   ## ##      ##    ##       ##     ## 
+##     ## ##     ##    ##       ##  ##  ##  ##   ##     ##    ##       ##     ## 
+######### ##     ##    ##       ##  ##  ## ##     ##    ##    ######   ########  
+##     ## ##     ##    ##       ##  ##  ## #########    ##    ##       ##   ##   
+##     ## ##     ##    ##       ##  ##  ## ##     ##    ##    ##       ##    ##  
+##     ##  #######     ##        ###  ###  ##     ##    ##    ######## ##     ## 
+      {% for entity, category, name, left, top, font_size in hot_water %}
+      - type: conditional
+        conditions:
+          - entity: switch.bereder
+            state_not: 'off'
+        elements:
+        - type: state-label
+          entity: sensor.bereder_electric_consumption_w
+          style:
+            left: {{ left }}%
+            top: {{ top }}%
+            transform: translate(0, -50%)
+            font-size: {{ font_size }}%
+            {# color: black #}
+            {# background: black #}
+      {% endfor %}
 
 ##     ## ##     ##    ###     ######  
 ##     ## ##     ##   ## ##   ##    ## 
