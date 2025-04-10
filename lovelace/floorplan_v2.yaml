@@ -60,8 +60,7 @@
 #  - List active dishwasher.
 #--------------------------------------------------------------------------------------------------
 #                 entity                                             ,    group       , left , top, scaleX, scaleY, deg)
-{% set dishwasher = [("binary_sensor.oppvaskmaskin_door"             , "kitchen"      ,  41  , 64  , 2.2   , 2.2  ,  0   ),
-                    ("sensor.oppvaskmaskin_operation_state"          , "kitchen"      ,  51  , 52  , 2.8   , 1.8  ,  0   )] %}
+{% set dishwasher = [("binary_sensor.oppvaskmaskin_door"             , "kitchen"      ,  41  , 64  , 2.2   , 2.2  ,  0   )] %}
 
 
 #--------------------------------------------------------------------------------------------------
