@@ -1,0 +1,67 @@
+template:
+  - sensor:
+      - name: "Brønnpumpe Flow L/s"
+        unique_id: bronnpumpe_flow_lps
+        unit_of_measurement: "L/s"
+        state: >
+          {% set w = states('sensor.bronnpumpe_power')|float(0) %}
+          {{ 0.5 if w > 5 else 0 }}
+        attributes:
+          power_reading: "{{ states('sensor.bronnpumpe_power') }}"
+          last_updated: "{{ now() }}"
+
+      - name: "Brønnpumpe Flow L/min"
+        unique_id: bronnpumpe_flow_lpm
+        unit_of_measurement: "L/min"
+        state: >
+          {% set w = states('sensor.bronnpumpe_power')|float(0) %}
+          {{ 30 if w > 5 else 0 }}
+        attributes:
+          power_reading: "{{ states('sensor.bronnpumpe_power') }}"
+          last_updated: "{{ now() }}"
+
+      - name: "Brønnpumpe Running Flag"
+        unique_id: bronnpumpe_running_flag
+        unit_of_measurement: ""
+        state: >
+          {% set w = states('sensor.bronnpumpe_power')|float(0) %}
+          {{ 1 if w > 5 else 0 }}
+        attributes:
+          power_reading: "{{ states('sensor.bronnpumpe_power') }}"
+          last_updated: "{{ now() }}"
+
+sensor:
+  - platform: integration
+    source: sensor.bronnpumpe_flow_l_s
+    name: "Brønnpumpe Water Total"
+    unit_time: s
+    round: 2
+    method: left
+
+  - platform: integration
+    source: sensor.bronnpumpe_running_flag
+    name: "Brønnpumpe Runtime Total"
+    unit_time: h
+    round: 2
+    method: left
+
+utility_meter:
+  bronnpumpe_water_daily:
+    source: sensor.bronnpumpe_water_total
+    cycle: daily
+  bronnpumpe_water_monthly:
+    source: sensor.bronnpumpe_water_total
+    cycle: monthly
+  bronnpumpe_water_yearly:
+    source: sensor.bronnpumpe_water_total
+    cycle: yearly
+
+  bronnpumpe_runtime_daily:
+    source: sensor.bronnpumpe_runtime_total
+    cycle: daily
+  bronnpumpe_runtime_monthly:
+    source: sensor.bronnpumpe_runtime_total
+    cycle: monthly
+  bronnpumpe_runtime_yearly:
+    source: sensor.bronnpumpe_runtime_total
+    cycle: yearly
