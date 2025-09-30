@@ -164,33 +164,97 @@ sensor:
           {{ states('input_number.kwh_price_with_fees') }}
 
 
-## Compensation
+## Norgespris Savings
   - platform: template
     sensors:
-      energy_compensation_daily:
-        unique_id: energy_compensation_daily
-        unit_of_measurement: "NOK"
-        icon_template: mdi:currency-usd
+      norgespris_adjustment_now:
+        unique_id: norgespris_adjustment_now
+        unit_of_measurement: "NOK/kWh"
+        icon_template: mdi:cash-plus
         value_template: >
-          {{ states('input_number.energy_compensation_daily') }}
+          {{ states('input_number.norgespris_adjustment_now') }}
 
   - platform: template
     sensors:
-      energy_compensation_lastmonth:
-        unique_id: energy_compensation_lastmonth
+      norgespris_savings_today:
+        unique_id: norgespris_savings_today
         unit_of_measurement: "NOK"
-        icon_template: mdi:currency-usd
+        icon_template: mdi:piggy-bank
         value_template: >
-          {{ states('input_number.energy_compensation_lastmonth') }}
+          {{ states('input_number.norgespris_savings_today') }}
 
   - platform: template
     sensors:
-      kwh_price_with_compensation:
-        unique_id: kwh_price_with_compensation
+      norgespris_savings_yesterday:
+        unique_id: norgespris_savings_yesterday
+        unit_of_measurement: "NOK"
+        icon_template: mdi:piggy-bank
+        value_template: >
+          {{ states('input_number.norgespris_savings_yesterday') }}
+
+  - platform: template
+    sensors:
+      norgespris_savings_this_month:
+        unique_id: norgespris_savings_this_month
+        unit_of_measurement: "NOK"
+        icon_template: mdi:piggy-bank
+        value_template: >
+          {{ states('input_number.norgespris_savings_this_month') }}
+
+  - platform: template
+    sensors:
+      norgespris_savings_last_month:
+        unique_id: norgespris_savings_last_month
+        unit_of_measurement: "NOK"
+        icon_template: mdi:piggy-bank
+        value_template: >
+          {{ states('input_number.norgespris_savings_last_month') }}
+
+  - platform: template
+    sensors:
+      norgespris_savings_this_year:
+        unique_id: norgespris_savings_this_year
+        unit_of_measurement: "NOK"
+        icon_template: mdi:piggy-bank
+        value_template: >
+          {{ states('input_number.norgespris_savings_this_year') }}
+
+  - platform: template
+    sensors:
+      norgespris_savings_last_year:
+        unique_id: norgespris_savings_last_year
+        unit_of_measurement: "NOK"
+        icon_template: mdi:piggy-bank
+        value_template: >
+          {{ states('input_number.norgespris_savings_last_year') }}
+
+## Cost without Norgespris (for comparison)
+  - platform: template
+    sensors:
+      daily_cost_without_norgespris:
+        unique_id: daily_cost_without_norgespris
         unit_of_measurement: "NOK"
         icon_template: mdi:currency-usd
         value_template: >
-          {{ states('input_number.kwh_price_with_compensation') }}
+          {{ states('input_number.daily_cost_without_norgespris') }}
+
+  - platform: template
+    sensors:
+      monthly_cost_without_norgespris:
+        unique_id: monthly_cost_without_norgespris
+        unit_of_measurement: "NOK"
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.monthly_cost_without_norgespris') }}
+
+  - platform: template
+    sensors:
+      yearly_cost_without_norgespris:
+        unique_id: yearly_cost_without_norgespris
+        unit_of_measurement: "NOK"
+        icon_template: mdi:currency-usd
+        value_template: >
+          {{ states('input_number.yearly_cost_without_norgespris') }}
           
 ## Accumulated Cost
   - platform: template
@@ -272,13 +336,6 @@ sensor:
         value_template: >
           {{ float(states('input_number.monthly_prize_accumulated_with_fees'))| float(0) }}
 
-  - platform: template
-    sensors:
-      monthly_prize_accumulated_with_compensation:
-        unique_id: monthly_prize_accumulated_with_compensation
-        unit_of_measurement: NOK
-        value_template: >
-          {{ float(states('input_number.monthly_prize_accumulated_with_fees')) - float(states('sensor.energy_compensation_this_month')) }}
 
   - platform: template
     sensors:
@@ -288,21 +345,6 @@ sensor:
         value_template: >
           {{ float(states('input_number.yearly_prize_accumulated_with_fees'))| float(0) }}
 
-  - platform: template
-    sensors:
-      daily_prize_accumulated_with_compensation:
-        unique_id: daily_prize_accumulated_with_compensation
-        unit_of_measurement: NOK
-        value_template: >
-          {{ float(states('input_number.daily_prize_accumulated_with_compensation'))| float(0) }}
-
-  - platform: template
-    sensors:
-      monthly_avg_kwh_price:
-        unique_id: monthly_avg_kwh_price
-        unit_of_measurement: NOK/kWh
-        value_template: >
-          {{ float(states('input_number.monthly_avg_kwh_price'))| float(0) }}
 
   - platform: template
     sensors:
@@ -312,32 +354,6 @@ sensor:
         value_template: >
           {{ float(states('input_number.energiledd'))| float(0) }}
 
-  - platform: template  
-    sensors:
-      cheapest_hours_1_3:
-        unique_id: "cheapest_hours_1_3"
-        value_template: >-
-          {% set l=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_today')|sort(attribute='value') %}
-          {% set timeNow = now() %}
-          {{  (timeNow >= l[0].start and timeNow <= l[0].end)
-            or (timeNow >= l[1].start and timeNow <= l[1].end)
-            or (timeNow >= l[2].start and timeNow <= l[2].end)
-            or (timeNow >= l[3].start and timeNow <= l[3].end)
-            or (timeNow >= l[4].start and timeNow <= l[4].end)}}
-
-  - platform: template
-    sensors:
-      cheaper_after_midnight:
-        unique_id: cheaper_after_midnight
-        value_template: >-
-          {% set l1=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_today')|selectattr('start', '>=', now().replace(hour=18,minute=0,second=0,microsecond=0))|sort(attribute='value') %}
-          {% set l2=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_tomorrow')|selectattr('start', '<', (now()+timedelta(days=1)).replace(hour=6,minute=0,second=0,microsecond=0))|sort(attribute='value') %}
-          {% set l3=state_attr('sensor.nordpool_kwh_krsand_nok_3_095_0', 'raw_tomorrow')|selectattr('start', '>=', (now()+timedelta(days=1)).replace(hour=6,minute=0,second=0,microsecond=0))|sort(attribute='value') %}
-          {% if now().hour>=14 and l3|length>0 and l2|length>0 and l1|length>0 %}
-          {{ float(l2[0].value)<float(l1[0].value) and float(l2[0].value)<float(l3[0].value)}}
-          {% else %}
-          False
-          {% endif %}
 
 
 input_number:
@@ -350,6 +366,24 @@ input_number:
 ##   ##  ##  ##  ## ##     ##     ##  ##   ### ##        ##     ##    ##       ##   ### ##     ## ##     ## ##     ## ##       ##    ##  
 ##    ##  ###  ###  ##     ##    #### ##    ## ##         #######     ##       ##    ##  #######  ##     ## ########  ######## ##     ##
 
+  monthly_consumption_percentage:
+    name: Måndeltig forbruk i %
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter   
+
+  monthly_consumption_remaining:
+    name: Gjenværende forbruk denne mnd
+    max: 999999999
+    min: 0
+    step: 0.001
+    mode: box
+    unit_of_measurement: "kWh"
+    icon: mdi:counter    
+    
   kwh_active_usage:
     name: Nåværende forbruk
     max: 999999999
@@ -546,14 +580,6 @@ input_number:
     unit_of_measurement: "NOK"
     icon: mdi:counter
 
-  monthly_avg_kwh_price:
-    name: månedtlig akkumulert gjensomsnitt pris for kwh
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK/kWh"
-    icon: mdi:counter
 
   monthly_prize_accumulated_with_fees:
     name: Måndeltig kostnad inkludert vat
@@ -573,14 +599,6 @@ input_number:
     unit_of_measurement: "NOK"
     icon: mdi:counter
 
-  daily_prize_accumulated_with_compensation:
-    name: Daglig kostnad inkludert komensasjon
-    max: 999999999
-    min: -99999999
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK"
-    icon: mdi:counter
     
   kwh_price:
     name: kwh kostand
@@ -601,33 +619,6 @@ input_number:
     unit_of_measurement: "NOK"
     icon: mdi:counter
   
-  #electricity_price_eigeland_50_with_compensation:
-  kwh_price_with_compensation:
-    name: kwh pris inkludert kompensasjon
-    max: 999999999
-    min: -10
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK"
-    icon: mdi:counter
-
-  energy_compensation_daily:
-    name: Compensation today
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK/kWh"
-    icon: mdi:counter
-
-  energy_compensation_lastmonth:
-    name: Compensation last month
-    max: 999999999
-    min: 0
-    step: 0.1
-    mode: box
-    unit_of_measurement: "NOK/kWh"
-    icon: mdi:counter
 
   energiledd:
     name: energiledd day/night
@@ -637,6 +628,106 @@ input_number:
     mode: box
     unit_of_measurement: "NOK/kWh"
     icon: mdi:counter
+
+  norgespris_adjustment_now:
+    name: Norgespris justering nå
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.0001
+    mode: box
+    unit_of_measurement: "NOK/kWh"
+    icon: mdi:cash-plus
+
+  norgespris_savings_today:
+    name: Norgespris besparelse i dag
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:piggy-bank
+
+  norgespris_savings_yesterday:
+    name: Norgespris besparelse i går
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:piggy-bank
+
+  norgespris_savings_this_month:
+    name: Norgespris besparelse denne måneden
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:piggy-bank
+
+  norgespris_savings_last_month:
+    name: Norgespris besparelse forrige måned
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:piggy-bank
+
+  norgespris_savings_this_year:
+    name: Norgespris besparelse i år
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:piggy-bank
+
+  norgespris_savings_last_year:
+    name: Norgespris besparelse i fjor
+    initial: 0
+    max: 999999999
+    min: -999999999
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:piggy-bank
+
+  daily_cost_without_norgespris:
+    name: Daglig kostnad uten Norgespris
+    initial: 0
+    max: 999999999
+    min: 0
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:currency-usd
+
+  monthly_cost_without_norgespris:
+    name: Månedlig kostnad uten Norgespris
+    initial: 0
+    max: 999999999
+    min: 0
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:currency-usd
+
+  yearly_cost_without_norgespris:
+    name: Årlig kostnad uten Norgespris
+    initial: 0
+    max: 999999999
+    min: 0
+    step: 0.01
+    mode: box
+    unit_of_measurement: "NOK"
+    icon: mdi:currency-usd
 
 
 ###########################################

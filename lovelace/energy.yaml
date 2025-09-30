@@ -14,7 +14,7 @@ cards:
               - type: custom:apexcharts-card
                 header:
                   show: true
-                  title: Nordpool Prize -> 48 hours
+                  title: Nordpool Spotpris (justeres til 0.50 NOK/kWh med Norgespris)
                   show_states: true
                 graph_span: 2d
                 now:
@@ -68,18 +68,28 @@ cards:
             cards:
               - type: entities
                 entities:
-#                  - entity: sensor.avg_electricity_price_eigeland_50
-#                    name: avg price today
-#                    icon: mdi:currency-usd
-                  - entity: sensor.monthly_avg_kwh_price
-                    icon: mdi:currency-usd
-                    name: avg price this month
-                  - entity: sensor.cheaper_after_midnight
-                    name: Best after midnight
-                    icon: mdi:currency-usd
-                  - entity: sensor.cheapest_hours_1_3
-                    name: Best prize (5 hours)
-                    icon: mdi:currency-usd
+                  - entity: sensor.norgespris_status
+                    name: Norgespris Status
+                    icon: mdi:alert-circle
+                  - entity: input_number.monthly_consumption_percentage
+                    name: Monthly limit used
+                    icon: mdi:percent
+                  - entity: input_number.monthly_consumption_remaining
+                    name: Remaining this month
+                    icon: mdi:counter
+                  - type: divider
+                  - entity: input_number.norgespris_adjustment_now
+                    name: Norgespris justering nå (øre/kWh)
+                    icon: mdi:cash-plus
+                  - entity: input_number.norgespris_savings_today
+                    name: Spart i dag
+                    icon: mdi:piggy-bank
+                  - entity: input_number.norgespris_savings_this_month
+                    name: Spart denne måneden
+                    icon: mdi:piggy-bank
+                  - entity: input_number.norgespris_savings_this_year
+                    name: Spart i år
+                    icon: mdi:piggy-bank
             columns: 1
             square: false
         columns: 1
@@ -132,11 +142,11 @@ cards:
               - color: "#FD0000"
                 value: 75
             entities:
-              - entity: sensor.kwh_consumption_lastday
+              - entity: input_number.kwh_consumption_today
                 index: 0
-                name: Forbruk siste 7 dager
+                name: Daglig forbruk siste 7 dager
                 icon_template: mdi:counter
-            aggregate_func: avg
+            aggregate_func: max
             group_by: date
             hour24: false
             decimals: 2
@@ -184,102 +194,241 @@ cards:
           - type: vertical-stack
             title: Oversikt & Info
             cards:
+              - type: gauge
+                entity: input_number.monthly_consumption_percentage
+                name: Norgespris Monthly Limit (5000 kWh)
+                unit: '%'
+                min: 0
+                max: 100
+                severity:
+                  green: 0
+                  yellow: 80
+                  red: 95
+                needle: true
               - entities:
-                  - entity: sensor.kwh_min
+                  - entity: input_number.kwh_min
                     name: Min kWh
-                  # - entity: sensor.kwh_max
-                  #   name: Snitt
-                  - entity: sensor.kwh_max
+                  - entity: input_number.kwh_max
                     name: Max kWh
                   - type: divider
-                  - entity: sensor.daily_prize_accumulated_with_fees
-                    name: Kostnad i dag inkl nettleie
+                  - entity: input_number.daily_prize_accumulated_with_fees
+                    name: Kostnad i dag (med Norgespris)
                     icon: mdi:currency-usd
-                  - entity: sensor.daily_prize_accumulated_with_compensation
-                    name: Kostnad idag med kompensasjon
-                    icon: mdi:currency-usd
-                  - type: divider
-                  - entity: sensor.energy_compensation_daily
-                    name: Kompensasjon i dag
-                    icon: mdi:currency-usd
-                  - entity: sensor.energy_compensation_this_month
-                    name: Kompensasjon denne måneden
-                    icon: mdi:currency-usd
-                  - entity: sensor.energy_compensation_lastmonth
-                    name: Kompensasjon forrige måneden
-                    icon: mdi:currency-usd
-                  - type: divider
-                  - entity: sensor.cost_lastday
+                  - entity: input_number.norgespris_savings_today
+                    name: Spart i dag
+                    icon: mdi:piggy-bank
+                  - entity: input_number.cost_lastday
                     name: Kostnad i går
-                    icon: mdi:currency-usd                  
-                  - entity: sensor.monthly_prize_accumulated_with_fees
-                    name: Kostnad denne mnd
                     icon: mdi:currency-usd
-                  - entity: sensor.monthly_prize_accumulated_with_compensation
-                    name: Kostnad denne mnd med kompensasjon
+                  - entity: input_number.norgespris_savings_yesterday
+                    name: Spart i går
+                    icon: mdi:piggy-bank
+                  - type: divider
+                  - entity: input_number.monthly_prize_accumulated_with_fees
+                    name: Kostnad denne mnd (med Norgespris)
                     icon: mdi:currency-usd
-                  - entity: sensor.cost_last_month
+                  - entity: input_number.norgespris_savings_this_month
+                    name: Spart denne mnd
+                    icon: mdi:piggy-bank
+                  - entity: input_number.cost_last_month
                     name: Kostnad forrige mnd
                     icon: mdi:currency-usd
-                  - entity: sensor.yearly_prize_accumulated_with_fees
-                    name: Kostnad i år
+                  - entity: input_number.norgespris_savings_last_month
+                    name: Spart forrige mnd
+                    icon: mdi:piggy-bank
+                  - type: divider
+                  - entity: input_number.yearly_prize_accumulated_with_fees
+                    name: Kostnad i år (med Norgespris)
                     icon: mdi:currency-usd
-                  - entity: sensor.cost_lastyear
+                  - entity: input_number.norgespris_savings_this_year
+                    name: Spart i år
+                    icon: mdi:piggy-bank
+                  - entity: input_number.cost_lastyear
                     icon: mdi:currency-usd
                     name: Kostand i fjor
+                  - entity: input_number.norgespris_savings_last_year
+                    name: Spart i fjor
+                    icon: mdi:piggy-bank
                   - type: divider
-                  - entity: sensor.kwh_consumption_today
+                  - entity: input_number.kwh_consumption_today
                     name: Forbruk i dag
                     icon: mdi:fire
-                  - entity: sensor.kwh_consumption_lastday
+                  - entity: input_number.kwh_consumption_lastday
                     name: Forbruk i går
                     icon: mdi:fire
-                  - entity: sensor.kwh_consumption_thismonth
+                  - entity: input_number.kwh_consumption_thismonth
                     name: Forbruk denne mnd
                     icon: mdi:fire
-                  - entity: sensor.kwh_consumption_lastmonth
+                  - entity: input_number.kwh_consumption_lastmonth
                     name: Forbruk forrige mnd
                     icon: mdi:fire
-                  - entity: sensor.kwh_consumption_thisyear
+                  - entity: input_number.kwh_consumption_thisyear
                     name: Forbruk i år
-                  - entity: sensor.kwh_consumption_lastyear
+                  - entity: input_number.kwh_consumption_lastyear
                     name: Forbruk forrige år
                     icon: mdi:fire
                   - type: divider
-                  # - entity: sensor.time_of_max_hour_consumption_eigeland_50
-                  #   name: Max strømtrekk dato
-                  - entity: sensor.average_kwh_usage_last_hour
-                    name: Strøm peak siste time
-                  - entity: sensor.monthly_kwh_peak_hour
+                  - entity: input_number.monthly_kwh_peak_hour
                     name: Average kWh (three hours) this month
-                  - entity: sensor.monthly_power_peak_prize_2
-                    name: Fastledd pris denne mnd
-                  - entity: sensor.kwh_consumption_total
+                  - entity: input_number.monthly_power_peak_prize
+                    name: Kapasitetsledd pris denne mnd
+                    secondary_info: attribute
+                    attribute: tariff_level
+                  - entity: input_number.kwh_consumption_total
                     name: Målerstand
                     secondary_info: last-changed
                     icon: mdi:counter
                 type: entities
                 show_header_toggle: true
                 state_color: false
-          # - type: vertical-stack
-          #   title: Nett
-          #   cards:
-          #     - type: glance
-          #       entities:
-          #         - entity: sensor.tibber_nett
-          #           name: Tibber Nett
-          #           icon: mdi:lightning-bolt-outline
-          #         - entity: sensor.tibber_estimert
-          #           name: Estimert Forbruk
-          #           icon: mdi:lightning-bolt-outline
-          #         - entity: sensor.last_meter_consumption_eigeland_50
-          #           name: Målerstand
-          #           icon: mdi:lightning-bolt-outline
-          #       show_icon: true
-          #       state_color: false
-          #       show_name: true
+          - type: vertical-stack
+            title: Kapasitetsledd (Glitrenett)
+            cards:
+              - type: markdown
+                content: |
+                  **Aktuelt trinn**: {{ state_attr('input_number.monthly_power_peak_prize', 'tariff_level') | default('Beregner...') | upper }}
+                  **Månedspris**: {{ states('input_number.monthly_power_peak_prize') }} NOK
+                  **Gjennomsnitt top 3**: {{ states('input_number.monthly_kwh_peak_hour') }} kWh/h
+
+                  **Top 3 døgnmaks denne måneden:**
+                  {% set top3 = state_attr('input_number.monthly_power_peak_prize', 'top3_peaks') %}
+                  {% if top3 %}
+                  {% for peak in top3 %}
+                  {{ loop.index }}. {{ peak }} kWh/h
+                  {% endfor %}
+                  {% else %}
+                  *Samler data...*
+                  {% endif %}
+
+                  *Antall dager registrert: {{ state_attr('input_number.monthly_power_peak_prize', 'number_of_days') | default(0) }}*
+              - type: gauge
+                entity: input_number.monthly_kwh_peak_hour
+                name: Kapasitetstrinn (kWh/h)
+                min: 0
+                max: 20
+                needle: true
+                segments:
+                  - from: 0
+                    color: '#43a047'
+                    label: 'Trinn 1 (160kr)'
+                  - from: 2
+                    color: '#7cb342'
+                    label: 'Trinn 2 (205kr)'
+                  - from: 5
+                    color: '#fb8c00'
+                    label: 'Trinn 3 (350kr)'
+                  - from: 10
+                    color: '#f4511e'
+                    label: 'Trinn 4 (725kr)'
+                  - from: 15
+                    color: '#c62828'
+                    label: 'Trinn 5 (940kr)'
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Daglige døgnmaks denne måneden
+                  show_states: false
+                graph_span: 1month
+                span:
+                  start: month
+                all_series_config:
+                  type: column
+                  opacity: 0.8
+                series:
+                  - entity: input_number.monthly_power_peak_prize
+                    name: Døgnmaks
+                    unit: kWh/h
+                    color: '#2196F3'
+                    data_generator: |
+                      const daily_peaks = entity.attributes.daily_peaks;
+                      if (!daily_peaks) return [];
+
+                      return Object.entries(daily_peaks).map(([date, data]) => {
+                        return [new Date(date).getTime(), data.peak_kwh];
+                      }).sort((a, b) => a[0] - b[0]);
+                    show:
+                      legend_value: false
+                      in_header: false
+                apex_config:
+                  chart:
+                    height: 250
+                  yaxis:
+                    decimalsInFloat: 2
+                    min: 0
+                    max: 10
+                    title:
+                      text: kWh/h
+                  plotOptions:
+                    bar:
+                      columnWidth: 80%
+                  annotations:
+                    yaxis:
+                      - y: 2
+                        borderColor: '#43a047'
+                        label:
+                          text: 'Trinn 1/2'
+                          style:
+                            background: '#43a047'
+                      - y: 5
+                        borderColor: '#fb8c00'
+                        label:
+                          text: 'Trinn 2/3'
+                          style:
+                            background: '#fb8c00'
+                      - y: 10
+                        borderColor: '#f4511e'
+                        label:
+                          text: 'Trinn 3/4'
+                          style:
+                            background: '#f4511e'
         columns: 1
         square: false
+    columns: 1
+    square: false
+  - type: grid
+    title: Norgespris Besparelser
+    cards:
+      - type: markdown
+        content: |
+          **Norgespris-justering**: Viser forskjellen mellom faktisk spotpris og Norgespris (0.50 NOK/kWh).
+
+          - **Over 0** = Du sparer penger (spotpris > 0.50, du får fradrag)
+          - **Under 0** = Du betaler mer (spotpris < 0.50, du får tillegg)
+          - **På 0** = Ingen effekt (spotpris = 0.50)
+      - type: custom:mini-graph-card
+        name: Norgespris justering (øre/kWh)
+        entities:
+          - entity: input_number.norgespris_adjustment_now
+            name: Justering
+            color: "#2196F3"
+        hours_to_show: 24
+        points_per_hour: 6
+        line_width: 2
+        hour24: true
+        decimals: 2
+        show:
+          icon: true
+          extrema: true
+          fill: true
+        icon: mdi:cash-plus
+      - type: entities
+        title: Norgespris Oversikt
+        entities:
+          - entity: input_number.norgespris_savings_today
+            name: Spart i dag
+            icon: mdi:piggy-bank
+          - entity: input_number.norgespris_savings_yesterday
+            name: Spart i går
+            icon: mdi:piggy-bank
+          - entity: input_number.norgespris_savings_this_month
+            name: Spart denne måneden
+            icon: mdi:piggy-bank
+          - entity: input_number.norgespris_savings_last_month
+            name: Spart forrige måned
+            icon: mdi:piggy-bank
+          - entity: input_number.norgespris_savings_this_year
+            name: Spart i år
+            icon: mdi:piggy-bank
     columns: 1
     square: false
   - type: grid
@@ -347,8 +496,8 @@ cards:
                     - 50
                     - 100
         series:
-          - entity: sensor.price_usage_now
-            name: Kostnad pr. time
+          - entity: input_number.price_usage_now
+            name: Kostnad pr. time (inkl. Norgespris + energiledd)
             yaxis_id: first
             unit: " NOK"
             float_precision: 2
@@ -364,11 +513,11 @@ cards:
             color_threshold:
               - value: 0
                 color: green
-              - value: 10
+              - value: 3
                 color: yellow
-              - value: 18
+              - value: 6
                 color: red
-          - entity: sensor.kwh_price_with_fees
+          - entity: input_number.kwh_price_with_fees
             name: Strøm pris
             yaxis_id: second
             type: line
@@ -380,38 +529,6 @@ cards:
               duration: 10min
             show:
               extremas: true
-      - type: custom:mini-graph-card
-        hours_to_show: 48
-        entities:
-          - entity: sensor.kwh_price_with_compensation
-            index: 0
-            name: Strøm Pris inkl avgifter med kompensasjon
-            hour24: true
-        color_thresholds:
-          - color: "#0FA300"
-            value: 0
-          - color: "#18FF00"
-            value: 0.6
-          - color: "#F4F700"
-            value: 1.1
-          - color: "#FCBD00"
-            value: 1.35
-          - color: "#FD9A00"
-            value: 1.5
-          - color: "#FD0000"
-            value: 1.8
-        decimals: 2
-        line_width: 2
-        icon: mdi:currency-usd
-        show:
-          fill: fade
-          icon: true
-          extrema: true
-          graph: line
-          average: true
-        smoothing: true
-        font_size: 120
-        points_per_hour: 4
       - type: custom:mini-graph-card
         color_thresholds:
           - color: "#0FA300"
@@ -429,11 +546,11 @@ cards:
         hours_to_show: 48
         height: 100
         entities:
-          - entity: sensor.kwh_price_with_fees
+          - entity: input_number.kwh_price_with_fees
             index: null
             hour24: true
             lower_bound: 0
-            name: Strøm Pris inkl Mva & energiledd
+            name: Strøm Pris (Norgespris 0.50 + energiledd + mva)
         icon: mdi:currency-usd
         show:
           fill: fade
@@ -446,9 +563,9 @@ cards:
       - type: custom:mini-graph-card
         hours_to_show: 48
         entities:
-          - entity: sensor.kwh_price
+          - entity: input_number.kwh_price
             index: 0
-            name: Strøm Pris
+            name: Nordpool Spotpris (med mva)
             hour24: true
         color_thresholds:
           - color: "#0FA300"
