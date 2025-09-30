@@ -84,7 +84,7 @@ cards:
             name: Effekt nå (W)
             entity: sensor.bronnpumpe_power
             min: 0
-            max: 1500
+            max: 3000
 
           # Quick stats
           - type: entities
