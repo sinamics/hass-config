@@ -398,7 +398,7 @@ cards:
       - type: custom:mini-graph-card
         name: Norgespris justering (øre/kWh)
         entities:
-          - entity: input_number.norgespris_adjustment_now
+          - entity: sensor.norgespris_adjustment_now
             name: Justering
             color: "#2196F3"
         hours_to_show: 24
