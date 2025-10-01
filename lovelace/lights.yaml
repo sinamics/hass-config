@@ -2,128 +2,66 @@ theme: Backend-selected
 title: Utelys
 path: garasje
 icon: mdi:lightbulb
-panel: true
 badges: []
 cards:
-  - type: custom:layout-card
-    layout_type: grid
-    layout:
-      grid-template-columns: 1fr 2fr 3fr 1fr
-      grid-gap: 16px
+  - type: vertical-stack
+    view_layout:
+      position: center
     cards:
-      # Column 2 — switches
-      - type: vertical-stack
-        view_layout:
-          grid-column: 2
-        cards:
-          - type: entities
-            title: Brytere
-            entities:
-              - entity: switch.node_6
-                name: Garasje Inne
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: light.in_wall_dimmer_module
-                name: Garasje Flomlys
-                secondary_info: last-changed
-              - entity: light.1f_house_outside_entrance_light
-                name: Utelys Inngang
-                secondary_info: last-changed
-              - entity: light.1f_house_inside_entrance_light
-                name: Gang
-                secondary_info: last-changed
-              - entity: light.2f_house_inside_ceiling_vilde_light
-                name: Vilde Soverom
-                secondary_info: last-changed
-              - entity: light.2f_house_inside_ceiling_adrian_light
-                name: Adrian Soverom
-                secondary_info: last-changed
-              - entity: light.smart_led_strip
-                name: Kjøkken LED
-                secondary_info: last-changed
-              - entity: switch.1f_outside_glamping
-                name: Glamping Telt
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: light.2f_house_inside_ceiling_sturla_light
-                name: Sturla Soverom
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: light.1f_house_inside_livingroom_corner_light
-                name: Stue Hjørne Lys
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: light.2f_house_inside_ceiling_hall_light
-                name: 2 Etg Gang Lys
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: switch.bereder
-                name: Varmtvanns Bereder
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: light.1f_house_inside_ceiling_laundryroom_light
-                name: Vaskerom lys
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: switch.wall_adapter_garage
-                name: Stikk Septikk Pumpe
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-              - entity: switch.bronnpumpe
-                name: Brønnpumpe
-                secondary_info: last-changed
-                icon: mdi:lightbulb
-
-      # Column 3 — stats, current watt, charts
-      - type: vertical-stack
-        view_layout:
-          grid-column: 3
-        cards:
-          # Current power (W)
-          - type: gauge
-            name: Effekt nå (W)
-            entity: sensor.bronnpumpe_power
-            min: 0
-            max: 3000
-
-          # Quick stats
-          - type: entities
-            title: Brønnpumpe — Statistikk
-            entities:
-              - entity: sensor.bronnpumpe_water_total
-                name: Totalt vann brukt (L)
-              - entity: sensor.bronnpumpe_runtime_total
-                name: Total driftstid (timer)
-              - entity: sensor.bronnpumpe_water_daily
-                name: I dag (L)
-              - entity: sensor.bronnpumpe_runtime_daily
-                name: Driftstid i dag (t)
-
-          # Power chart (last 24h)
-          - type: history-graph
-            title: Effekt brønnpumpe (24t)
-            hours_to_show: 24
-            entities:
-              - sensor.bronnpumpe_power
-
-          # Daily water usage (last 14 days)
-          - type: statistics-graph
-            title: Daglig vannforbruk (L)
-            days_to_show: 14
-            chart_type: bar
-            period: day
-            stat_types:
-              - sum
-            entities:
-              - sensor.bronnpumpe_water_daily
-
-          # Daily runtime hours (last 14 days)
-          - type: statistics-graph
-            title: Daglig driftstid (timer)
-            days_to_show: 14
-            chart_type: bar
-            period: day
-            stat_types:
-              - sum
-            entities:
-              - sensor.bronnpumpe_runtime_daily
+      - type: entities
+        title: Brytere
+        entities:
+          - entity: switch.node_6
+            name: Garasje Inne
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.in_wall_dimmer_module
+            name: Garasje Flomlys
+            secondary_info: last-changed
+          - entity: light.1f_house_outside_entrance_light
+            name: Utelys Inngang
+            secondary_info: last-changed
+          - entity: light.1f_house_inside_entrance_light
+            name: Gang
+            secondary_info: last-changed
+          - entity: light.2f_house_inside_ceiling_vilde_light
+            name: Vilde Soverom
+            secondary_info: last-changed
+          - entity: light.2f_house_inside_ceiling_adrian_light
+            name: Adrian Soverom
+            secondary_info: last-changed
+          - entity: light.smart_led_strip
+            name: Kjøkken LED
+            secondary_info: last-changed
+          - entity: switch.1f_outside_glamping
+            name: Glamping Telt
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.2f_house_inside_ceiling_sturla_light
+            name: Sturla Soverom
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.1f_house_inside_livingroom_corner_light
+            name: Stue Hjørne Lys
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.2f_house_inside_ceiling_hall_light
+            name: 2 Etg Gang Lys
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: switch.bereder
+            name: Varmtvanns Bereder
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: light.1f_house_inside_ceiling_laundryroom_light
+            name: Vaskerom lys
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: switch.wall_adapter_garage
+            name: Stikk Septikk Pumpe
+            secondary_info: last-changed
+            icon: mdi:lightbulb
+          - entity: switch.bronnpumpe
+            name: Brønnpumpe
+            secondary_info: last-changed
+            icon: mdi:lightbulb

@@ -283,14 +283,6 @@ sensor:
         unit_of_measurement: "NOK"
         value_template: >
           {{ states('input_number.monthly_power_peak_prize') }}
-# average
-  - platform: average
-    unique_id: average_kwh_usage_lasthour
-    name: 'Average kwh usage last hour'
-    start: '{{ now().replace(minute=0).replace(second=0) }}'
-    end: '{{ now() }}'
-    entities:
-      - sensor.kwh_active_usage
 
   - platform: template
     sensors:

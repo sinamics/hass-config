@@ -32,7 +32,7 @@ sensor:
       upstairs_lights_problem:
         icon_template: mdi:lightbulb-off
         value_template: >
-          {% set devices = state_attr('light.upstairs_lights', 'entity_id') %}
+          {% set devices = state_attr('light.upstairs_lights', 'entity_id') or [] %}
           {% set upstairs_lights_problem = namespace(count=0) %}
           {% for entity_id in devices -%}
             {% if (states(entity_id) == 'unknown') or (states(entity_id) == 'unavailable') %}
@@ -43,7 +43,7 @@ sensor:
       downstairs_lights_problem:
         icon_template: mdi:lightbulb-off
         value_template: >
-          {% set devices = state_attr('light.downstairs_lights', 'entity_id') %}
+          {% set devices = state_attr('light.downstairs_lights', 'entity_id') or [] %}
           {% set downstairs_lights_problem = namespace(count=0) %}
           {% for entity_id in devices -%}
             {% if (states(entity_id) == 'unknown') or (states(entity_id) == 'unavailable') %}
@@ -54,7 +54,7 @@ sensor:
       outside_lights_problem:
         icon_template: mdi:lightbulb-off
         value_template: >
-          {% set devices = state_attr('light.outside_lights', 'entity_id') %}
+          {% set devices = state_attr('light.outside_lights', 'entity_id') or [] %}
           {% set outside_lights_problem = namespace(count=0) %}
           {% for entity_id in devices -%}
             {% if (states(entity_id) == 'unknown') or (states(entity_id) == 'unavailable') %}

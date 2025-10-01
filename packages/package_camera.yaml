@@ -26,13 +26,13 @@ sensor:
     sensors:
       bs83711:
         friendly_name: "Bernt`s BMW X5 er lokalisert i tunet på eigeland"
-        value_template: "{{ state_attr('image_processing.platerecognizer_eigeland', 'watched_plates').bs83711 }}"
+        value_template: "{{ state_attr('image_processing.platerecognizer_eigeland', 'watched_plates').get('bs83711', False) if state_attr('image_processing.platerecognizer_eigeland', 'watched_plates') else False }}"
 
   - platform: template
     sensors:
       ek46936:
         friendly_name: "Sigrun`s Egolf er lokalisert i tunet på eigeland"
-        value_template: "{{ state_attr('image_processing.platerecognizer_eigeland', 'watched_plates').ek46936 }}"
+        value_template: "{{ state_attr('image_processing.platerecognizer_eigeland', 'watched_plates').get('ek46936', False) if state_attr('image_processing.platerecognizer_eigeland', 'watched_plates') else False }}"
 
 ###########################################
 ########## A U T O M A T I O N S ##########
