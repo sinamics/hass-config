@@ -1,235 +1,321 @@
 theme: Backend-selected
-icon: mdi:car
+icon: mdi:garage
 title: garage
 path: garage
 badges: []
 cards:
-  - type: grid
-    columns: 1
-    square: false
+  - type: vertical-stack
+    title: e-Golf
     cards:
       - type: grid
-        columns: 1
-        square: false    
+        columns: 3
+        square: false
         cards:
-          - type: vertical-stack
-            title: Egolf
-            cards:
-            - type: custom:mini-graph-card
-              hours_to_show: 72
-              entities:
-                - entity: sensor.bernt_chr_egolf_charge_power
-                  index: 0
-                  name: Lade Effekt Egolf
-                  hour24: true
-              color_thresholds:
-                - color: "#0FA300"
-                  value: 0
-                - color: "#18FF00"
-                  value: 1000
-                - color: "#F4F700"
-                  value: 2000
-                - color: "#FCBD00"
-                  value: 3000
-                - color: "#FD9A00"
-                  value: 4000
-                - color: "#FD0000"
-                  value: 5000
-              decimals: 2
-              line_width: 2
-              icon: mdi:transmission-tower-export
-              show:
-                fill: fade
-                icon: true
-                extrema: true
-                graph: line
-                average: true
-              smoothing: true
-              font_size: 80
-              points_per_hour: 10
-            - type: entities
-              title: Egolf Zaptec
-              entities:
-                - type: custom:template-entity-row
-                  name: Charge Status
-                  icon: mdi:progress-star-four-points
-                  state: >
-                    {{ states('sensor.bernt_chr_egolf_charger_mode') }}
-                - type: custom:template-entity-row
-                  name: Operating Mode
-                  icon: mdi:auto-mode
-                  state: >
-                    {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode',   "Unknown") %}
-                      Unknown
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Disconnected") %}
-                      Disconnected
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Finished") %}
-                      Connected and finished
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Requesting") %}
-                      Connected Requesting
-                    {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Charging") %}
-                      Connected and Charging
-                    {% endif %}
-                - type: custom:template-entity-row
-                  name: Current Firmware
-                  icon: mdi:blender-software
-                  state: >
-                    {{ state_attr('update.bernt_chr_egolf_firmware_update', 'installed_version') }}
+          - type: entity
+            entity: sensor.bernt_chr_egolf_charge_power
+            name: Power
+            icon: mdi:lightning-bolt
+          - type: entity
+            entity: sensor.bernt_chr_egolf_session_total_charge
+            name: Session Energy
+            icon: mdi:battery-charging
+          - type: entity
+            entity: sensor.bernt_chr_egolf_completed_session_energy
+            name: Last Session
+            icon: mdi:counter
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: e-Golf Charging Power (48h)
+          show_states: true
+        graph_span: 48h
+        span:
+          start: day
+          offset: -48h
+        apex_config:
+          chart:
+            height: 300px
+        series:
+          - entity: sensor.bernt_chr_egolf_charge_power
+            name: Power
+            stroke_width: 3
+            type: line
+            curve: stepline
+            fill_raw: last
+            color: "#18FF00"
+            show:
+              extremas: true
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: e-Golf Phase Currents (48h)
+          show_states: true
+          colorize_states: true
+        graph_span: 48h
+        now:
+          show: true
+          label: Now
+        apex_config:
+          chart:
+            height: 250px
+          legend:
+            show: true
+        all_series_config:
+          stroke_width: 3
+          type: line
+          curve: stepline
+          show:
+            in_header: true
+        series:
+          - entity: sensor.bernt_chr_egolf_current_phase_1
+            name: L1
+            color: "#FF6B6B"
+          - entity: sensor.bernt_chr_egolf_current_phase_2
+            name: L2
+            color: "#4ECDC4"
+          - entity: sensor.bernt_chr_egolf_current_phase_3
+            name: L3
+            color: "#FFE66D"
+      - type: entities
+        title: Charger Status
+        entities:
+          - entity: sensor.bernt_chr_egolf_charger_mode
+            name: Charge Mode
+            icon: mdi:ev-plug-type2
+          - type: custom:template-entity-row
+            name: Operating Mode
+            icon: mdi:state-machine
+            state: >
+              {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode',   "Unknown") %}
+                Unknown
+              {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Disconnected") %}
+                Disconnected
+              {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Finished") %}
+                Connected and finished
+              {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Requesting") %}
+                Connected Requesting
+              {% elif is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'operating_mode', "Connected_Charging") %}
+                Connected and Charging
+              {% endif %}
+          - entity: sensor.bernt_chr_egolf_allocated_charge_current
+            name: Current Set
+            icon: mdi:current-ac
+          - entity: sensor.bernt_chr_egolf_voltage_phase_1
+            name: Voltage L1
+            icon: mdi:sine-wave
+          - entity: sensor.bernt_chr_egolf_voltage_phase_2
+            name: Voltage L2
+            icon: mdi:sine-wave
+          - entity: sensor.bernt_chr_egolf_voltage_phase_3
+            name: Voltage L3
+            icon: mdi:sine-wave
+          - entity: sensor.bernt_chr_egolf_temperature_internal
+            name: Temperature
+            icon: mdi:thermometer
+          - entity: sensor.bernt_chr_egolf_humidity
+            name: Humidity
+            icon: mdi:water-percent
+          - type: custom:template-entity-row
+            name: Online Status
+            icon: mdi:cloud-check
+            state: >
+              {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'is_online', true) %}
+                Online
+              {% else %}
+                Offline
+              {% endif %}
+      - type: entities
+        title: Firmware & Controls
+        entities:
+          - type: custom:template-entity-row
+            name: Current Firmware
+            icon: mdi:chip
+            state: >
+              {{ state_attr('update.bernt_chr_egolf_firmware_update', 'installed_version') }}
+          - type: custom:template-entity-row
+            name: Latest Firmware
+            icon: mdi:update
+            state: >
+              {{ state_attr('update.bernt_chr_egolf_firmware_update', 'latest_version') }}
+          - type: button
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.bernt_chr_egolf_upgrade_firmware
+            name: Update Firmware
+            icon: mdi:upload
+          - type: button
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.bernt_chr_egolf_stop_charging
+            name: Stop Charging
+            icon: mdi:stop-circle
+          - type: button
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.bernt_chr_egolf_resume_charging
+            name: Resume Charging
+            icon: mdi:play-circle
 
-                - type: custom:template-entity-row
-                  name: Latest Firmware
-                  icon: mdi:blender-software
-                  state: >
-                    {{ state_attr('update.bernt_chr_egolf_firmware_update', 'latest_version') }}
-
-                - type: button
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    service_data:
-                      entity_id: button.bernt_chr_egolf_upgrade_firmware
-                  name: Update Firmware
-                  icon: mdi:blender-software
-
-                - type: button
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    service_data:
-                      entity_id: button.bernt_chr_egolf_stop_charging
-                  name: Stop Charging
-                  icon: mdi:blender-software
-
-                - type: button
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    service_data:
-                      entity_id: button.bernt_chr_egolf_resume_charging
-                  name: Resume Charging
-                  icon: mdi:blender-software
-
-                - type: custom:template-entity-row
-                  name: Is Online
-                  icon: mdi:account-badge
-                  state: >
-                    {% if is_state_attr('binary_sensor.bernt_chr_egolf_charger', 'is_online', true) %}
-                      Yes
-                    {% else %}
-                      No
-                    {% endif %}
-
-  - type: grid
-    columns: 1
-    square: false
+  - type: vertical-stack
+    title: BMW
     cards:
       - type: grid
-        columns: 1
-        square: false    
+        columns: 3
+        square: false
         cards:
-          - type: vertical-stack
-            title: BMW
-            cards:
-            - type: custom:mini-graph-card
-              hours_to_show: 72
-              entities:
-                - entity: sensor.sigrun_bmw_charge_power
-                  index: 0
-                  name: Lade Effekt BMW
-              hour24: true
-              color_thresholds:
-                - color: "#0FA300"
-                  value: 0
-                - color: "#18FF00"
-                  value: 1000
-                - color: "#F4F700"
-                  value: 2000
-                - color: "#FCBD00"
-                  value: 3000
-                - color: "#FD9A00"
-                  value: 4000
-                - color: "#FD0000"
-                  value: 5000
-              decimals: 2
-              line_width: 2
-              icon: mdi:transmission-tower-export
-              show:
-                fill: fade
-                icon: true
-                extrema: true
-                graph: line
-                average: true
-              smoothing: true
-              font_size: 80
-              points_per_hour: 10
-            - type: entities
-              title: BMW Zaptec
-              entities:
-                - type: custom:template-entity-row
-                  name: Charge Status
-                  icon: mdi:progress-star-four-points
-                  state: >
-                    {{ states('sensor.sigrun_bmw_charger_mode') }}
-                - type: custom:template-entity-row
-                  name: Operating Mode
-                  icon: mdi:auto-mode
-                  state: >
-                    {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode',   "Unknown") %}
-                      Unknown
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Disconnected") %}
-                      Disconnected
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Finished") %}
-                      Connected and finished
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Requesting") %}
-                      Connected Requesting
-                    {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Charging") %}
-                      Connected and Charging
-                    {% endif %}
-                - type: custom:template-entity-row
-                  name: Current Firmware
-                  icon: mdi:blender-software
-                  state: >
-                    {{ state_attr('update.sigrun_bmw_firmware_update', 'installed_version') }}
-
-                - type: custom:template-entity-row
-                  name: Latest Firmware
-                  icon: mdi:blender-software
-                  state: >
-                    {{ state_attr('update.sigrun_bmw_firmware_update', 'latest_version') }}
-
-                - type: button
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    service_data:
-                      entity_id: button.sigrun_bmw_upgrade_firmware
-                  name: Update Firmware
-                  icon: mdi:blender-software     
-
-                - type: button
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    service_data:
-                      entity_id: button.sigrun_bmw_stop_charging
-                  name: Stop Charging
-                  icon: mdi:blender-software
-
-                - type: button
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    service_data:
-                      entity_id: button.sigrun_bmw_resume_charging
-                  name: Resume Charging
-                  icon: mdi:blender-software
-
-                - type: custom:template-entity-row
-                  name: Is Online
-                  icon: mdi:account-badge
-                  state: >
-                    {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'is_online', true) %}
-                      Yes
-                    {% else %}
-                      No
-                    {% endif %}
+          - type: entity
+            entity: sensor.sigrun_bmw_charge_power
+            name: Power
+            icon: mdi:lightning-bolt
+          - type: entity
+            entity: sensor.sigrun_bmw_session_total_charge
+            name: Session Energy
+            icon: mdi:battery-charging
+          - type: entity
+            entity: sensor.sigrun_bmw_completed_session_energy
+            name: Last Session
+            icon: mdi:counter
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: BMW Charging Power (48h)
+          show_states: true
+        graph_span: 48h
+        span:
+          start: day
+          offset: -48h
+        apex_config:
+          chart:
+            height: 300px
+        series:
+          - entity: sensor.sigrun_bmw_charge_power
+            name: Power
+            stroke_width: 3
+            type: line
+            curve: stepline
+            fill_raw: last
+            color: "#1E88E5"
+            show:
+              extremas: true
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: BMW Phase Currents (48h)
+          show_states: true
+          colorize_states: true
+        graph_span: 48h
+        now:
+          show: true
+          label: Now
+        apex_config:
+          chart:
+            height: 250px
+          legend:
+            show: true
+        all_series_config:
+          stroke_width: 3
+          type: line
+          curve: stepline
+          show:
+            in_header: true
+        series:
+          - entity: sensor.sigrun_bmw_current_phase_1
+            name: L1
+            color: "#FF6B6B"
+          - entity: sensor.sigrun_bmw_current_phase_2
+            name: L2
+            color: "#4ECDC4"
+          - entity: sensor.sigrun_bmw_current_phase_3
+            name: L3
+            color: "#FFE66D"
+      - type: entities
+        title: Charger Status
+        entities:
+          - entity: sensor.sigrun_bmw_charger_mode
+            name: Charge Mode
+            icon: mdi:ev-plug-type2
+          - type: custom:template-entity-row
+            name: Operating Mode
+            icon: mdi:state-machine
+            state: >
+              {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode',   "Unknown") %}
+                Unknown
+              {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Disconnected") %}
+                Disconnected
+              {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Finished") %}
+                Connected and finished
+              {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Requesting") %}
+                Connected Requesting
+              {% elif is_state_attr('binary_sensor.sigrun_bmw_charger', 'operating_mode', "Connected_Charging") %}
+                Connected and Charging
+              {% endif %}
+          - entity: sensor.sigrun_bmw_allocated_charge_current
+            name: Current Set
+            icon: mdi:current-ac
+          - entity: sensor.sigrun_bmw_voltage_phase_1
+            name: Voltage L1
+            icon: mdi:sine-wave
+          - entity: sensor.sigrun_bmw_voltage_phase_2
+            name: Voltage L2
+            icon: mdi:sine-wave
+          - entity: sensor.sigrun_bmw_voltage_phase_3
+            name: Voltage L3
+            icon: mdi:sine-wave
+          - entity: sensor.sigrun_bmw_temperature_internal
+            name: Temperature
+            icon: mdi:thermometer
+          - entity: sensor.sigrun_bmw_humidity
+            name: Humidity
+            icon: mdi:water-percent
+          - type: custom:template-entity-row
+            name: Online Status
+            icon: mdi:cloud-check
+            state: >
+              {% if is_state_attr('binary_sensor.sigrun_bmw_charger', 'is_online', true) %}
+                Online
+              {% else %}
+                Offline
+              {% endif %}
+      - type: entities
+        title: Firmware & Controls
+        entities:
+          - type: custom:template-entity-row
+            name: Current Firmware
+            icon: mdi:chip
+            state: >
+              {{ state_attr('update.sigrun_bmw_firmware_update', 'installed_version') }}
+          - type: custom:template-entity-row
+            name: Latest Firmware
+            icon: mdi:update
+            state: >
+              {{ state_attr('update.sigrun_bmw_firmware_update', 'latest_version') }}
+          - type: button
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.sigrun_bmw_upgrade_firmware
+            name: Update Firmware
+            icon: mdi:upload
+          - type: button
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.sigrun_bmw_stop_charging
+            name: Stop Charging
+            icon: mdi:stop-circle
+          - type: button
+            tap_action:
+              action: call-service
+              service: button.press
+              service_data:
+                entity_id: button.sigrun_bmw_resume_charging
+            name: Resume Charging
+            icon: mdi:play-circle
