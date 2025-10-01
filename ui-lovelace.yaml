@@ -31,7 +31,6 @@ views:
   - !include lovelace/lights.yaml
   - !include lovelace/temperature.yaml
   - !include lovelace/kitchen.yaml
-  - !include lovelace/kiosk.yaml
   - !include lovelace/garage.yaml
   - !include lovelace/formula_one.yaml
   - !include lovelace/weather.yaml
