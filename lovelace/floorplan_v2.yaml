@@ -624,7 +624,9 @@ cards:
               show: true
               title: Strømpris neste 48 timer
               show_states: true
-            graph_span: 2d
+            graph_span: 48h
+            span:
+              start: day
             style:
               {% if (debug == true) %}
               border: 1px solid red
@@ -632,51 +634,52 @@ cards:
               left: 1% #-3% 0%
               top: 0%  #-3% 0%
               {# width: 23% #}
-            
-              width: 23.7%
+
+              width: 25.7%
               transform: 'translate(0%, 0%) scale(1, 1)'
               {# mix-blend-mode: lighten #}
             now:
               show: true
               color: "#ff0000"
               label: Now
-            span:
-              start: day
+            apex_config:
+              chart:
+                height: 250
             series:
               - entity: sensor.nordpool_kwh_no2_nok_3_095_0
-                name: Today
-                unit: Kr
+                name: I dag
                 color: yellow
+                stroke_width: 2
                 data_generator: >
-                  let thisdate = new Date(); thisdate.setHours(24,0,0,0);
-
-                  const today = [...entity.attributes.raw_today,
-                  {start:thisdate.toISOString()}]; return today.map((entry,idx) => {
-                    if(idx > 23) return [new Date(entry.start), null];
-                    return [new Date(entry.start), entry.value];
-                  });
-                type: column
-                group_by:
-                  func: max
-                  duration: 60min
+                  if (!entity || !entity.attributes || !entity.attributes.raw_today) return [];
+                  const today = entity.attributes.raw_today;
+                  if (!Array.isArray(today) || today.length === 0) return [];
+                  return today.map((entry) => {
+                    if(!entry || !entry.start || entry.value == null) return null;
+                    return [new Date(entry.start).getTime(), entry.value * 1.25];
+                  }).filter(e => e !== null);
+                type: line
+                extend_to: false
                 show:
                   legend_value: false
-                  in_header: false
                   extremas: true
               - entity: sensor.nordpool_kwh_no2_nok_3_095_0
-                name: Tomorrow
-                unit: Kr
+                name: I morgen
+                color: orange
+                stroke_width: 2
                 data_generator: |
-                  return entity.attributes.raw_tomorrow.map((entry) => {
-                    return [new Date(entry.start), entry.value * 1.25];
-                  });
-                type: column
-                group_by:
-                  func: max
-                  duration: 60min
+                  if (!entity || !entity.attributes || !entity.attributes.raw_tomorrow) return [];
+                  const tomorrow = entity.attributes.raw_tomorrow;
+                  if (!Array.isArray(tomorrow) || tomorrow.length === 0) return [];
+                  const validData = tomorrow.map((entry) => {
+                    if(!entry || !entry.start || entry.value == null) return null;
+                    return [new Date(entry.start).getTime(), entry.value * 1.25];
+                  }).filter(e => e !== null);
+                  return validData;
+                type: line
+                extend_to: false
                 show:
                   legend_value: false
-                  in_header: false
                   extremas: true
 
       # ------------------------------
@@ -1492,7 +1495,7 @@ cards:
       - type: custom:frigate-card
         camera_entity: camera.eigeland
         style:
-          left: 36%
+          left: 38%
           top: 16%
           width: 19%
           height: 33%
